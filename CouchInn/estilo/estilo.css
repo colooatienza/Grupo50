@@ -1,0 +1,147 @@
+@charset "utf-8";
+/* CSS Document */
+#apDiv2 {
+	position: absolute;
+	width: 100%;
+	height: 40px;
+	z-index: 0;
+	top:0px;
+	left:0px;
+	background-color: #EEEEEE;
+	border-width:1px;
+}
+#apDiv3 {
+	position: absolute;
+	width: 100%;
+	height: 1px;
+	z-index: 0;
+	position:absolute;
+	top:40px;
+	left:0px;
+	background-color: #CCCCEE;
+	
+}
+
+.logo{
+	position:relative;
+left:16%; 
+top:0px;
+}
+.decorado{
+	position:relative;
+left:900px; 
+top:0px;
+
+
+}
+.numeros{
+	position: relative;
+	left: 50%;
+	top: -15px;
+	font-size: 14px;
+	font-style: italic;
+	color: #019;
+	background: #CDE;
+	border-radius: 5px;
+     
+	 }
+.titulo {
+	font-size: 20px;
+	color: #039;
+	position: relative;
+	top: -25px;
+	font-style: italic;
+	text-align: left;
+	 left:-15px;
+}
+
+
+.registro_ant{
+	border-radius:5px;
+	border-width:1px;
+    color:#555;
+	width:270px;
+	height:30px;
+	font-family:Verdana;
+	font-size:14px;
+	}
+
+.color_gris{
+	border-color:#AAA;
+	}
+	
+.color_rojo{
+	border-color:#F00;
+   
+	}
+
+.desactivado{
+	color:#F00;
+	
+	}
+	.activado{
+	color:#000;
+	
+	}
+  .posicion_registo_usuario{
+	
+	position: relative;
+	left: 15%;
+	top: 20px;
+	padding-top: 40px;
+	padding-left: 40px;
+	background: #EFF;
+	width: 500px;
+	border-radius: 5px;
+	font-family: Verdana;
+	font-size: 14px;
+	background-color: #DEF;
+		border: 1px solid #AAA;
+		}
+		
+
+.rojo{
+	color:#F00;
+	
+	}
+
+
+.boton_esto{
+	width: 80px;
+	height: 25px;
+	border-radius: 5px;
+	background: #EEE;
+	text-align: justify;
+	}
+ .boton_cancela{
+	 position: relative;
+	left: 45%;
+	top: -15px;
+	font-size: 14px;
+	background:#DEF;
+	color: #019;
+	border-width:1px;
+	
+	 }	
+		
+	.resaltado{
+		font-family:Verdana;
+	font-size:16px;
+	
+	color:#005;
+		}
+	
+	.linea_tabla{
+		border-color:#DDE;
+		border: 1px thin;
+		}
+	.container{
+		border:1px thin;
+		position: relative;
+	left: 15%;
+	top: 40px;
+	border: 1px solid #AAA;
+	width: 1024px;
+	min-height:768px;
+	border-radius: 5px;
+		}

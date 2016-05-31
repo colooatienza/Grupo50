@@ -1,0 +1,280 @@
+ .btnMenu {
+	display: inline-block;
+    font-size: 20px;
+	display: in-line-block;
+	background-image: -moz-linear-gradient(center top , #DD4B39, #D14836);
+	background-image: -webkit-linear-gradient(top , #DD4B39, #D14836);
+	padding: 15px;
+	color:#FFFFFF;
+	margin-top: 6px;
+	margin-left: 5px;
+	height: 18px;
+	text-decoration: none;
+	border-radius: 10px;
+	border: 1px solid #000000;
+    }
+   	.btnMenu:hover {
+    background: #DD4E39;
+	color: #FFFFFF;
+	}
+	.footer{
+	bottom: 0;
+	border-top: 1px solid #000000;
+	margin-top: 15px;
+	}
+	
+	.cuadroEspect{
+		height: 180px;
+		width: 180px;
+		border: 1px solid #000000;
+		display:inline-block;
+		margin:20px;
+	}
+	.cuadroFotoEspect{
+		height: 90px;
+		width: 180px;
+		border-bottom: 1px solid #000000;
+	}
+.btnMenu2 {
+	color:#FFFFFF;
+    font-size: 14px;
+    display: block;
+    background-image: -moz-linear-gradient(center top , #DD4B39, #D14836);
+    background-image: -webkit-linear-gradient(top , #DD4B39, #D14836);
+    padding: 15px;
+    margin: 2px;
+    text-decoration: none;
+    border-radius: 10px;
+    text-align: center;
+    width: 120px;
+	border: 1px solid #000000;
+ }
+   	.btnMenu2:hover {
+    background: #DD4E39;
+	color: #FFFFFF;
+	}
+	
+	.nav1 {
+	
+	background-color: #C8C8C8;
+	height: 60px;
+	display: block;
+	border: 1px solid #000000;
+	margin: 0;
+}	
+
+  .nav2 {
+	border-radius:15px;
+	background-color: #C8C8C8;
+	height: 200px;
+	float: right;
+	display: block;
+} 
+
+	.lblForm {
+	font-family:Verdana, Geneva, sans-serif;
+	width:80px;
+	text-align:right;
+   	display: inline-block;
+   	font-family: sheriff;
+}
+	.txtForm {
+	font-family:Verdana, Geneva, sans-serif;
+	width:380px;
+   	display: inline-block;
+   	font-family: sheriff;
+}
+	.lblForm2 {
+	font-family:Verdana, Geneva, sans-serif;
+	width: 400px;
+	height: 100px;
+   	font-family: sheriff;
+	display:inline;
+}
+	.lblForm3 {
+	font-family:Verdana, Geneva, sans-serif;
+	width: 120px;
+	display:inline;
+	vertical-align:top;
+   	font-family: sheriff;
+}
+	.div1 {
+	display:block;
+	clear: left;
+	text-align:center;
+	}
+	.divContacto {
+	background-color: #C8C8C8;
+	border-radius: 10px;
+	margin:auto;
+	width:500px;
+	height:300px;
+	display:block;
+	padding: 10px;
+	margin-top: 80px;
+	border: 1px solid #000000;
+	}
+	.divMapa {
+	border: 1px solid #000000;
+	background-color: #C8C8C8;
+	margin: auto;
+	margin-top: 50px;
+	width:80%;
+	height:500px;
+	display:block;
+	}
+	
+	.submitContacto{
+	margin-left: 200px;
+	}
+	.divEspacio{
+	display:block;
+	height:140px;
+	}
+.table-index {
+	margin: 0 auto;
+	}
+	.divDetalle {
+	display: inline-block;
+	height: 500px;
+	width: 500px;
+	border: 1px solid #000000;
+	border-radius: 5px;
+	background-color: #C8C8C8;
+	padding: 18px;
+	margin-top: 40px;
+	margin-left: 50px;
+	}
+.divEmpresa{
+		display: block;
+		margin: auto;
+		margin-top: 30px;
+		height: auto;
+		width: 800px;
+		border: 1px solid #000000;
+		border-radius: 8px;
+		background-color: #C8C8C8;
+	}
+	.divFiltro {
+	border: 1px solid #000000;
+	background-color: #C8C8C8;
+	width:100%;
+	height:30px;
+	display:block;
+	margin-bottom:30px;
+	border-radius: 8px;
+	padding:10px 0px;
+	}
+	.divSala {
+	background-color: #DFDFDF;
+	border: 1px solid #000000;
+	width: 300px;
+	height: 450px;
+	display: inline-block;
+	margin-left: 10px;
+	border-radius: 5px;
+	padding: 10;
+	float: right;
+	margin-top: 40px;
+	margin-right: 50px;
+	}
+	.divFotoSala{
+		height: 180px;
+		width: 300px;
+	}
+	.divFotoEspectaculo{
+		height: 200px;
+		width: 450px;
+		margin: auto;
+	}
+	
+	.divLogin{
+	background-color: rgb(238, 238, 238);
+	border: 1px solid;
+	border-radius: 6px;
+	width: 300px;
+	margin: auto;
+	margin-top: 100px;
+	padding: 15px;
+		
+	}
+	
+	.btnLogin{
+	margin: auto;
+	display: block;
+	padding: 3px;
+	margin-top: 10px;
+	width: 70px;
+	
+	}
+	
+	.txtLogin{
+		width: 300px;
+	}
+	
+	.tablaEspectaculos{
+		width:50%;
+		display:block;
+		border-collapse: collapse;
+		margin:auto;
+	}
+	td,th{
+	background-color: rgb(238, 238, 238);
+	border: solid 1px black;
+	}
+
+	.divEspectaculo{
+	border: solid 1px black;
+	border-radius:5px;
+	width:600px;
+	height:600px;
+	display:block;
+	margin:auto;
+	padding:10px;
+	
+	}
+	.btnEliminar{
+	width:20px;
+	height:20px;
+	
+	}
+
+	.btnEliminar:hover{
+		cursor:hand;
+	}
+
+	.btnAgregar{
+	font-size: 15px;
+	background-image: -moz-linear-gradient(center top , #DD4B39, #D14836);
+	background-image: -webkit-linear-gradient(top , #DD4B39, #D14836);
+	padding:5px;
+	color:#FFFFFF;
+	margin-right: 150px;
+	margin-left: 20px;
+	float: right;
+	text-decoration: none;
+	border-radius: 10px;
+	border: 1px solid #000000;
+	}
+	.tablaTipos{
+		width:40%;
+		display:block;
+		border-collapse: collapse;
+		margin:auto;
+	}
+	.divTipo{
+	background-color: rgb(238, 238, 238);
+	border: solid 1px black;
+	border-radius:5px;
+	width:240px;
+	display:block;
+	margin:auto;
+	padding:10px;
+	text-align:center;
+	margin-bottom:250px;
+	}
+	.botonAgregarTipo{
+		margin:10px;
+	}
+}
+	

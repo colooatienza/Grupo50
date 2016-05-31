@@ -1,0 +1,13 @@
+Hacer los criterios de evaluacion
+En registrar los parametros deben pasar por post
+En registrar debe haber un skip para los pasos opcionales
+Completar el PGP
+Poner el logo que estaba en el blog
+
+
+
+Preguntas:
+- Estan bien los datos obligatorios y opcionales para los usuarios
+- Consulta sobre la baja de categorias
+- Los detalles del usuario se ven en la pantalla del couch o en una pantalla aparte?
+- 
