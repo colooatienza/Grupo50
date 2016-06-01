@@ -35,6 +35,7 @@
 			<th>Categoría</th>
 			<th>Editar</th>
 			<th>Borrar</th>
+			<th>Despublicar/Publicar</th>
 		</tr>
 		<?php
 			while($row=$result->fetch_array()){
@@ -44,6 +45,12 @@
 				echo '<td align="center"><a href="modificarTipo.php?id='
 			.$row["id"].'"><img src="images/editar.png" width="20" height="20"></a> </td>';
 				echo '<td align="center"><img class="btnEliminar" onmouseover="" style="cursor: pointer;"width="20" height="20" onClick="confirmar('.$row["id"].')" src="images/eliminar.png"></td>';    
+				if($row["despublicado"]){
+        			echo '<td align="center"><a href="publicarTipo.php?id='.$row["id"].'" class="btn btn-default">Publicar</a></td>';
+				}
+				else{
+        			echo '<td align="center"><a href="despublicarTipo.php?id='.$row["id"].'" class="btn btn-default">Despublicar</a></td>';
+				}
 				echo '</tr>';   
 			}
 				?>
