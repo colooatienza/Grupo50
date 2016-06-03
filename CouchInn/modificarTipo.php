@@ -8,7 +8,10 @@
   
     
   <link rel="stylesheet" href="Css/c.css">
-  <link rel="icon" href="Imagenes/icono.ico">
+<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="js/bootstrap.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css">
+  	<link rel="icon" href="images/logo.jpg">
 
 <script type="text/javascript" >
 	function valida(){
@@ -24,8 +27,11 @@
 </head>
 <body>
 		<?php	
-	if($_SESSION["admin"]==1){
-	include("verificarUsuario.php");	?> 
+		session_start();
+		include("menu.php");
+	if($_SESSION["admin"]==0)
+		header("Location: login.php");
+	?> 
 
 <h1 align="center">Modificar Tipo de Couch </h1>
 <div class="divTipo">
@@ -36,9 +42,6 @@
 	</form>
 </div>
 
-<footer class="footer">
-  <p>Atienza Tomas - Ruiz Matias </p>
-</footer>
 </body>
 <?php
 function getName(){
@@ -51,9 +54,6 @@ $result=$conn->query($sql);
 $row=$result->fetch_array();
 return $row['tipo'];
 }
-}
-else{
-	header("Location: index.html");
-}
+
 ?>
 </html>

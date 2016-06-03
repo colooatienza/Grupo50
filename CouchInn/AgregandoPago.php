@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="Css/c.css">
 <script type="text/javascript" >
 	function redireccionar(){
-		setTimeout(redirect, 5000);
+		setTimeout(redirect, 3200);
 	}
 	function redirect(){
-		document.getElementById("form").submit()
+		document.getElementById("form").submit();
 	}
 </script>
 <title>CouchInn</title>

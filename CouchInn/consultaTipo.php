@@ -5,9 +5,11 @@
   	<meta charset="UTF-8">
   	<title>CouchInn</title>
 
+<script src="js/jquery-1.11.3.min.js"></script> 
+	<script src="js/bootstrap.js"></script>
 <link rel="stylesheet" href="css/bootstrap.css">
   	<link rel="stylesheet" href="css/c.css">
-  	<link rel="icon" href="Imagenes/icono.ico">
+  	<link rel="icon" href="images/logo.jpg">
 	<script type="text/javascript">
 	function confirmar(id) {
 		if(confirm("Realmente desea eliminar?")){
@@ -18,10 +20,10 @@
 </head>
 <body>
 	<?php
-	include("verificarUsuario.php");
+	session_start();
    	include("conexion.php");
   	include("menu.php");
-	if($_SESSION["admin"]==1){
+	if($_SESSION["admin"]==true){
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
 	} 
@@ -29,11 +31,10 @@
 	$sql = "select * from tipos_couch";
 	$result=$conn->query($sql);
 	?>
-	<h1 align="center">Listado de Categorías de Couch</h1>
+	<h1 align="center">Categorías de Couch</h1> </br> </br>
 	<a href="agregarTipoCouch.php" class='btnAgregar'>Nueva Categoría</a>
 	<table class="tablaTipos">
 		<tr>
-			<th>Nº</th>
 			<th>Categoría</th>
 			<th>Editar</th>
 			<th>Borrar</th>
@@ -42,8 +43,7 @@
 		<?php
 			while($row=$result->fetch_array()){
 				echo '<tr>';
-				echo '<td>'.$row["id"].' </td> ';
-				echo '<td>'.$row["tipo"]. '</td>';
+				echo '<td>'.utf8_encode($row["tipo"]). '</td>';
 				echo '<td align="center"><a href="modificarTipo.php?id='
 			.$row["id"].'"><img src="images/editar.png" width="20" height="20"></a> </td>';
 				echo '<td align="center"><img class="btnEliminar" onmouseover="" style="cursor: pointer;"width="20" height="20" onClick="confirmar('.$row["id"].')" src="images/eliminar.png"></td>';    
@@ -58,18 +58,10 @@
 				?>
 	</table>
 		
-		
-   
- 
- 
-<footer class="footer">
-  <p>Atienza Tomas - Ruiz Matias
-</p>
-</footer>
 <?php
 }
 else{
-	header("Location: index.html");
+	header("Location: index.php");
 }
 ?>
 </body>

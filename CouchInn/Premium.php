@@ -6,15 +6,16 @@
   <title>CouchInn</title>
 
   
+<script src="js/jquery-1.11.3.min.js"></script> 
 	<link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="Css/c.css">
   <link rel="icon" href="Imagenes/icono.ico">
 
 <script type="text/javascript" >
 	function valida(){
-		valor = document.getElementById("nombre").value;
-		if ((valor == null) || (valor.length == 0)) {
-			alert ('ERROR! Debe ingresar el nombre de la tarjeta de credito!');
+		valor = document.getElementById("tarjeta").value;
+		if (valor=="-1"){
+			alert ('ERROR! Debe seleccionar su tarjeta de credito!');
 			return false;
 		}
 		valor = document.getElementById("numero").value;
@@ -42,6 +43,8 @@
 		} 
 
 		$sql = "Select destacado FROM usuarios WHERE nombredeusuario='".$_SESSION['usuario']."'";
+		$tarjetas = "Select id, tarjeta FROM tarjetas";
+		$tarjetas=$conn->query($tarjetas);
 		$result=$conn->query($sql);
 		$row=$result->fetch_array();
 		if($row[0]==1){
@@ -54,24 +57,31 @@
 <div class="divTipo">
 	<form onSubmit="return valida()" method="post" action="AgregandoPago.php" enctype="multipart/form-data">
     
-	  <p>Nombre de la tarjeta:
-		<input type="text" id="tarjeta" name="tarjeta" placeholder="Ej: Visa, Mastercard"> 
-		<p>Numero de tarjeta:
+		</br>
+	  <select  id="tarjeta" name="tarjeta" >
+	  		<option value="-1">Seleccione Tarjeta</option>
+	  		<?php
+	  		while($row=$tarjetas->fetch_array()){
+	  			echo '<option value="'.$row["id"].'">'.$row["tarjeta"].'</option>';
+
+	  		}
+	  		?>
+		</select>
+		</br>
+		</br>
+		<p>Número de tarjeta:
 		  <input type="text" id="numero" name="numero" placeholder="16 caracteres" maxlength="16" onkeypress='return event.charCode >= 48 && event.charCode <= 57'> 
 	  </p>
-        <p>Codigo de Seguridad:
-          <input type="text" id="codigo" name="codigo"  maxlength="3" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+        <p>Código de Seguridad:
+          <input type="text" id="codigo" name="codigo"  maxlength="3" style="text-align:center; " onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
       </p>
 		<p>Monto:
-          <input type="text" id="monto" name="monto" value="$100" readonly>
+          <input type="text" id="monto" name="monto" value="$100" style="text-align:center; margin-bottom:10px" readonly>
 <input type= "submit" value= "Agregar Pago" class= "botonAgregarPago">
 	  </p> 
 	</form>
 </div>
 
-<footer class="footer">
-  <p>Atienza Tomas - Ruiz Matias </p>
-</footer>
 </body>
 <?php } ?>
 </html>

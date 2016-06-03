@@ -209,7 +209,7 @@
 	}
 	
 	.txtLogin{
-		width: 300px;
+		width: 100%;
 	}
 	
 	.tablaEspectaculos{
@@ -265,6 +265,7 @@
 	.divTipo{
 	background-color: rgb(238, 238, 238);
 	border: solid 1px black;
+	box-shadow: 0 2px 4px 0;
 	border-radius:5px;
 	width:240px;
 	display:block;

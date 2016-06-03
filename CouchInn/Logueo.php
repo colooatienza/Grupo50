@@ -15,7 +15,7 @@
                 $_SESSION["premium"]=$usuario->esPremium($_SESSION["usuario"]);
 				header("Location: index.php");
        	    }else
-              header("Location: login.html");    
+              header("Location: login.php");    
    	}
   }        
 ?>

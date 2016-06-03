@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
 <head>
 <link rel="stylesheet" href="css/bootstrap.css">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -14,6 +13,7 @@
 <body >
 
 	<?php
+    session_start();
     include("conexion.php");
     include("menu.php");
     if ($conn->connect_error) { 
@@ -22,9 +22,8 @@
     $id_couch= isset($_GET['id'])?$_GET['id']: header('Location: index.php');
   
     //Consulta la BD:::
-    $sql_couch = "select * from couchs INNER JOIN usuarios ON usuarios.nombredeusuario=couchs.usuario INNER JOIN ciudad ON ciudad.id = couchs.ciudad INNER JOIN provincia ON provincia.id= ciudad.provincia_id where couchs.id=".$id_couch."";
+    $sql_couch = "select couchs.*, usuarios.*, ciudad.*, provincia.*, tipos_couch.* from couchs INNER JOIN usuarios ON usuarios.nombredeusuario=couchs.usuario INNER JOIN ciudad ON ciudad.id = couchs.ciudad INNER JOIN provincia ON provincia.id= ciudad.provincia_id INNER JOIN tipos_couch ON couchs.idtipo = tipos_couch.id where couchs.id=".$id_couch."";
     $sql = "select * from fotos where idcouch=".$id_couch."";
-  
   
     $fotos=$conn->query($sql);
     $couch=$conn->query($sql_couch);
@@ -33,7 +32,7 @@
     $cantFotos= mysqli_num_rows($fotos);
     ?>
    <!-- ARMO UN DIV Y DENTRO UNA TABLA CON ALGUNAS CARACTERÍSTICAS -->
-  <div class="recuadro_consulta_couch" style="background:#F1F1F1; box-shadow: 4px 4px 2px #888888; widht:700px" >
+  <div class="recuadro_consulta_couch" style="background:#F1F1F1; box-shadow: 0 2px 4px 0; width:900px" >
   <table width="800" border="0" style="padding-left:20px;">
  
 
@@ -53,10 +52,10 @@
 
   </table >
 
-    <div style="margin: auto" class="container" width="500" height="300">
+    <div style="margin: auto; border:2px; width:600px" class="container"  height="300">
     <div style="margin: auto" class="row" width="500" height="300">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" width="500" height="300">
-        <div id="carousel1" class="carousel slide" style="width:700px" height="300">
+        <div id="carousel1" class="carousel slide" height="300">
           <ol class="carousel-indicators" width="500" height="300">
             <?php
               for($i=0; $i<$cantFotos;$i++){
@@ -96,22 +95,23 @@
       <td colspan="5" align="center"><hr /></td>
     </tr>
     <tr>
-    <td height="48" ><b><p style="margin-left:20px">Dirección:</b></td>
-    <td width="287">&nbsp;<?php  echo utf8_encode($datos['direccion']);  ?></p></td>
-    <td width="208" align="center"><b><p style="margin-left:20px">Ciudad:</b> <?php  echo utf8_encode($datos['ciudad_nombre']);  ?></p> </td>
-    <td colspan="2" align="center"><b><p style="margin-left:20px">Provincia:</b> <?php  echo utf8_encode($datos['provincia_nombre']);  ?></p> </td>
+    <td height="48" ><b><p style="margin-left:20px" align="right">Dirección:</b></td>
+    <td height="48" width="287">&nbsp;<?php  echo utf8_encode($datos['direccion']);  ?></p></td>
+    <td width="208" align="center"><b><p >Ciudad:</b> <?php  echo utf8_encode($datos['ciudad_nombre']);  ?></p> </td>
+    <td colspan="2" align="center"><b><p >Provincia:</b> <?php  echo utf8_encode($datos['provincia_nombre']);  ?></p> </td>
     </tr>
     <tr>
-      <td height="32"><b><p style="margin-left:20px">Fecha Inicio:</b></td>
-      <td colspan="4">&nbsp;<?php  echo date('d/m/y', strtotime(utf8_encode($datos['fechainicio']))); ?></td></p>
+      <td height="48"><b><p style="margin-left:20px" align="right">Fecha Inicio:</b></td>
+      <td height="48">&nbsp;<input type="text" style="width:100px" readonly value= <?php  echo date('d/m/y', strtotime(utf8_encode($datos['fechainicio']))); ?> ></td></p>
+      <td width="100" colspan="4"><b>Categoría:</b> <?php  echo utf8_encode($datos['tipo']);  ?> </td> </p>
     </tr>
     <tr>
-      <td height="38"><b><p style="margin-left:20px">Fecha Fin:</b></td>
-      <td colspan="4">&nbsp;<?php  echo date('d/m/y', strtotime(utf8_encode($datos['fechafin']))); ?></td> </p>
+      <td height="48"><b><p style="margin-left:20px; " align="right">Fecha Fin:</b></td>
+      <td height="48">&nbsp;<input style="width:100px" type="text" readonly value=<?php  echo date('d/m/y', strtotime(utf8_encode($datos['fechafin']))); ?> ></td> 
     </tr>
     <tr>
-      <td><b><p style="margin-left:20px">Descripción:</b></td>
-      <td colspan="4">&nbsp;<?php  echo utf8_encode($datos['descripcion']);  ?></td> </p>
+      <td><b><p style="margin-left:20px; " align="right">Descripción:</b></td>
+      <td colspan="4">&nbsp; <textarea readonly name="descripcion" id="descripcion" cols="35" rows="6" ><?php  echo utf8_encode($datos['2']);  ?> </textarea></td> </p>
     </tr>
   <tr>
     <td colspan="5">&nbsp;</td>
