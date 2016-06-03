@@ -17,8 +17,9 @@
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
-$user_name = isset($_GET['us']) ? $_GET['us']:"";
-$sql = "select * from usuarios2 where nombredeusuario='".$user_name."'";
+   $user_name = isset($_POST['usss']) ? $_POST['usss']:"";
+   //$user_name =base64_decode( $user_name);
+$sql = "select * from usuarios where nombredeusuario='".utf8_decode($user_name)."'";
 $result=$conn->query($sql);
 
 $funcion = isset($_GET['tipo']) ? $_GET['tipo']:"1";
@@ -69,33 +70,43 @@ if($funcion==2){
    <tr> <td colspan="2"><hr class="linea_tabla"></td>  </tr> 
   <tr>
     <td>Nacionalidad:</td>
-    <td><?php  echo utf8_encode($row["nacionalidad"]); ?></td>
+    <td><?php
+
+$sql_n=$conn->query("select * from paises where id=".$row['nacionalidad']."");
+      $consulta_nac=$sql_n->fetch_array(MYSQLI_BOTH);
+	
+	  echo utf8_encode($consulta_nac['nombre']); ?></td>
   </tr>
   <tr> <td colspan="2"><hr class="linea_tabla"></td>  </tr>
   <tr>
     <td>e-Mail:</td>
-    <td>.<?php  echo utf8_encode($row["mail"]); ?></td>
+    <td><?php  echo utf8_encode($row["mail"]); ?></td>
   </tr>
   <tr> <td colspan="2"><hr class="linea_tabla"></td>  </tr>
   <tr>
     <td>Teléfono fijo:</td>
-    <td>.<?php  echo utf8_encode($row["telefono"]); ?></td>
+    <td><?php  echo utf8_encode($row["telefono"]); ?></td>
   </tr>
   <tr> <td colspan="2"><hr class="linea_tabla"></td>  </tr>
   <tr>
     <td>Teléfono móvil:</td>
-    <td>.<?php  echo utf8_encode($row["celular"]); ?></td>   
+    <td><?php  echo utf8_encode($row["celular"]); ?></td>   
   </tr>
   <tr> <td colspan="2"><hr class="linea_tabla"></td>  </tr>
   <tr>
     <td valign="bottom">Imagen de perfil:</td>
-      <td>.
-   <?php echo '<img src="imagen.php?id='.$row["idusuario"].' "style="max-width:150px; max-height:150px;    min-height:110px;" " onerror="this.src=\'images/sin_imagen.png\'">'; ?> </td>
+      <td>
+       
+   <?php
+     $directorio_foto=$row["foto"];
+
+   
+    echo '<img src="'.$directorio_foto.'""  style="max-width:150px; max-height:150px;    min-height:110px; " onerror="this.src=\'images/sin_imagen.png\'">'; ?> </td>
 </tr>
 <tr> <td colspan="2"><hr class="linea_tabla"></td>  </tr>
   <tr>
     <td>Descripción personal:</td>
-    <td>.<?php  echo utf8_encode($row["descripcion"]); ?></td>
+    <td><?php  echo utf8_encode($row["descripcion"]); ?></td>
   </tr>
  <tr> <td colspan="2"><hr class="linea_tabla"></td>  </tr>
   
