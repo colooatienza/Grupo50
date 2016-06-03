@@ -6,6 +6,7 @@
 	<title>Registrar Usuario</title>
 	<link rel="stylesheet" href="estilo/estilo.css">
 	<link rel="stylesheet" href="css/bootstrap.css">
+  	<link rel="icon" href="images/logo.jpg">
 </head>
 
 <body>
