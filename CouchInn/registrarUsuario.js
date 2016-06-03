@@ -33,7 +33,7 @@ function vaciar_nombre(input,valor, tipo){
 	
 		
 	}
-	
+
 	
 	function seleccionar(input){
 		
@@ -172,6 +172,10 @@ function validar_campos_retorno(){
 	     return false;
 	       }
 	   
+	     if(validarEmail(document.registro.email.value)==false){
+			 return false;
+			 }
+	   
 	   	return true;	
 	
 	  
@@ -179,7 +183,7 @@ function validar_campos_retorno(){
 	
 	
 	function validar_campos(){
-		 if(validar_campos_retorno()==true)
+		if(validar_campos_retorno()==true)
 		   document.registro.submit();
 		}
 	
@@ -197,7 +201,14 @@ function validar_campos_retorno(){
    
    
     expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if ( !expr.test(email) && email!="Email (con @extension. )" && email!="" ){
+    if(email=="" || email=="Email (con @extension. )"){
+		document.getElementById('email').style="border-color:#F00";
+		alert("Tiene que tener una direccion de E-mail");
+		return false;
+		}
+	  
+	
+	if ( !expr.test(email) ){
 		document.getElementById('email').style="border-color:#F00";
         alert("Error: La dirección de correo es incorrecta.");
 		
@@ -207,24 +218,9 @@ function validar_campos_retorno(){
 
 }
 	
-	function validar_opcionales_retorno(){
-		  
-		if(validarEmail(document.registro.email.value)==false)
-		 return false;
-		 return true;
-		}
 	
-	
-	function validar_opcionales(){		
-		if(validar_opcionales_retorno()==true)
-           document.registro.submit();
-		}
-		////////////////////////////////////////////////////
 
 
-
-
-		
 		
 		/////En caso de cancelar el registro de usuario esto pregunta para mas seguridad:
 		  function seguro(destino){
@@ -261,6 +257,8 @@ function nobackbutton(){
               document.registro.submit();	 
 		   
 		}
+		
+		
 		
 		
 		
