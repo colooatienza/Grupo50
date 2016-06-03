@@ -5,6 +5,7 @@
   	<meta charset="UTF-8">
   	<title>CouchInn</title>
 
+<link rel="stylesheet" href="css/bootstrap.css">
   	<link rel="stylesheet" href="css/c.css">
   	<link rel="icon" href="Imagenes/icono.ico">
 	<script type="text/javascript">
@@ -19,6 +20,7 @@
 	<?php
 	include("verificarUsuario.php");
    	include("conexion.php");
+  	include("menu.php");
 	if($_SESSION["admin"]==1){
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
@@ -28,7 +30,7 @@
 	$result=$conn->query($sql);
 	?>
 	<h1 align="center">Listado de Categorías de Couch</h1>
-	<a href="agregarTipoCouch.html" class='btnAgregar'>Nueva Categoría</a>
+	<a href="agregarTipoCouch.php" class='btnAgregar'>Nueva Categoría</a>
 	<table class="tablaTipos">
 		<tr>
 			<th>Nº</th>

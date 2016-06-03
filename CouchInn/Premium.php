@@ -6,7 +6,7 @@
   <title>CouchInn</title>
 
   
-    
+	<link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="Css/c.css">
   <link rel="icon" href="Imagenes/icono.ico">
 
@@ -36,6 +36,7 @@
 	<?php
 		include("verificarUsuario.php");
 		include("conexion.php");
+  		include("menu.php");
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		} 

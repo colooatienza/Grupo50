@@ -10,4 +10,5 @@ Preguntas:
 - Estan bien los datos obligatorios y opcionales para los usuarios
 - Consulta sobre la baja de categorias
 - Los detalles del usuario se ven en la pantalla del couch o en una pantalla aparte?
-- 
+- Las tarjetas para mejorar a premium, en combobox o textbox?
+- Fotos en db o filesystem?

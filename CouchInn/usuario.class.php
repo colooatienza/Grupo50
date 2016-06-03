@@ -23,14 +23,23 @@ class usuario extends mysql
     else
         return false;    
   }  
-  public function admin($usuario){
+  public function admin($usuario=NULL){
     if( $usuario!=null){
         $result = $this->consulta("SELECT admin FROM usuarios WHERE nombredeusuario='$usuario'");
 		$row=$result->fetch_array();
         return ( $row[0]==1) ? true : false ;          
     }
     else
+        return false;   
+         
+  } 
+  public function esPremium($usuario=NULL){
+    if( $usuario!=null){
+        $result = $this->consulta("SELECT destacado FROM usuarios WHERE nombredeusuario='$usuario'");
+    $row=$result->fetch_array();
+        return ( $row[0]==1) ? true : false ;          
+    }
+    else
         return false;    
   }  
-
 }

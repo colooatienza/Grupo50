@@ -1,91 +1,77 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Registrar Usuario</title>
-
-
-<style type="text/css" media="screen">
-  @import '../CouchInn/estilo/estilo.css';>
-</style>
-
-<?php
-	//include("file:///C|/wamp/www/verificarUsuario.php");
-   include("conexion.php");
-		
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-
-$sql = "select * from paises ";
-$result=$conn->query($sql);
-
-
-
-  
-
-?>
-
- <div id="apDiv2"><span class="logo"><img src="images/logo.png" width=160px; height=40px;></span> <span class="decorado"><img src="images/casas.png" width=200px; height=40px;> </span></div>
-<div id="apDiv3"></div>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Registrar Usuario</title>
+	<link rel="stylesheet" href="estilo/estilo.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
 </head>
 
 <body>
-   <?php
 
- for ($i = 1; $i <= 14; $i++) {
-   $evalua_campos[$i]="\"registro_ant > color_gris\"";
-   }  $i=1;
+<?php
+   include("verificarUsuario.php");
+ 	include("conexion.php");
+ 	include("menu.php");
+	if ($conn->connect_error) {
+	    die("Connection failed: " . $conn->connect_error);
+	} 
+
+	$sql = "select * from paises ";
+	$result=$conn->query($sql);
+
+
+ 	for ($i = 1; $i <= 14; $i++) {
+   		$evalua_campos[$i]="\"registro_ant > color_gris\"";
+   	}  
+   	$i=1;
      
 	 //cargo los datos de usuario:::
-  $usuario = isset($_GET['nombre_usuario']) ? $_GET['nombre_usuario']: header('Location: consultaUsuarios.php');
-	$usuario= addslashes(utf8_decode($usuario));
 	$reg_us = isset($_GET['reg_us1']) ? $_GET['reg_us1']:0;
 	
 	$usuario_vacio="";
 	$clave_vacio="";
 	$clave_vacio2="";
 	
-	if($reg_us==0){
+	if(!isset($_POST["nombre_usuario"])){
 		
 		
-	 $consulta = "select * from usuarios2 where nombredeusuario='$usuario'";
-     $result2=$conn->query($consulta);
+		$consulta = "select * from usuarios where nombredeusuario='".$_SESSION['usuario']."'";
+     	$result2=$conn->query($consulta);
 
-	 $row=$result2->fetch_array(MYSQLI_BOTH);
+	 	$row=$result2->fetch_array();
 	 
 	
-	 $usuario= addslashes(utf8_encode($usuario));
-	 
-	 $usuario_viejo=$usuario;
-	 $clave= addslashes(utf8_encode($row["clave"]));
-	 $clave2= $clave;
-	 $fecha= addslashes(utf8_encode($row["fechadenacimiento"]));
-	 $nacionalidad= addslashes(utf8_encode($row["nacionalidad"]));
-	 $sexo=addslashes(utf8_encode($row["sexo"]));
-	 $email=addslashes(utf8_encode($row["mail"]));
-	 $telefono=addslashes(utf8_encode($row["telefono"]));
-	 $telefono_movil=addslashes(utf8_encode($row["celular"])); 
-	 $descripcion=addslashes(utf8_encode($row["descripcion"])); 
-	 
-	 $m=false; $f=false;
-	 if($row["sexo"]=="Masculino")
-		 $m=true;
-     
-	 if($row["sexo"]=="Femenino")
-		 $f=true;		 
+	 	$usuario= addslashes(utf8_encode($_SESSION['usuario']));
 		 
-	  $imagen_mal="";
+		$usuario_viejo=$usuario;
+		$clave= addslashes(utf8_encode($row["clave"]));
+		$clave2= $clave;
+		$fecha= addslashes(utf8_encode($row["fechadenacimiento"]));
+		$nacionalidad= addslashes(utf8_encode($row["nacionalidad"]));
+		$sexo=addslashes(utf8_encode($row["sexo"]));
+		$email=addslashes(utf8_encode($row["mail"]));
+		$telefono=addslashes(utf8_encode($row["telefono"]));
+		$telefono_movil=addslashes(utf8_encode($row["celular"])); 
+		$descripcion=addslashes(utf8_encode($row["descripcion"])); 
+		 
+		$m=false; $f=false;
+		if($row["sexo"]=="Masculino")
+			 $m=true;
+	     
+		if($row["sexo"]=="Femenino")
+			$f=true;		 
+			 
+		$imagen_mal="";
 	  
-	  //algunas cosas:
-	 $tipo="password";
-	 $tipo2="password"; 
-     $mail_mal="";
-	 
+		  //algunas cosas:
+		$tipo="password";
+		$tipo2="password"; 
+		$mail_mal="";
+		 
 	
-	
-	  $usuario_vacio="";   $clave_vacio="";  $clave_vacio2=""; $fecha_vacio;
+		$usuario_vacio="";   $clave_vacio="";  $clave_vacio2=""; $fecha_vacio;
 	
 	
 	}else{
@@ -93,7 +79,7 @@ $result=$conn->query($sql);
 		//Caso que valide por PHP para subir la modificación::::
 		
 		
-		 $usuario_viejo = isset($_GET['usuario_viejo']) ? $_GET['usuario_viejo']:"";
+		 $usuario_viejo = '$SESSION["usuario"]';
 			
 		 $usuario = isset($_POST['nombre_usuario']) ? $_POST['nombre_usuario']: "";
 		 
@@ -120,16 +106,11 @@ $result=$conn->query($sql);
 		   $sexo="Femenino";
 		  }
 	   
-		
-		
-		
-		//echo $usuario;
 		echo "<br><br>";
-		//echo$usuario_viejo;
 			
 			
 		$usuario_viejo = addslashes(utf8_decode($usuario_viejo)); 	
-	    $usuario_e = addslashes(utf8_decode($usuario)); 
+	    $usuario_e = $SESSION["usuario"]; 
         $clave_e=addslashes(utf8_decode($clave));
 	    $clave2_e=addslashes(utf8_decode($clave2));
 		$nacionalidad_e=addslashes(utf8_decode($nacionalidad));
@@ -158,7 +139,7 @@ $result=$conn->query($sql);
 					  $validar_todo=false;
 					  } 
 					  else{
-						 $sql2 = "select * from usuarios2 where nombredeusuario='".$usuario."'";
+						 $sql2 = "select * from usuarios where nombredeusuario='".$usuario."'";
                           $result2=$conn->query($sql2);
 						  $cant = $result2->num_rows;
 						  if($cant!=0 && $usuario != $usuario_viejo){
@@ -295,12 +276,12 @@ $result=$conn->query($sql);
 				
 			//Modificar con FOTO NUEVA::	
 			 if($img_size>0){
-			$sql2 = ("UPDATE usuarios2 set nombredeusuario='$usuario_e', clave='$clave_e', fechadenacimiento='$fecha',nacionalidad='$nacionalidad_e',sexo='$sexo',  mail='$email_e',telefono='$telefono_e',celular='$telefono_movil_e',descripcion='$descripcion_e', foto='$foto_reconvertida'   where nombredeusuario='$usuario_viejo'");
+			$sql2 = ("UPDATE usuarios set nombredeusuario='$usuario_e', clave='$clave_e', fechadenacimiento='$fecha',nacionalidad='$nacionalidad_e',sexo='$sexo',  mail='$email_e',telefono='$telefono_e',celular='$telefono_movil_e',descripcion='$descripcion_e', foto='$foto_reconvertida'   where nombredeusuario='$usuario_viejo'");
 			 
              $result2=$conn->query($sql2);
 			 }
 			 else{  //Modificar sin foto Nueva
-			     $sql2 = ("UPDATE usuarios2 set nombredeusuario='$usuario_e', clave='$clave_e', fechadenacimiento='$fecha',nacionalidad='$nacionalidad_e',sexo='$sexo',  mail='$email_e',telefono='$telefono_e',celular='$telefono_movil_e',descripcion='$descripcion_e'    where nombredeusuario='$usuario_viejo'");
+			     $sql2 = ("UPDATE usuarios set nombredeusuario='$usuario_e', clave='$clave_e', fechadenacimiento='$fecha',nacionalidad='$nacionalidad_e',sexo='$sexo',  mail='$email_e',telefono='$telefono_e',celular='$telefono_movil_e',descripcion='$descripcion_e'    where nombredeusuario='$usuario_viejo'");
 				  $result2=$conn->query($sql2); 
 				 }
 				 
@@ -316,7 +297,7 @@ $result=$conn->query($sql);
     
    
     
-   <div class="container">  
+   <div class="contenedor">  
 <div class="posicion_registo_usuario" >
  <span class="titulo">Qué desea modificar?</span>
  <form method="post" action="modificarUsuario1.php?reg_us1=1 & nombre_usuario=<?php echo $usuario ?> & usuario_viejo=<?php echo $usuario_viejo ?>"  name="registro"  ENCTYPE="multipart/form-data" >

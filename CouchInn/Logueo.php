@@ -11,7 +11,8 @@
                 //crea instancia de sesion segura
                 $_SESSION["usuario"]=$_POST['usuario'];
                 $_SESSION["logueado"]=true;
-				$_SESSION["admin"]=$usuario->admin($_SESSION["usuario"]);
+				        $_SESSION["admin"]=$usuario->admin($_SESSION["usuario"]);
+                $_SESSION["premium"]=$usuario->esPremium($_SESSION["usuario"]);
 				header("Location: index.php");
        	    }else
               header("Location: login.html");    
