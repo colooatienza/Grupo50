@@ -30,7 +30,6 @@
 
 <?php
     if (validar()){
-    	session_start();
 		include("menu.php");
 		include("conexion.php");
 		if ($conn->connect_error) {

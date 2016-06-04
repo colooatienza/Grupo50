@@ -191,6 +191,12 @@ function validar_campos_retorno(){
 	////////////-------------------------
 	
 	
+
+
+	  function validar_opcionales(){
+           document.registro.submit();
+
+	  }
 	
 	
 	

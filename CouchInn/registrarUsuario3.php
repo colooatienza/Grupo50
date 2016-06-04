@@ -1,18 +1,26 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Registrar Usuario</title>
 
 
+    <link rel="icon" href="images/logo.jpg">
 <style type="text/css" media="screen">
   @import '../CouchInn/estilo/estilo.css';>
 </style>
+<script src="js/jquery-1.11.3.min.js"></script> 
+  <script src="js/bootstrap.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css">
+
+</head>
+
+<body onload="nobackbutton();">
 
 <?php
-	//include("file:///C|/wamp/www/verificarUsuario.php");
+   session_start();
    include("conexion.php");
-		
+   include("menu.php");
+    
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -26,19 +34,12 @@ $funcion = isset($_GET['tipo']) ? $_GET['tipo']:"1";
 
 $titulo_prin="Usted se registró exitósamente:";
 if($funcion==2){
-	$titulo_prin="Se modificaron los datos exitósamente:";
-	}
+  $titulo_prin="Se modificaron los datos exitósamente:";
+  }
 
 ?>
- <div id="apDiv2"><span class="logo"><img src="images/logo.png" width=160px; height=40px;></span> <span class="decorado"><img src="images/casas.png" width=200px; height=40px;> </span></div>
-<div id="apDiv3"></div>
-</head>
-
-<body onload="nobackbutton();">
-
-   <?php  ?>
    
-      <div class="container">
+   <div class="container">
    <div class="posicion_registo_usuario" id="apDiv1" >
     <span class="titulo"> <a href="consultaUsuarios.php"><img src="images/correcto.gif" width="20" height="20" alt="c" /></a><?php echo $titulo_prin;?> </span>     </p>
      <p><a href="consultaUsuarios.php" class="d"> | Volver a la página principal |</a>
@@ -60,7 +61,7 @@ if($funcion==2){
    
   <tr>
     <td>Fecha de nacimiento:</td>
-    <td><?php  echo utf8_encode($row["fechadenacimiento"]);?></td>
+    <td><?php  echo date('d/m/y', strtotime(utf8_encode($row['fechadenacimiento'])));?></td>
   </tr>
    <tr> <td colspan="2"><hr class="linea_tabla"></td>  </tr> 
     <tr>

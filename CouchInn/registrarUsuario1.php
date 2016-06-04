@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Registrar Usuario</title>
@@ -8,32 +7,27 @@
 <style type="text/css" media="screen">
   @import '../CouchInn/estilo/estilo.css';>
 </style>
-
-<?php
-	//include("file:///C|/wamp/www/verificarUsuario.php");
-   include("conexion.php");
-		
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-
-$sql = "select * from paises ";
-$result=$conn->query($sql);
+<script src="js/jquery-1.11.3.min.js"></script> 
+	<script src="js/bootstrap.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css">
+  	<link rel="icon" href="images/logo.jpg">
 
 
-
-
-  
-
-?>
-
- <div id="apDiv2"><span class="logo"><img src="images/logo.png" width=160px; height=40px;></span> <span class="decorado"><img src="images/casas.png" width=200px; height=40px;> </span></div>
-<div id="apDiv3"></div>
-</head>
 
 <body onload="nobackbutton();">
    <?php
+	 session_start();
+   include("conexion.php");
+   include("menu.php");
+		
+	// Check connection
+	if ($conn->connect_error) {
+	    die("Connection failed: " . $conn->connect_error);
+	} 
+
+	$sql = "select * from paises ";
+	$result=$conn->query($sql);
+	
     $nombre_nacion="Argentina";
  for ($i = 1; $i <= 9; $i++) {
    $evalua_campos[$i]="\"registro_ant > color_gris\"";

@@ -1,17 +1,26 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Registrar Usuario</title>
 
+  	<link rel="icon" href="images/logo.jpg">
 
 <style type="text/css" media="screen">
   @import '../CouchInn/estilo/estilo.css';>
 </style>
+<script src="js/jquery-1.11.3.min.js"></script> 
+	<script src="js/bootstrap.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css">
+</head>
 
+<body onload="nobackbutton();">
+   
+ 
+  
 <?php
-	//include("file:///C|/wamp/www/verificarUsuario.php");
+	 session_start();
    include("conexion.php");
+   include("menu.php");
 		
 // Check connection
 if ($conn->connect_error) {
@@ -21,20 +30,6 @@ if ($conn->connect_error) {
 $sql = "select * from paises ";
 $result=$conn->query($sql);
 
-?>
- <div id="apDiv2"><span class="logo"><img src="images/logo.png" width=160px; height=40px;></span> <span class="decorado"><img src="images/casas.png" width=200px; height=40px;> </span></div>
-<div id="apDiv3"></div>
-</head>
-
-<body onload="nobackbutton();">
-   
- 
-  
-  
- 
- 
- 
-   <?php
        //Caso que tenga valores vacíos los retorno "";
        function retornarVacio($nuevo, $original, $sinCambiar){
 			if($nuevo==$original)
@@ -78,7 +73,7 @@ $result=$conn->query($sql);
 	
 	 header('Location: consultaUsuarios.php');
 	 
-	 echo '<br><br><br>'.$user_name;
+	 echo '<br><br><br>';
 	 $user_name_e=addslashes(utf8_decode($user_name));
      
 	 
@@ -168,8 +163,8 @@ $result=$conn->query($sql);
     
 	  $destino="";
 		  	 if($archivo!=""){
-	  $destino="imagenesServidor/primero";        
-   $destino="imagenesServidor/usuario/us@".utf8_decode($usuario)."";
+	          
+   $destino="images/usuario/us@".utf8_decode($usuario)."";
 
   if (copy($_FILES['archivo']['tmp_name'],$destino)) {
      $status = "Archivo subido: <b>".$archivo."</b>";
@@ -186,11 +181,14 @@ $result=$conn->query($sql);
 	        $email = utf8_decode( $email); 
 	        $sexo = utf8_decode( $sexo); 	
 							 
-			$sql3 = ("
-			INSERT INTO usuarios(nombredeusuario, clave, nacionalidad, fechadenacimiento,sexo,mail,telefono,celular,descripcion,foto) VALUES ('$usuario', '$clave','$nacionalidad','$fecha','$sexo','$email','$telefono_e','$telefono_movil_e','$descripcion_e','$destino')");
+			$sql3 = ("INSERT INTO usuarios(nombredeusuario, clave, nacionalidad, fechadenacimiento,sexo,mail,telefono,celular,descripcion,foto) VALUES ('$usuario', '$clave','$nacionalidad','$fecha','$sexo','$email','$telefono_e','$telefono_movil_e','$descripcion_e','$destino')");
 			 
              $result3=$conn->query($sql3);
              
+            $_SESSION["usuario"]=$usuario;
+            $_SESSION["logueado"]=true;
+			$_SESSION["admin"]=0;
+            $_SESSION["premium"]=0;
 			 
 			
 			?>
@@ -254,7 +252,7 @@ $result=$conn->query($sql);
      <input name="fecha_nacimiento" type="hidden"  value="<?php echo $fecha ?>" /> 
       <input name="sexo" type="hidden" value="<?php echo $sexo ?>" /> 
       <input name="reg_us2" type="hidden"/>
-      <input name="usss" type="text" value="<?php echo $user_name;?>"/>
+      <input name="usss" type="hidden" value="<?php echo $user_name;?>"/>
   </form>
     <input type="button" class="boton_cancela"  id="cancela" onClick="seguro('cancelarRegistro.php?us=<?php echo $user_name;?>')"  value="Cancelar Registro" />
      <span class="numeros">Página 2 de 2</span>
