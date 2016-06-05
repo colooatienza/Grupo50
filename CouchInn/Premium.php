@@ -9,7 +9,7 @@
 <script src="js/jquery-1.11.3.min.js"></script> 
 	<link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="Css/c.css">
-  <link rel="icon" href="Imagenes/icono.ico">
+  	<link rel="icon" href="images/logo.jpg">
 
 <script type="text/javascript" >
 	function valida(){
