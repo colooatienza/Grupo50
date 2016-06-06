@@ -53,6 +53,34 @@ $(document).ready(function() {
   		cargarCiudades();	
 	});
 });
+
+	function validar_campo(elem){
+		if (elem.value.length < 3) {
+			elem.style.borderColor = "red"
+		}
+	}
+	function limpiar(elem){
+		//var foo = document.getElementById('titulo');
+		elem.style.borderColor='#FFFFFF';// this.style.color='#FFFFFF';
+		
+	}
+	 function valida(){
+		valor = document.getElementById("tarjeta").value;
+		if (valor=="-1"){
+			alert ('ERROR! Debe seleccionar su tarjeta de credito!');
+			return false;
+		}
+		valor = document.getElementById("titulo").value;
+		if (valor.length < 3) {
+			alert ('ERROR! Debe ingresar un título válido!');
+			return false;
+		}
+		valor = document.getElementById("direccion").value;
+		if (valor.length < 3) {
+			alert ('ERROR! Debe ingresar una dirección válida!');
+			return false;
+		}
+	}
 </script>
 
 </head>
@@ -78,12 +106,12 @@ $(document).ready(function() {
 <div class="container">
 <div class="posicion_registo_usuario" >
  <span class="titulo">Agregar Couch</span>
-<form method="post" action="registrarUsuario1.php"  name="registro"  ENCTYPE="multipart/form-data" > 
+<form method="post" action="registrarUsuario1.php" onSubmit="return valida()" action="couchAgregado.php" name="registro"  ENCTYPE="multipart/form-data" > 
 
-    <input name="titulo" type="text" id="titulo" placeholder="Título" onblur="validar_nombre(this,'Nombre de usuario','text');" maxlength="50"/> 
+    <input name="titulo" type="text" id="titulo" placeholder="Título" onblur="validar_campo(this);" onclick="limpiar(this)" maxlength="50"/> 
       </br></br>
 
-    <input name="direccion" type="text" id="direccion" placeholder="Dirección" onblur="validar_nombre(this,'Nombre de usuario','text');" maxlength="150"/> 
+    <input name="direccion" type="text" id="direccion" placeholder="Dirección" onblur="validar_campo(this);" onclick="limpiar(this)"  maxlength="150"/> 
       </br></br>
         
     <input type="date" name="fecha_inicio" id="fecha_inicio" />  
@@ -131,10 +159,13 @@ $(document).ready(function() {
     } */
     ?>
       </select> 
-      <input type="file" class="file" name="fotos" class="dropzone">
       </br>
       </br>
-    <input type="submit"  id="enviar" onClick="validar_campos()"  value="Siguiente" />
+      <input type="file" name="fotos" multiple>
+
+      </br>
+      </br>
+    <input type="submit"  id="enviar" value="Agregar" />
     
 </form>
        
@@ -145,6 +176,5 @@ $(document).ready(function() {
  <hr>
 </div>
 
-<script language="javascript" src="registrarUsuario.js"></script> 
 </body>
 </html>

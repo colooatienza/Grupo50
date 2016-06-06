@@ -1,14 +1,7 @@
-Hacer los criterios de evaluacion
-En registrar los parametros deben pasar por post
-En registrar debe haber un skip para los pasos opcionales
-Completar el PGP
-Poner el logo que estaba en el blog
-
-
 
 Preguntas:
-- Estan bien los datos obligatorios y opcionales para los usuarios
-- Consulta sobre la baja de categorias
-- Los detalles del usuario se ven en la pantalla del couch o en una pantalla aparte?
-- Las tarjetas para mejorar a premium, en combobox o textbox?
-- Fotos en db o filesystem?
+
+- modelamos la base de datos con una tabla para provincias y otra para ciudades, 
+ahora que tengo que hacer la historia "agregar couch" las ciudades son 28.000 y no las puedo cargar en un select, 
+tendria que descartar cuando selecciono provincia o poner un input text
+- La foto del couch tiene que ser obligatoria?
