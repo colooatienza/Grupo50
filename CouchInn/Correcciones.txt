@@ -5,3 +5,7 @@ Preguntas:
 ahora que tengo que hacer la historia "agregar couch" las ciudades son 28.000 y no las puedo cargar en un select, 
 tendria que descartar cuando selecciono provincia o poner un input text
 - La foto del couch tiene que ser obligatoria?
+- Que datos del couch tienen que ser obligatorios?
+- Para buscar no se puede hacer sin recargar y sin ajax no?
+- Al aceptar/rechazar la solicitud de reserva, se le debe informar al viajero? Como?
+- Filtrar en el reporte de couchs???

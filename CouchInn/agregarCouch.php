@@ -38,7 +38,7 @@ function cargarCiudades(){
 }
 $(document).ready(function() {
   $(".select2").select2({
-  	    placeholder: "asd",
+  	    placeholder: "Seleccione una categoría",
     maximumSelectionLength: 1
   });
    $(".selectCiudad").select2({
@@ -65,11 +65,7 @@ $(document).ready(function() {
 		
 	}
 	 function valida(){
-		valor = document.getElementById("tarjeta").value;
-		if (valor=="-1"){
-			alert ('ERROR! Debe seleccionar su tarjeta de credito!');
-			return false;
-		}
+
 		valor = document.getElementById("titulo").value;
 		if (valor.length < 3) {
 			alert ('ERROR! Debe ingresar un título válido!');
@@ -79,6 +75,35 @@ $(document).ready(function() {
 		if (valor.length < 3) {
 			alert ('ERROR! Debe ingresar una dirección válida!');
 			return false;
+		}
+		if (!document.getElementById("fecha_inicio").value){
+			alert ('ERROR! Debe seleccionar una fecha de inicio!');
+			return false;
+		}
+		if (!document.getElementById("fecha_fin").value){
+			alert ('ERROR! Debe seleccionar una fecha de fin!');
+			return false;
+		}
+		if (document.getElementById("fecha_inicio").value>=document.getElementById("fecha_fin").value){
+			alert ('ERROR! La fecha de fin debe ser mayor a la de inicio!');
+			return false;
+		}
+		if (!document.getElementById("tipo").value){
+			alert ('ERROR! Debe seleccionar una categoría!');
+			return false;
+		}
+		if (!document.getElementById("provincia").value){
+			alert ('ERROR! Debe seleccionar una provincia!');
+			return false;
+		}
+		if (!document.getElementById("fotos").value){
+			alert ('ERROR! Debe seleccionar como mínimo 1 foto!');
+		return false;
+		}
+		valor = document.getElementById("descripcion").value;
+		if (valor.length < 3) {
+			alert ('ERROR! Debe ingresar una descripción!');
+		return false;
 		}
 	}
 </script>
@@ -106,7 +131,7 @@ $(document).ready(function() {
 <div class="container">
 <div class="posicion_registo_usuario" >
  <span class="titulo">Agregar Couch</span>
-<form method="post" action="registrarUsuario1.php" onSubmit="return valida()" action="couchAgregado.php" name="registro"  ENCTYPE="multipart/form-data" > 
+<form method="post" onSubmit="return valida()" action="couchAgregado.php" name="registro"  ENCTYPE="multipart/form-data" > 
 
     <input name="titulo" type="text" id="titulo" placeholder="Título" onblur="validar_campo(this);" onclick="limpiar(this)" maxlength="50"/> 
       </br></br>
@@ -119,10 +144,10 @@ $(document).ready(function() {
       </br></br>
     
       <input type="date" name="fecha_fin" id="fecha_fin"/>  
-    Fecha de inicio
+    Fecha de fin
       </br></br>
   
-    <select name="tipo"  class="select2" multiple="false"  style="width:350px">
+    <select name="tipo"  id="tipo" class="select2" multiple="false"  style="width:350px">
     <?php 
 	$sqltipos = "select * from tipos_couch";
 	$tipos=$conn->query($sqltipos);
@@ -135,7 +160,7 @@ $(document).ready(function() {
       </select> 
       </br>
       </br>
-    <select name="provincia"  class="selectProvincia" multiple="false" style="width:350px">
+    <select name="provincia" id="provincia" class="selectProvincia" multiple="false" style="width:350px">
     <?php 
 	$sqltipos = "select * from provincia";
 	$tipos=$conn->query($sqltipos);
@@ -161,11 +186,16 @@ $(document).ready(function() {
       </select> 
       </br>
       </br>
-      <input type="file" name="fotos" multiple>
+      <input type="file" name="fotos" id="fotos" multiple>
 
       </br>
       </br>
+      <textarea name="descripcion" id="descripcion" placeholder="Inserte una descripción..." cols="41" rows="6"  ></textarea>
+      </br>
+      </br>
     <input type="submit"  id="enviar" value="Agregar" />
+      </br>
+      </br>
     
 </form>
        
