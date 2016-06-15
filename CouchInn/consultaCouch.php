@@ -9,6 +9,14 @@
 <script src="js/jquery-1.11.3.min.js"></script> 
 <script src="js/bootstrap.js"></script>
     <link rel="icon" href="images/logo.jpg">
+
+<script type="text/javascript" >
+  function solicitar(id){
+    window.location.replace("solicitarCouch.php?id="+id);
+  }
+
+</script>
+
 </head>
 
 <body >
@@ -30,6 +38,7 @@
     $couch=$conn->query($sql_couch);
 
     $datos=$couch->fetch_array();
+    $nombredeusuario=$datos["nombredeusuario"];
     $cantFotos= mysqli_num_rows($fotos);
     ?>
    <!-- ARMO UN DIV Y DENTRO UNA TABLA CON ALGUNAS CARACTERÍSTICAS -->
@@ -89,8 +98,6 @@
     </div>
     </div>
 
-
-    
   <table>
     <tr>
       <td colspan="5" align="center"><hr /></td>
@@ -112,7 +119,13 @@
     </tr>
     <tr>
       <td><b><p style="margin-left:20px; " align="right">Descripción:</b></td>
-      <td colspan="4">&nbsp; <textarea readonly name="descripcion" id="descripcion" cols="35" rows="6" ><?php  echo utf8_encode($datos['2']);  ?> </textarea></td> </p>
+      <td colspan="4">&nbsp; <textarea readonly name="descripcion" id="descripcion" cols="35" rows="6" ><?php  echo utf8_encode($datos['2']);  ?> </textarea></td>
+      <?php
+        if(isset($_SESSION['logueado']) && $_SESSION['usuario']!=$nombredeusuario){
+          echo'<td> <input type="button" value="Solicitar" onClick="solicitar('.$datos["0"].')">  </td>';
+        }
+      ?> 
+      </p>
     </tr>
   <tr>
     <td colspan="5">&nbsp;</td>
@@ -123,17 +136,7 @@
  
   
   <p>
-    <?php
 
-/* mysqli_free_result($cant);
-  mysqli_free_result($result);
-   mysqli_free_result($couch);
-    mysqli_free_result($consulta_usuarios);
-	    mysqli_free_result($consulta_ciudad);
-		    mysqli_free_result($consulta_provincia);
-
-*/
-?>
   </p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
