@@ -31,7 +31,6 @@
 		$sql = "UPDATE usuarios set destacado = 1 WHERE nombredeusuario= '".$_SESSION['usuario']."' ";
 		$conn->query($sql);
 		$_SESSION['premium'] = true;
-		echo $_SESSION['premium'];
 		
 		
 		
