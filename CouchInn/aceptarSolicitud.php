@@ -22,10 +22,9 @@
 		echo'</br></br></br></br></br><div class="divTipo">';
 		$inicio=$_GET['inicio'];
 		$fin=$_GET['fin'];
-		$sql = "Select * from solicitud where estado= 'aceptado' AND idcouch='".$_GET['id']."' and ((fin BETWEEN '".$inicio."' AND '".$fin."') OR inicio BETWEEN  '".$inicio."'AND '".$fin."'  OR(('".$fin."' BETWEEN inicio AND fin) OR '".$inicio."' BETWEEN  inicio AND fin)) AND (inicio <> '".$fin."') AND (fin <> '".$inicio."') ";
-
+		$sql = "Select * from solicitud where estado= 'aceptado' AND idcouch='".$_GET['idcouch']."' and ((fin BETWEEN '".$inicio."' AND '".$fin."') OR inicio BETWEEN  '".$inicio."'AND '".$fin."'  OR(('".$fin."' BETWEEN inicio AND fin) OR '".$inicio."' BETWEEN  inicio AND fin)) AND (inicio <> '".$fin."') AND (fin <> '".$inicio."') ";
 		$result=$conn->query($sql);
-		if(!$result){
+		if(mysqli_num_rows($result)==0){
 			$conn->query("UPDATE solicitud SET estado= 'aceptado' WHERE id = '".$_GET['id']."' ") or die (mysql_error());
 			echo'<h3> Ha aceptado exitosamente la solicitud!</h3>';
 			echo '<a href="solicitudes.php">Volver al listado de solicitudes</a>';

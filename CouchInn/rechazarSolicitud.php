@@ -21,7 +21,7 @@
 		} 
 
 			$conn->query("UPDATE solicitud SET estado= 'rechazado' WHERE id = '".$_GET['id']."' ") or die (mysql_error());
-		header(Location: "solicitudes.php");
+		header("Location: solicitudes.php");
 	?>
 
 </body>

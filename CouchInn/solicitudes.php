@@ -54,7 +54,7 @@
 				echo '<td>'. utf8_encode($row['personas']). '</td>';
 				echo '<td>'. utf8_encode($row['4']). '</td>';
 				if($row["estado"]!='aceptado'){
-        			echo '<td align="center"><a href="aceptarSolicitud.php?id='.$row[0].'&inicio='.utf8_encode($row['inicio']).'&fin='.utf8_encode($row['fin']).'" class="btn btn-default">Aceptar</a></td>';
+        			echo '<td align="center"><a href="aceptarSolicitud.php?id='.$row[0].'&idcouch='.utf8_encode($row['idcouch']).'&inicio='.utf8_encode($row['inicio']).'&fin='.utf8_encode($row['fin']).'" class="btn btn-default">Aceptar</a></td>';
 				}
 				else{
 					echo '<td></td>';
