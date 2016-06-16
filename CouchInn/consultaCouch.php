@@ -114,6 +114,12 @@
     <tr>
       <td><b><p style="margin-left:20px; " align="right">Descripción:</b></td>
       <td colspan="4">&nbsp; <textarea readonly name="descripcion" id="descripcion" cols="35" rows="6"  style="resize:none;"><?php  echo utf8_encode($datos['2']);  ?> </textarea></td> </p>
+      <?php
+        $nombredeusuario=$datos["nombredeusuario"];
+        if(isset($_SESSION['logueado']) && $_SESSION['usuario']!=$nombredeusuario){
+          echo'<td> <input type="button" value="Solicitar" onClick="solicitar('.$datos["0"].')">  </td>';
+        }
+      ?> 
     </tr>
   <tr>
     <td colspan="5">&nbsp;</td>
