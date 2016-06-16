@@ -106,6 +106,17 @@ $(document).ready(function() {
 		return false;
 		}
 	}
+	
+	function enviar_provincia(){
+		document.registro.submit();
+		}
+	function validarTodo(){
+		document.registro.submit();
+		//location.href="index.php";
+		}
+	
+	
+	
 </script>
 
 </head>
@@ -124,26 +135,110 @@ $(document).ready(function() {
 	$sqlciudades = "select * from ciudades";
 	$ciudades=$conn->query($sqlciudades);
 	
+	$titulo= isset($_POST['titulo']) ? $_POST['titulo']:'';
+	$direccion= isset($_POST['direccion']) ? $_POST['direccion']:'';
+	$fecha_inicio= isset($_POST['fecha_inicio']) ? $_POST['fecha_inicio']:'';
+	$fecha_fin= isset($_POST['fecha_fin']) ? $_POST['fecha_fin']:'';
+	$descripcion= isset($_POST['descripcion']) ? $_POST['descripcion']:'';
+	
+	
+	$elTipo = isset($_POST['tipo']) ? $_POST['tipo']:0;
+	$laProvincia = isset($_POST['provincia']) ? $_POST['provincia']:0;
+    $laCiudad = isset($_POST['ciudad']) ? $_POST['ciudad']:0;
+	
+	$nombreDeProvincia="";
+	$nombreDeCiudad="";
+	$nombreDeTipo="";
+
+
+
+
+
+
+
+//Valida las imagenes:::::
+
+
+//if($valido_todo==true){
+	 
+	  $archivo="";
+	   
+	   if(isset($_FILES["fotos"])) {
+	   
+	  $maximo = 30500000; // 30 Mb esto es para probar  
+	  
+	  $destino='';
+   		 	 
+		 error_reporting(0);
+         if($_FILES["fotos"]['size'] >$maximo) {
+	         		 
+			error_reporting(-1);
+            $valido_todo=false; 
+			 $imagen_mal="El archivo a cargar es muy pesado";
+			 echo "ARCHIVOS PESADOS";
+     
+    }else{
+		 error_reporting(-1);
+   
+	$status = "";
+    $valida_todo=true;
+    $tamano = $_FILES["fotos"]['size'];
+    $tipo = $_FILES["fotos"]['type'];
+    $archivo = $_FILES["fotos"]['name'];
+ 
+
+   //verifico que solo sea formato para imagen y no OTRA COSA:::		
+    $tipos = array('jpg', 'jpeg', 'gif', 'png', 'tif', 'tiff', 'bmp');       
+
+    $archivo = $_FILES["fotos"]['name']; 
+    $array_nombre = explode('.',$archivo); 
+    $cuenta_arr_nombre = count($array_nombre); 
+    $extension = strtolower($array_nombre[--$cuenta_arr_nombre]); 
+     
+    if(!in_array($extension, $tipos) && $tamano>0){ 
+	       $valido_todo=false; 
+		   $imagen_mal="Tiene que ser una imagen";}
+            echo "TIENE que ser IMAGEN";
+     }
+
+	   }
+	// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>
+    
+    
     
    
     
 <div class="container">
 <div class="posicion_registo_usuario" >
  <span class="titulo">Agregar Couch</span>
-<form method="post" onSubmit="return valida()" action="couchAgregado.php" name="registro"  ENCTYPE="multipart/form-data" > 
+<form method="post" onSubmit="return valida()" action="agregarCouch.php" name="registro"  ENCTYPE="multipart/form-data" > 
 
-    <input name="titulo" type="text" id="titulo" placeholder="Título" onblur="validar_campo(this);" onclick="limpiar(this)" maxlength="50"/> 
+    <input name="titulo" type="text" id="titulo" placeholder="Título" onblur="validar_campo(this);" onclick="limpiar(this)" maxlength="50" value="<?php echo $titulo;?>"/> 
       </br></br>
 
-    <input name="direccion" type="text" id="direccion" placeholder="Dirección" onblur="validar_campo(this);" onclick="limpiar(this)"  maxlength="150"/> 
+    <input name="direccion" type="text" id="direccion" placeholder="Dirección" onblur="validar_campo(this);" onclick="limpiar(this)"  maxlength="150" value="<?php echo $direccion;?>"/> 
       </br></br>
         
-    <input type="date" name="fecha_inicio" id="fecha_inicio" />  
+    <input type="date" name="fecha_inicio" id="fecha_inicio" value="<?php echo $fecha_inicio;?>" />  
     Fecha de inicio
       </br></br>
     
-      <input type="date" name="fecha_fin" id="fecha_fin"/>  
+      <input type="date" name="fecha_fin" value="<?php echo $fecha_fin;?>"/>  
     Fecha de fin
       </br></br>
   
@@ -155,12 +250,23 @@ $(document).ready(function() {
     while($row=$tipos->fetch_array()){ 
        $nombre_nacion=addslashes(utf8_encode($row['tipo']));
        echo "<option value=".$row['id'].">" .htmlentities($nombre_nacion )."</ option>"; 
-    } 
-    ?>
+   
+   
+    if($elTipo==$row['id'])
+	  $nombreDeTipo= addslashes(utf8_encode($row['tipo']));	
+	} 
+    
+     if($elTipo!=0)
+       echo "<option value=".$elTipo." selected>" .$nombreDeTipo."</ option>";  
+      ?>
       </select> 
       </br>
       </br>
-    <select name="provincia" id="provincia" class="selectProvincia" multiple="false" style="width:350px">
+    
+    
+ 
+    
+    <select name="provincia" id="provincia" class="selectProvincia" multiple="false" style="width:350px" onChange="enviar_provincia();">
     <?php 
 	$sqltipos = "select * from provincia";
 	$tipos=$conn->query($sqltipos);
@@ -168,32 +274,52 @@ $(document).ready(function() {
     while($row=$tipos->fetch_array()){ 
        $nombre_nacion=addslashes(utf8_encode($row['provincia_nombre']));
        echo "<option value=".$row['id'].">" .htmlentities($nombre_nacion )."</ option>"; 
-    } 
-    ?>
+     
+	 if($laProvincia==$row['id'])
+	  $nombreDeProvincia= addslashes(utf8_encode($row['provincia_nombre']));	
+	} 
+    
+     if($laProvincia!=0)
+       echo "<option value=".$laProvincia." selected>" .$nombreDeProvincia."</ option>";  
+      ?>
     </select> 
       </br>
       </br>
+    
+    
+    
+    
     <select name="ciudad" id="ciudad" class="selectCiudad" multiple="false"  style="width:350px">
     <?php 
-	$sqltipos = "select * from ciudad";
+	$sqltipos = "select * from ciudad where provincia_id=".$laProvincia."";
 	$tipos=$conn->query($sqltipos);
 
-    /*while($row=$tipos->fetch_array()){ 
+    while($row=$tipos->fetch_array()){ 
        $ciudad=addslashes(utf8_encode($row['ciudad_nombre']));
        echo "<option value=".$row['id'].">" .htmlentities($ciudad )."</ option>"; 
-    } */
+    
+	 if($laCiudad==$row['id'])
+	  $nombreDeCiudad= addslashes(utf8_encode($row['ciudad_nombre']));	
+	} 
+    
+     if($laCiudad!=0 && $laProvincia!=0)
+       echo "<option value=".$laCiudad." selected>" .$nombreDeCiudad."</ option>";  
     ?>
       </select> 
+      
+    
+    
+      
       </br>
       </br>
       <input type="file" name="fotos" id="fotos" multiple>
 
       </br>
       </br>
-      <textarea name="descripcion" id="descripcion" placeholder="Inserte una descripción..." cols="41" rows="6"  ></textarea>
+       <textarea name="descripcion" id="descripcion" cols="35" rows="6" placeholder="Inserte una descripcion.."  class="textArea_fijo" ><?php echo $descripcion; ?></textarea>
       </br>
       </br>
-    <input type="submit"  id="enviar" value="Agregar" />
+    <input type="button"  id="enviar" onClick="validarTodo();" value="Agregar" />
       </br>
       </br>
     
