@@ -68,6 +68,7 @@
    $elTipo = isset($_GET['tipoo']) ? $_GET['tipoo']:0; 
    $fecha_inicio = isset($_GET['fechaI']) ? $_GET['fechaI']:'dd/mm/aa'; 
    $fecha_fin = isset($_GET['fechaF']) ? $_GET['fechaF']:'dd/mm/aa'; 
+   $busqueda=  isset($_GET['busqueda']) ? $_GET['busqueda']:'';
    
    $Cadena_provincia='';  
    $Cadena_ciudad='';
@@ -91,10 +92,11 @@
 	 if($fecha_inicio!='dd/mm/aa' && $fecha_inicio!='')	
          $Cadena_inicio=' AND couchs.fechainicio<="'.$fecha_inicio.'"';
 	 
+   $cadenaTitulo= ' AND titulo like "%'.$busqueda.'%"';
 	 
 	
 	
-	$Cadena_total= ' '.$Cadena_provincia.' ' .$Cadena_ciudad.' '.$Cadena_tipo.' '.$Cadena_fin.' '.$Cadena_inicio.' ';
+	$Cadena_total= ' '.$Cadena_provincia.' ' .$Cadena_ciudad.' '.$Cadena_tipo.' '.$Cadena_fin.' '.$Cadena_inicio.' '.$cadenaTitulo.' ';
  
  
  
@@ -257,6 +259,12 @@
           </select> 
       </td><td style="background:#fafafa; width:1px;"></td>
 
+       <td style="background:#CCC; width:1px;"></td>  
+      </td><td style="width:20px;"></td>
+       
+       <td>
+       <input type="text" id="busqueda" name="busqueda" value=<?php echo $busqueda ?>>
+       <input type="submit" value="Buscar"></td>
    </tr>
 </table>
     </form>
