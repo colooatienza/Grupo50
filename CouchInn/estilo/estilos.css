@@ -1,0 +1,33 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+#slider {
+  width: 500px;
+  height:500px;
+  margin: auto;
+  overflow: hidden;
+}
+
+
+
+#slider .slider {
+  display: table;
+  position: relative;
+  transition: all 0.5s;
+  left: 0;
+}
+
+#slider section {
+  float: left;
+  position: relative;
+}
+
+#slider img {
+  display: block;
+  width: 100%;
+}
+
+

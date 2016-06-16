@@ -52,7 +52,7 @@ top:0px;
 	top: -25px;
 	font-style: italic;
 	text-align: left;
-	 left:-15px;
+	 left:15px;
 }
 
 
@@ -91,14 +91,30 @@ top:0px;
 	padding-top: 40px;
 	padding-left: 40px;
 	background: #EFF;
-	width: 500px;
+	width: 550px;
 	border-radius: 5px;
 	font-family: Verdana;
 	font-size: 14px;
 	background-color: #DEF;
 		border: 1px solid #AAA;
 		}
-		
+ .posicion_registo_usuario_2{
+	
+	position: relative;
+	
+	top: 20px;
+	padding-top: 40px;
+
+	background: #EFF;
+	width: 950px;
+	border-radius: 5px;
+	font-family: Verdana;
+	font-size: 14px;
+	background-color: #DEF;
+		border: 1px solid #AAA;
+		}		
+
+
 
 .rojo{
 	color:#F00;
@@ -113,14 +129,25 @@ top:0px;
 	background: #EEE;
 	text-align: justify;
 	}
+	
+	.boton_registrar_usuario{
+	width: 150px;
+	height: 40px;
+	border-radius: 5px;
+	background: #EEE;
+	text-align: justify;
+	}
+	.textArea_fijo{
+		resize: none;
+		}
  .boton_cancela{
 	 position: relative;
-	left: 45%;
+	left: 30%;
 	top: -15px;
 	font-size: 14px;
 	background:#DEF;
-	color: #019;
-	border-width:1px;
+	color: #D00;
+	border-width:0px;
 	
 	 }	
 		
@@ -145,3 +172,30 @@ top:0px;
 	min-height:768px;
 	border-radius: 5px;
 		}
+
+ .cancela_registro{
+	
+	font-size: 14px;
+	background:#DEF;
+	color: #D00;
+	border-width:0px;
+	
+	 }
+	 
+	 
+	 
+	 
+.filtros{
+	position: relative;
+    left: 0%;
+    margin-bottom: 20px;
+    /* top: -20px; */
+    width: 100%;
+    height: 95px;
+    border-radius: 5px;
+    font-family: Verdana;
+    font-size: 14px;
+    background-color: #f6f6f6;
+    border: 1px solid #eee
+	
+	}
