@@ -2361,3 +2361,9 @@ if (typeof jQuery === 'undefined') {
   })
 
 }(jQuery);
+
+
+function enviar_filtro(){
+	document.filtro.submit();
+	
+	}
