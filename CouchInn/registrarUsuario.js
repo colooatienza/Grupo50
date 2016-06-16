@@ -250,10 +250,11 @@ function nobackbutton(){
 	
 }
 	
-	
-	
-	
-	
+	function alerta(imagen){
+		
+		document.getElementById('archivo').innerHTML="< img src='file:///" + imagen + "' />";
+		}
+
 	
 	
 	
@@ -264,7 +265,81 @@ function nobackbutton(){
 		   
 		}
 		
+		    
+		    //antes de cancelar pregunta todo
+				function cancelar_registro(){
+			if(confirm('Está seguro de cancelar el registro?')){
+				 
+			location.href="index.php";
+			  }
+			}
+			//cancela la modificacion
+		function cancelar_modificacion(){
+			if(confirm('Está seguro de cancelar la modificación?')){
+				 
+			location.href="index.php";
+			  }
+			}
 		
+		
+		
+		function cancela_vieja(){
+			if(confirm('Está seguro de cancelar la imagen actual?')){
+				  document.getElementById('imagen_vieja').value= "si";
+			  document.registro.submit();
+			  }
+			}
+		
+		//Esto es para la vista previa de la IMAGEN
+		
+		
+		
+ if (window.FileReader) {
+		
+      function seleccionArchivo(evt) {
+        var files = evt.target.files;
+        var f = files[0];
+        var leerArchivo = new FileReader();
+        document.getElementById('resetear').style.display= 'block';
+          leerArchivo.onload = (function(elArchivo) {
+            return function(e) {
+              document.getElementById('vista_previa').innerHTML = '<img src="'+ e.target.result +'" style="max-width:100px; max-height:100px;" />';
+		     
+			 
+			 document.getElementById('direccion').value=e.target.result;
+			};
+          })(f);
+    
+          leerArchivo.readAsDataURL(f);
+		  
+      }
+     } else {
+      document.getElementById('vista_previa').innerHTML = "El navegador no soporta vista previa";
+    }
+    
+      document.getElementById('archivo').addEventListener('change', seleccionArchivo, false);
+      
+      function cancela(elForm){
+		  
+if(confirm('Está seguro de deseleccionar la imagen actual?')){
+		  
+		  
+document.getElementById(elForm).reset();
+if (window.FileReader) {
+document.getElementById('vista_previa').innerHTML = "Imagen previa";
+}else{
+document.getElementById('vista_previa').innerHTML = "El navegador no soporta vista previa";
+
+}
+        document.getElementById('resetear').style.display= 'none';
+      }
+	  }
+	  
+	  
+	  
+	  
+
+	  		
 		
 		
 		

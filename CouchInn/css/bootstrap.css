@@ -1121,9 +1121,14 @@ img {
 .thumbnail a > img,
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img {
-  display: block;
-  max-width: 100%;
-  height: auto;
+  
+  max-width:100%;
+   min-height:100px;
+  max-height:450px;
+  display: table;
+    margin: 0 auto;
+	
+  
 }
 .img-rounded {
   border-radius: 6px;
@@ -1131,7 +1136,8 @@ img {
 .img-thumbnail {
   display: inline-block;
   max-width: 100%;
-  height: auto;
+  max-height: 500px;
+ 
   padding: 4px;
   line-height: 1.42857143;
   background-color: #fff;
@@ -1164,7 +1170,7 @@ hr {
 .sr-only-focusable:focus {
   position: static;
   width: auto;
-  height: auto;
+  max-height: 500px;
   margin: 0;
   overflow: visible;
   clip: auto;
@@ -1614,10 +1620,11 @@ pre code {
   margin-left: -15px;
 }
 .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
-  position: relative;
-  min-height: 1px;
-  padding-right: 15px;
-  padding-left: 15px;
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+	height: 500;
 }
 .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
   float: left;
@@ -5009,6 +5016,7 @@ a.badge:focus {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 4px;
+  height:500px;
   -webkit-transition: border .2s ease-in-out;
        -o-transition: border .2s ease-in-out;
           transition: border .2s ease-in-out;
@@ -5017,6 +5025,7 @@ a.badge:focus {
 .thumbnail a > img {
   margin-right: auto;
   margin-left: auto;
+      max-height: 220px;
 }
 a.thumbnail:hover,
 a.thumbnail:focus,
@@ -5026,6 +5035,12 @@ a.thumbnail.active {
 .thumbnail .caption {
   padding: 9px;
   color: #333;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top: 240px;
 }
 .alert {
   padding: 15px;
@@ -6332,6 +6347,7 @@ button.close {
   opacity: .5;
 }
 .carousel-control.left {
+	height:450px;
   background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%);
   background-image:      -o-linear-gradient(left, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%);
   background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, .5)), to(rgba(0, 0, 0, .0001)));
@@ -6342,6 +6358,7 @@ button.close {
 .carousel-control.right {
   right: 0;
   left: auto;
+  height:450px;
   background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%);
   background-image:      -o-linear-gradient(left, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%);
   background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, .0001)), to(rgba(0, 0, 0, .5)));
@@ -6392,7 +6409,7 @@ button.close {
 }
 .carousel-indicators {
   position: absolute;
-  bottom: 10px;
+  top: 400px;
   left: 50%;
   z-index: 15;
   width: 60%;
@@ -6757,4 +6774,8 @@ button.close {
     display: none !important;
   }
 }
+
+
+
+
 /*# sourceMappingURL=bootstrap.css.map */
