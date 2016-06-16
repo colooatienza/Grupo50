@@ -17,7 +17,8 @@
         if(isset($_SESSION['logueado']) && $_SESSION['logueado']==true){
         echo '<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Couchs <span class="caret"></span></a>';
          echo' <ul class="dropdown-menu">
-            <li><a href="agregarCouch.php">Agregar nuevo Couch</a> </li>';
+            <li><a href="agregarCouch.php">Agregar nuevo Couch</a> </li>
+            <li><a href="solicitudes.php">Solicitudes de mis Couchs</a> </li>';
          echo '</ul>
         </li>';
         }
