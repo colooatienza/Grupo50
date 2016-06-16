@@ -42,7 +42,7 @@ if($funcion==2){
    <div class="container">
    <div class="posicion_registo_usuario" id="apDiv1" >
     <span class="titulo"> <a href="consultaUsuarios.php"><img src="images/correcto.gif" width="20" height="20" alt="c" /></a><?php echo $titulo_prin;?> </span>     </p>
-     <p><a href="consultaUsuarios.php" class="d"> | Volver a la página principal |</a>
+     <p><a href="index.php" class="d"> | Volver a la página principal |</a>
        <?php   while($row=$result->fetch_array(MYSQLI_BOTH)){  ?> 
      </p>
      <table width="485" border="0" style="position: relative; left: -25px; border:none;" >
@@ -52,11 +52,8 @@ if($funcion==2){
     <td width="239"><?php  echo utf8_encode($row["nombredeusuario"]); ?></td>
    
 </tr>
-  <tr> <td colspan="2"><hr class="linea_tabla"></td>  </tr> 
-  <tr>
-    <td>Clave de usuario:</td>
-    <td><?php  echo utf8_encode($row["clave"]);?></td>
-  </tr>
+ 
+ 
     <tr> <td colspan="2"><hr class="linea_tabla"></td>  </tr> 
    
   <tr>
@@ -102,7 +99,7 @@ $sql_n=$conn->query("select * from paises where id=".$row['nacionalidad']."");
      $directorio_foto=$row["foto"];
 
    
-    echo '<img src="'.$directorio_foto.'""  style="max-width:150px; max-height:150px;    min-height:110px; " onerror="this.src=\'images/sin_imagen.png\'">'; ?> </td>
+    echo '<img src="images/usuario/'.$directorio_foto.'""  style="max-width:150px; max-height:150px;    min-height:110px; " onerror="this.src=\'images/sin_imagen.png\'">'; ?> </td>
 </tr>
 <tr> <td colspan="2"><hr class="linea_tabla"></td>  </tr>
   <tr>
