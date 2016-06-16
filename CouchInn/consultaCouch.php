@@ -8,15 +8,6 @@
 </style>
 <script src="js/jquery-1.11.3.min.js"></script> 
 <script src="js/bootstrap.js"></script>
-    <link rel="icon" href="images/logo.jpg">
-
-<script type="text/javascript" >
-  function solicitar(id){
-    window.location.replace("solicitarCouch.php?id="+id);
-  }
-
-</script>
-
 </head>
 
 <body >
@@ -31,14 +22,13 @@
     $id_couch= isset($_GET['id'])?$_GET['id']: header('Location: index.php');
   
     //Consulta la BD:::
-    $sql_couch = "select couchs.*, usuarios.*, ciudad.*, provincia.*, tipos_couch.* from couchs INNER JOIN usuarios ON usuarios.nombredeusuario=couchs.usuario INNER JOIN ciudad ON ciudad.id = couchs.ciudad INNER JOIN provincia ON provincia.id= ciudad.provincia_id INNER JOIN tipos_couch ON couchs.idtipo = tipos_couch.id where couchs.id=".$id_couch."";
-    $sql = "select * from fotos where idcouch=".$id_couch."";
+    $sql_couch = "select couchs.*, usuarios.*, ciudad.*, provincia.*, tipos_couch.* from couchs INNER JOIN usuarios ON usuarios.nombredeusuario=couchs.usuario INNER JOIN ciudad ON ciudad.id = couchs.ciudad INNER JOIN provincia ON provincia.id= ciudad.provincia_id INNER JOIN tipos_couch ON couchs.idtipo = tipos_couch.id where couchs.id='".$id_couch."'";
+    $sql = "select * from fotos where idcouch='".$id_couch."'";
   
     $fotos=$conn->query($sql);
     $couch=$conn->query($sql_couch);
 
     $datos=$couch->fetch_array();
-    $nombredeusuario=$datos["nombredeusuario"];
     $cantFotos= mysqli_num_rows($fotos);
     ?>
    <!-- ARMO UN DIV Y DENTRO UNA TABLA CON ALGUNAS CARACTERÍSTICAS -->
@@ -61,8 +51,8 @@
 
 
   </table >
-
-    <div style="margin: auto; border:2px; width:600px" class="container"  height="300">
+   <span style="height:100px;">
+    <div style="margin: auto; position:relative; height:450px; border:2px; width:600px" class="container"  height="300">
     <div style="margin: auto" class="row" width="500" height="300">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" width="500" height="300">
         <div id="carousel1" class="carousel slide" height="300">
@@ -78,26 +68,30 @@
 
           <div class="carousel-inner">';
           $i=0;
+		  
           while($row=$fotos->fetch_array()){
             if($i==0){
-              echo'<div class="item active" width="500" height="300"> <img class="img-responsive" width="700" height="300" src="images/couch/'.$row["link"].'" alt="thumb">
+				
+              echo'<div class="item active"> <img class="img-responsive"  src="images/couch/'.$row["link"].'" alt="thumb">
               </div>';
             }
             else{
-              echo'<div class="item" width="500" height="300"> <img class="img-responsive" width="700" height="300" src="images/couch/'.$row["link"].'" alt="thumb">
+              echo'<div class="item"> <img class="img-responsive" src="images/couch/'.$row["link"].'" alt="thumb">
               </div>';
             }
             $i++;
           }
+              
 
-
-            ?>
+            ?> 
           </div>
           <a class="left carousel-control" href="#carousel1" data-slide="prev" height="500" heigh="300"><span class="icon-prev"></span></a> <a class="right carousel-control" href="#carousel1" data-slide="next"><span class="icon-next"></span></a></div>
       </div>
     </div>
     </div>
 
+ </span>
+    
   <table>
     <tr>
       <td colspan="5" align="center"><hr /></td>
@@ -105,13 +99,13 @@
     <tr>
     <td height="48" ><b><p style="margin-left:20px" align="right">Dirección:</b></td>
     <td height="48" width="287">&nbsp;<?php  echo utf8_encode($datos['direccion']);  ?></p></td>
-    <td width="208" align="center"><b><p >Ciudad:</b> <?php  echo utf8_encode($datos['ciudad_nombre']);  ?></p> </td>
-    <td colspan="2" align="center"><b><p >Provincia:</b> <?php  echo utf8_encode($datos['provincia_nombre']);  ?></p> </td>
+    <td width="208" align="center"><b><p >Ciudad:</p></b> <?php  echo utf8_encode($datos['ciudad_nombre']);  ?> </td>
+    <td colspan="2" align="center"><b><p >Provincia:</p></b> <?php  echo utf8_encode($datos['provincia_nombre']);  ?> </td>
     </tr>
     <tr>
       <td height="48"><b><p style="margin-left:20px" align="right">Fecha Inicio:</b></td>
       <td height="48">&nbsp;<input type="text" style="width:100px" readonly value= <?php  echo date('d/m/y', strtotime(utf8_encode($datos['fechainicio']))); ?> ></td></p>
-      <td width="100" colspan="4"><b>Categoría:</b> <?php  echo utf8_encode($datos['tipo']);  ?> </td> </p>
+      <td align="center"><b>Categoría:</b> <?php  echo utf8_encode($datos['tipo']);  ?> </td><td></td> </p>
     </tr>
     <tr>
       <td height="48"><b><p style="margin-left:20px; " align="right">Fecha Fin:</b></td>
@@ -119,13 +113,7 @@
     </tr>
     <tr>
       <td><b><p style="margin-left:20px; " align="right">Descripción:</b></td>
-      <td colspan="4">&nbsp; <textarea readonly name="descripcion" id="descripcion" cols="35" rows="6" ><?php  echo utf8_encode($datos['2']);  ?> </textarea></td>
-      <?php
-        if(isset($_SESSION['logueado']) && $_SESSION['usuario']!=$nombredeusuario){
-          echo'<td> <input type="button" value="Solicitar" onClick="solicitar('.$datos["0"].')">  </td>';
-        }
-      ?> 
-      </p>
+      <td colspan="4">&nbsp; <textarea readonly name="descripcion" id="descripcion" cols="35" rows="6" ><?php  echo utf8_encode($datos['2']);  ?> </textarea></td> </p>
     </tr>
   <tr>
     <td colspan="5">&nbsp;</td>
@@ -136,7 +124,17 @@
  
   
   <p>
+    <?php
 
+/* mysqli_free_result($cant);
+  mysqli_free_result($result);
+   mysqli_free_result($couch);
+    mysqli_free_result($consulta_usuarios);
+	    mysqli_free_result($consulta_ciudad);
+		    mysqli_free_result($consulta_provincia);
+
+*/
+?>
   </p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
