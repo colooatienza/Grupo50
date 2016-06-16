@@ -113,7 +113,7 @@
     </tr>
     <tr>
       <td><b><p style="margin-left:20px; " align="right">Descripción:</b></td>
-      <td colspan="4">&nbsp; <textarea readonly name="descripcion" id="descripcion" cols="35" rows="6" ><?php  echo utf8_encode($datos['2']);  ?> </textarea></td> </p>
+      <td colspan="4">&nbsp; <textarea readonly name="descripcion" id="descripcion" cols="35" rows="6"  style="resize:none;"><?php  echo utf8_encode($datos['2']);  ?> </textarea></td> </p>
     </tr>
   <tr>
     <td colspan="5">&nbsp;</td>
