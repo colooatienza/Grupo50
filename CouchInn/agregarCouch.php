@@ -157,50 +157,53 @@ $(document).ready(function() {
 
 
 //Valida las imagenes:::::
-
-
+   
+   
 //if($valido_todo==true){
 	 
 	  $archivo="";
-	   
-	   if(isset($_FILES["fotos"])) {
-	   
-	  $maximo = 30500000; // 30 Mb esto es para probar  
-	  
+	  for($i=0; $i<3; $i++) {
+		   
+	   if(isset($_FILES['fotos']['name'][$i])) {
+	    
+	  //$maximo = 30500000; // 30 Mb esto es para probar  
+	  $maximo = 5000000;
 	  $destino='';
    		 	 
 		 error_reporting(0);
-         if($_FILES["fotos"]['size'] >$maximo) {
+         if($_FILES['fotos']['size'][$i] >$maximo) {
 	         		 
 			error_reporting(-1);
             $valido_todo=false; 
 			 $imagen_mal="El archivo a cargar es muy pesado";
-			 echo "ARCHIVOS PESADOS";
+			 echo "ARCHIVO PESADO<br><br>";
      
     }else{
 		 error_reporting(-1);
    
 	$status = "";
     $valida_todo=true;
-    $tamano = $_FILES["fotos"]['size'];
-    $tipo = $_FILES["fotos"]['type'];
-    $archivo = $_FILES["fotos"]['name'];
- 
+    $tamano = $_FILES['fotos']['size'][$i];
+    $tipo = $_FILES['fotos']['type'][$i];
+    $archivo = $_FILES['fotos']['name'][$i];
+    echo $archivo;
 
    //verifico que solo sea formato para imagen y no OTRA COSA:::		
     $tipos = array('jpg', 'jpeg', 'gif', 'png', 'tif', 'tiff', 'bmp');       
 
-    $archivo = $_FILES["fotos"]['name']; 
+   
     $array_nombre = explode('.',$archivo); 
     $cuenta_arr_nombre = count($array_nombre); 
     $extension = strtolower($array_nombre[--$cuenta_arr_nombre]); 
      
     if(!in_array($extension, $tipos) && $tamano>0){ 
 	       $valido_todo=false; 
-		   $imagen_mal="Tiene que ser una imagen";}
-            echo "TIENE que ser IMAGEN";
+		   $imagen_mal="Tiene que ser una imagen";   echo "TIENE que ser IMAGEN<br><br>";  }
+            
      }
-
+   
+	   }
+	    echo $i; 
 	   }
 	// }
 
@@ -312,7 +315,7 @@ $(document).ready(function() {
       
       </br>
       </br>
-      <input type="file" name="fotos" id="fotos" multiple>
+      <input type="file" name="fotos[]" id="fotos[]" multiple>
 
       </br>
       </br>
