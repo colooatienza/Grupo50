@@ -155,30 +155,41 @@ $(document).ready(function() {
 
 
 
+$cantidad_archivos=0;
+$valido_todo=true;
+$fotos_previas=false;
+$arreglo_fotos;
 
+if($fotos_previas==false){
 //Valida las imagenes:::::
-   
-   
+ if(isset($_FILES['fotos']['name']))
+   $cantidad_archivos= count($_FILES['fotos']['name']);
+    
+
+echo $cantidad_archivos;
 //if($valido_todo==true){
 	 
-	  $archivo="";
-	  for($i=0; $i<3; $i++) {
-		   
+	  $archivo="";  $tamanios=0;
+	  $i=0;
+	  while(  $i< $cantidad_archivos  &&   $valido_todo==true) {
+		
 	   if(isset($_FILES['fotos']['name'][$i])) {
-	    
-	  //$maximo = 30500000; // 30 Mb esto es para probar  
-	  $maximo = 5000000;
+	     
+	   
+	  $maximo = 30500000;   //Permitimos maximo 30 mb para imágenes subir.
 	  $destino='';
-   		 	 
+   		 $tamanios= $tamanios + $_FILES['fotos']['size'][$i]; 	 
 		 error_reporting(0);
-         if($_FILES['fotos']['size'][$i] >$maximo) {
-	         		 
+         
+		 
+		 if($tamanios > $maximo) {    		 
 			error_reporting(-1);
             $valido_todo=false; 
-			 $imagen_mal="El archivo a cargar es muy pesado";
-			 echo "ARCHIVO PESADO<br><br>";
+			 $imagen_mal="Las imágenes son muy pesadas";
+			 echo "<br><br>Archivos pesados<br><br>";
      
     }else{
+		
 		 error_reporting(-1);
    
 	$status = "";
@@ -186,7 +197,7 @@ $(document).ready(function() {
     $tamano = $_FILES['fotos']['size'][$i];
     $tipo = $_FILES['fotos']['type'][$i];
     $archivo = $_FILES['fotos']['name'][$i];
-    echo $archivo;
+    
 
    //verifico que solo sea formato para imagen y no OTRA COSA:::		
     $tipos = array('jpg', 'jpeg', 'gif', 'png', 'tif', 'tiff', 'bmp');       
@@ -198,21 +209,18 @@ $(document).ready(function() {
      
     if(!in_array($extension, $tipos) && $tamano>0){ 
 	       $valido_todo=false; 
-		   $imagen_mal="Tiene que ser una imagen";   echo "TIENE que ser IMAGEN<br><br>";  }
+		   $imagen_mal="Tienen que ser todas imágenes";   echo "TIENE que ser IMAGEN<br><br>";  }
             
      }
    
 	   }
-	    echo $i; 
-	   }
-	// }
+	   $arreglo_fotos[$i]=$_FILES['fotos']['name'][$i];
+	   $i++;
+	 }
+	}
 
-
-
-
-
-
-
+ if($valido_todo==true && $tamanios!=0)
+   $fotos_previas=true;
 
 
 
@@ -308,18 +316,43 @@ $(document).ready(function() {
      if($laCiudad!=0 && $laProvincia!=0)
        echo "<option value=".$laCiudad." selected>" .$nombreDeCiudad."</ option>";  
     ?>
-      </select> 
+      </select>   
+      </br>
+      </br>
       
-    
-    
       
+      
+      <?php if($fotos_previas==false){ ?>
+      <input type="file" name="fotos[]" id="fotos[]" onChange="enviar_provincia()" multiple>
+     
+        <?php  
+		  }else{ 		  
+		       $i=0;  
+			echo "Fotos elejidas:"; 
+	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			
+			echo '<img src="images/eliminar.png" width="15" height="15" alt="f"><input type=button class="cancela_todas" value="cancelar todas" onClick="cancela_multiples()"><br>';
+		  echo '<select name="previas" id="previas" multiple="false"  style="width:350px">';
+		
+		  while($i<$cantidad_archivos){ 
+            
+	        echo "<option>".$arreglo_fotos[$i]."</option>";
+		  
+		  //  echo $arreglo_fotos[$i].'<br>';
+		   $i++;
+		  }
+		 } 
+		 
+		 ?>
+        
+      </select>
+       
       </br>
       </br>
-      <input type="file" name="fotos[]" id="fotos[]" multiple>
-
-      </br>
-      </br>
-       <textarea name="descripcion" id="descripcion" cols="35" rows="6" placeholder="Inserte una descripcion.."  class="textArea_fijo" ><?php echo $descripcion; ?></textarea>
+       
+       
+       
+       <textarea name="descripcion" id="descripcion" cols="41" rows="6" placeholder="Inserte una descripcion.."  class="textArea_fijo" ><?php echo $descripcion; ?></textarea>
       </br>
       </br>
     <input type="button"  id="enviar" onClick="validarTodo();" value="Agregar" />
@@ -335,5 +368,7 @@ $(document).ready(function() {
  <hr>
 </div>
 
+
+<script language="javascript" src="registrarUsuario.js"></script> 
 </body>
 </html>

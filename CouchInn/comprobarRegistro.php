@@ -226,6 +226,10 @@ $i=$i+strlen($dominio)+1;
 	 
 
 	 
+	 
+	 
+	 
+	 
 	 if($valido_todo==true){
 	 
 	  $archivo="";
