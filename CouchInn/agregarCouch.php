@@ -306,9 +306,7 @@ if($imagenes_previas=='si' && $total==0){
 ?>
     
     
-    
-   
-    
+ 
 <div class="container">
 <div class="posicion_registo_usuario" >
  <span class="titulo">Agregar Couch</span>

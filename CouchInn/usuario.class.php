@@ -15,8 +15,9 @@ class usuario extends mysql
         # se limpian variables
         $usuario = htmlspecialchars(trim($usuario), ENT_QUOTES);        
         $password = htmlspecialchars(trim($password), ENT_QUOTES);
+		$usuario=utf8_decode($usuario); $password=utf8_decode($password);
         # se realiza la consulta a la base de datos
-        $r = $this->consulta("SELECT * FROM usuarios WHERE nombredeusuario='$usuario' AND clave='$password' ");
+        $r = $this->consulta("SELECT * FROM usuarios WHERE nombredeusuario='".($usuario)."' AND clave='".($password)."' ");
         # retorna resultado en boolean
         return ( $this->numero_de_filas($r)>0) ? true : false ;          
     }
@@ -25,7 +26,7 @@ class usuario extends mysql
   }  
   public function admin($usuario=NULL){
     if( $usuario!=null){
-        $result = $this->consulta("SELECT admin FROM usuarios WHERE nombredeusuario='$usuario'");
+        $result = $this->consulta("SELECT admin FROM usuarios WHERE nombredeusuario='".$usuario."'");
 		$row=$result->fetch_array();
         return ( $row[0]==1) ? true : false ;          
     }
@@ -35,7 +36,7 @@ class usuario extends mysql
   } 
   public function esPremium($usuario=NULL){
     if( $usuario!=null){
-        $result = $this->consulta("SELECT destacado FROM usuarios WHERE nombredeusuario='$usuario'");
+        $result = $this->consulta("SELECT destacado FROM usuarios WHERE nombredeusuario='".$usuario."'");
     $row=$result->fetch_array();
         return ( $row[0]==1) ? true : false ;          
     }

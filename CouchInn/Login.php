@@ -23,6 +23,7 @@
 <body>	
 	<?php
   		include("menu.php");
+		
   	?>
 	<div class="divLogin">
 		<form method="POST" action="Logueo.php" onSubmit="return valida()">
