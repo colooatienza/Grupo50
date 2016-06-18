@@ -293,13 +293,7 @@ function nobackbutton(){
 		
 		
 		
-		//Cancela multiples imagenes		
-		function cancela_multiples(){
-			if(confirm('Está seguro de cancelar todas las imágenes?')){
-				  document.getElementById('imagen_previa').value= "1";
-			  document.registro.submit();
-			  }
-			}
+	
 		
 		
 		

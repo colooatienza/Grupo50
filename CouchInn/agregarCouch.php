@@ -107,9 +107,28 @@ $(document).ready(function() {
 		}
 	}
 	
-	function enviar_provincia(){
+	//Activo las imagenes que tengo
+	function enviar_imagenes(){
+		document.getElementById('imagenes_previas').value= "si";
+		document.getElementById('total_img').value= 0;
 		document.registro.submit();
 		}
+
+	//Cancela multiples imagenes		
+		function cancela_multiples(){
+			if(confirm('Está seguro de cancelar todas las imágenes?')){
+				  document.getElementById('total_img').value= 0;
+				  document.getElementById('imagenes_previas').value= "no";
+			  document.registro.submit();
+			  }
+			}
+
+
+
+		function enviar_provincia(){
+		document.registro.submit();
+		}
+		
 	function validarTodo(){
 		document.registro.submit();
 		//location.href="index.php";
@@ -155,29 +174,46 @@ $(document).ready(function() {
 
 
 
-$cantidad_archivos=0;
-$valido_todo=true;
-$fotos_previas=false;
-$arreglo_fotos;
+//Validar múltiples FOTOS no es JODA::::.
+  $cantidad_archivos=0;
+  $valido_todo=true;
+ 
+  $imagenes_previas=isset($_POST['imagenes_previas']) ? $_POST['imagenes_previas']:'no';
+  $total=isset($_POST['total_img']) ? $_POST['total_img']:0;
+ 
+  $arreglo_fotos;
+   $arreglo_extension;
+  $tamanios=0;
+  $arreglo_fotos_previas;
 
-if($fotos_previas==false){
+  
+
+
+
+
+
+
+
+//Caso que seleccionemos las imágenes:::::::::
+if($imagenes_previas=='si' && $total==0){
+
+
 //Valida las imagenes:::::
  if(isset($_FILES['fotos']['name']))
    $cantidad_archivos= count($_FILES['fotos']['name']);
-    
+        
 
-echo $cantidad_archivos;
-//if($valido_todo==true){
+ echo $cantidad_archivos;
+
 	 
-	  $archivo="";  $tamanios=0;
+	  $archivo="";  
 	  $i=0;
 	  while(  $i< $cantidad_archivos  &&   $valido_todo==true) {
 		
 	   if(isset($_FILES['fotos']['name'][$i])) {
 	     
-	   
-	  $maximo = 30500000;   //Permitimos maximo 30 mb para imágenes subir.
-	  $destino='';
+	     $maximo = 30500000;   //Permitimos maximo 30 mb para imágenes subir.
+	     $destino='';
    		 $tamanios= $tamanios + $_FILES['fotos']['size'][$i]; 	 
 		 error_reporting(0);
          
@@ -202,7 +238,7 @@ echo $cantidad_archivos;
    //verifico que solo sea formato para imagen y no OTRA COSA:::		
     $tipos = array('jpg', 'jpeg', 'gif', 'png', 'tif', 'tiff', 'bmp');       
 
-   
+    
     $array_nombre = explode('.',$archivo); 
     $cuenta_arr_nombre = count($array_nombre); 
     $extension = strtolower($array_nombre[--$cuenta_arr_nombre]); 
@@ -212,16 +248,55 @@ echo $cantidad_archivos;
 		   $imagen_mal="Tienen que ser todas imágenes";   echo "TIENE que ser IMAGEN<br><br>";  }
             
      }
-   
+      
 	   }
-	   $arreglo_fotos[$i]=$_FILES['fotos']['name'][$i];
+	   $arreglo_fotos_previas[$i]=$_FILES['fotos']['name'][$i];
+	    $arreglo_extension[$i]=$extension;
 	   $i++;
 	 }
-	}
 
- if($valido_todo==true && $tamanios!=0)
-   $fotos_previas=true;
 
+
+    // Si las imágenes son CORRECTAS las guardo todas en una carpeta temporal  a menos que cancele couch 
+	//o que lo cierre sin querer!!!!    una vez que valide el resto de los campos es cuando se ponen en permanente ::::::::
+	
+     if($valido_todo==true ){
+		   echo "1 sola vez";  $i=0;
+		   $total = $cantidad_archivos;
+		   while($i<$total){ 
+		    $nombre_imagen="T@@".$_SESSION['usuario']."@".utf8_decode($arreglo_fotos_previas[$i]).".". $arreglo_extension[$i]."";
+   
+   $destino1="images/temporales/".$nombre_imagen;
+     if (copy($_FILES['fotos']['tmp_name'][$i],$destino1)) {
+       $status = "Archivo subido: <b>".$archivo."</b>";      
+        }
+    $i++;
+    }
+  }
+}
+   $i=0;
+   $todas_fotos="";
+   
+  
+  
+ 
+ 
+ 
+
+  if($valido_todo==true && $total!=0){
+          
+		 while($i<$total){ 
+            
+	   $arreglo_fotos_previas[$i]= isset($_POST[$i.'cant']) ? $_POST[$i.'cant']:$arreglo_fotos_previas[$i];
+	  // echo $arreglo_fotos_previas[$i];
+		  
+	  
+
+		   $i++;
+ 		  }
+       
+
+	  }
 
 
 
@@ -320,32 +395,36 @@ echo $cantidad_archivos;
       </br>
       </br>
       
+      <input type="hidden" id="imagenes_previas" name="imagenes_previas" value="<?php echo $imagenes_previas; ?>"> 
       
-      
-      <?php if($fotos_previas==false){ ?>
-      <input type="file" name="fotos[]" id="fotos[]" onChange="enviar_provincia()" multiple>
      
-        <?php  
+      <?php if($imagenes_previas=='no'){      ?>
+      <input type="file" name="fotos[]" id="fotos[]" onChange="enviar_imagenes()" multiple>
+        
+        <?php    
 		  }else{ 		  
 		       $i=0;  
 			echo "Fotos elejidas:"; 
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 			
 			echo '<img src="images/eliminar.png" width="15" height="15" alt="f"><input type=button class="cancela_todas" value="cancelar todas" onClick="cancela_multiples()"><br>';
-		  echo '<select name="previas" id="previas" multiple="false"  style="width:350px">';
+		//  echo '<select name="previas" id="previas" multiple="false"  style="width:350px">';
 		
-		  while($i<$cantidad_archivos){ 
+		  while($i<$total){ 
             
-	        echo "<option>".$arreglo_fotos[$i]."</option>";
+	       // echo "<option>".$arreglo_fotos[$i]."</option>";
 		  
+		    echo  '<input type="text" id="'.$i.'cant" name="'.$i.'cant" 
+			value="'.$arreglo_fotos_previas[$i]. '">"'; 
 		  //  echo $arreglo_fotos[$i].'<br>';
 		   $i++;
 		  }
 		 } 
 		 
 		 ?>
-        
-      </select>
+     
+     <input type="text" id="total_img" name="total_img" value="<?php echo $total;?>">
+     <!-- </select> -->
        
       </br>
       </br>
@@ -355,6 +434,7 @@ echo $cantidad_archivos;
        <textarea name="descripcion" id="descripcion" cols="41" rows="6" placeholder="Inserte una descripcion.."  class="textArea_fijo" ><?php echo $descripcion; ?></textarea>
       </br>
       </br>
+      
     <input type="button"  id="enviar" onClick="validarTodo();" value="Agregar" />
       </br>
       </br>
