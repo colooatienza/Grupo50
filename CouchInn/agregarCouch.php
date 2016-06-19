@@ -289,7 +289,9 @@ $todas_fotos="";
 
  if ($row = $query->fetch_array(MYSQLI_BOTH)) {
    $id = trim($row[0]);
-   echo $id;
+   
+  
+  
   
     
 
@@ -306,28 +308,24 @@ while ($i < $total) {
  $extension= strstr($archivo, '.');
  
 $archivo_cortado= $id.'@'.$i.'@'.$_SESSION['usuario'].''.$extension;
-echo $archivo_cortado.'<br>';
+
  if ((strpos($archivo,$_SESSION['usuario'])==true)){
      rename("./images/temporales/".utf8_encode($archivo)."","./images/couch/".$archivo_cortado."");
-    //Se lo agrego a la bd:	
+    
+	//Se lo agrego a la bd:	
 	$sql4 = ("INSERT INTO fotos(idcouch,link) VALUES ('$id', '$archivo_cortado')"); 
-    $result4=$conn->query($sql4); 
-	
+    $result4=$conn->query($sql4); 	
  }
 $i++;
 }  	
-	
-	
+		
 $i=0;	
+	
+	
 	
 	//Aca salgo de la página::::
     echo "Sali de la páginaa::::.";
- 
  }
-	
-	
-	
-	   
 	   
 	   }else{
 		   $confirmado="";
@@ -488,14 +486,14 @@ $i=0;
 		   $i++;
 		  }
 		 } 
-		   echo '</span>';
+		   echo '</span>';   echo $total.'<br>'.$confirmado;
 		 ?>
   
   
   
      
-     <input type="text" id="total_img" name="total_img" value="<?php echo $total;?>">
-     <input type="text" id="enviar_todo" name="enviar_todo" value="<?php echo $confirmado;?>">
+     <input type="hidden" id="total_img" name="total_img" value="<?php echo $total;?>">
+     <input type="hidden" id="enviar_todo" name="enviar_todo" value="<?php echo $confirmado;?>">
      <!-- </select> -->
        
       </br>
