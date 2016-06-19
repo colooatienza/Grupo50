@@ -16,132 +16,7 @@
 <script src="js\select2\dist\js\select2.min.js"></script>
 
 <script type="text/javascript">
-function cargarCiudades(){
-	var list = document.getElementById("ciudad");
-	list.add(new Option("items[i].text", "items[i].value"));
 
-}
-
-$(document).ready(function() {
-  $(".select2").select2({
-  	    placeholder: "Seleccione una categoría",
-    maximumSelectionLength: 1
-  });
-   $(".selectCiudad").select2({
-  	placeholder:"Seleccione una ciudad",
-    maximumSelectionLength: 1
-  });
-   $(".selectProvincia").select2({
-  	placeholder:"Seleccione una provincia",
-    maximumSelectionLength: 1
-  });
-   $( ".selectProvincia" ).change(function() {
-  		cargarCiudades();	
-	});
-});
-
-	function validar_campo(elem){
-		if (elem.value.length < 3) {
-			elem.style.borderColor = "red"
-		}
-	}
-	function limpiar(elem){
-		//var foo = document.getElementById('titulo');
-	elem.style.borderColor='#FFFFFF';// this.style.color='#FFFFFF';		
-	}
-	 function valida(){ 
-        var f = new Date();
-		var dia= f.getDate();       if(dia<10) dia= "0"+dia;
-		var mes= f.getMonth() + 1;  if(mes<10) mes= "0"+mes;
-		var anio= f.getFullYear();
-        var hoy=(anio + "-" + mes + "-" + dia);	  
-	    valor = document.getElementById("titulo").value;
-	   	if (valor.length < 3) {
-			alert ('ERROR! Debe ingresar un título válido!');
-			return false;
-		}
-		valor = document.getElementById("direccion").value;
-		if (valor.length < 3) {
-			alert ('ERROR! Debe ingresar una dirección válida!');
-			return false;
-		}
-		if (!document.getElementById("fecha_inicio").value){
-			alert ('ERROR! Debe seleccionar una fecha de inicio!');
-			return false;
-		}
-			
-			
-		if (document.getElementById("fecha_inicio").value < hoy){			
-			alert ('ERROR! La fecha de inicio debe ser igual o posterior a hoy!');
-			return false;
-		}
-					
-		if (document.getElementById("fecha_inicio").value>=document.getElementById("fecha_fin").value
-		 && document.getElementById("fecha_fin").value!=""
-		){
-			alert ('ERROR! La fecha de fin debe ser mayor a la de inicio!');
-			return false;
-		}
-				
-		if (!document.getElementById("tipo").value){
-			alert ('ERROR! Debe seleccionar una categoría!');
-			return false;
-		}
-		if (!document.getElementById("provincia").value){
-			alert ('ERROR! Debe seleccionar una provincia!');
-			return false;
-		}
-		if (!document.getElementById("ciudad").value){
-			alert ('ERROR! Debe seleccionar una ciudad!');
-			return false;
-		} 
-		if (document.getElementById("total_img").value==0){
-			alert ('ERROR! Debe tener al menos una foto!');
-			return false;
-		} 
-		 
-		
-		valor = document.getElementById("descripcion").value;
-		if (valor.length < 3) {
-			alert ('ERROR! Debe ingresar una descripción!');
-		return false;
-		}
-		
-	document.getElementById('enviar_todo').value= "si";
-	document.registro.submit();
-	}
-	
-	//Activo las imagenes que tengo
-	function enviar_imagenes(){
-		document.getElementById('imagenes_previas').value= "si";
-		document.getElementById('total_img').value= 0;
-		document.registro.submit();
-		}
-		
-	
-
-	//Cancela multiples imagenes		
-		function cancela_multiples(){
-			if(confirm('Está seguro de cancelar todas las imágenes?')){
-				  document.getElementById('total_img').value= 0;
-				  document.getElementById('imagenes_previas').value= "no";
-			  document.registro.submit();
-			  }
-			}
-
-
-
-		function enviar_provincia(){
-		document.registro.submit();
-		}
-		
-	function validarTodo(){
-		document.registro.submit();
-		//location.href="index.php";
-		}
-	
-	
-	
 </script>
   
 </head>
@@ -172,7 +47,7 @@ include("menu.php");
     $laCiudad = isset($_POST['ciudad']) ? $_POST['ciudad']:0;
 	
 	
-    $confirmado=isset($_POST['enviar_todo']) ? $_POST['enviar_todo']:"si";
+    $confirmado=isset($_POST['enviar_todo']) ? $_POST['enviar_todo']:"";
 	
 	$nombreDeProvincia="";
 	$nombreDeCiudad="";
@@ -319,6 +194,10 @@ $todas_fotos="";
 
 
 
+
+
+
+
   //Si las imágenes pasaron la validación y ademàs tengo un total!=0 también pregunto si tengo confirmado
   //y mando toooodo los inputs::
    if($valido_todo==true){
@@ -340,7 +219,7 @@ $todas_fotos="";
 			}	
 	      	
 	    $hoy= date("20y-m-d");
-		echo $hoy; echo $fecha_inicio;
+		
 		if(($fecha_inicio) < $hoy){
 			$fechaI_mal="Necesita ser una fecha igual o posterior a hoy";
 			$valido_todo=false;
@@ -377,17 +256,85 @@ $todas_fotos="";
 
    }
  
-   if($valido_todo==true){
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ //UNA VEZ QUE ESTÁ TODO VALIDO LO ENVÍO A LA BD CON TODAS SUS FOTOS:::::::
+ 
+   if($valido_todo==true && $confirmado=="si"){
+
+
+    $titulo= utf8_decode($titulo);
+	$direccion= utf8_decode($direccion);	
+	$descripcion= utf8_decode($descripcion);
+
+	$elUsuario=$_SESSION['usuario'];  
 	   
-	    
+	   $sql3 = ("INSERT INTO couchs(titulo,descripcion,fechainicio,fechafin,direccion,provincia,ciudad,idtipo,usuario,disponible) VALUES ('$titulo', '$descripcion','$fecha_inicio','$fecha_fin','$direccion','$laProvincia','$laCiudad','$elTipo','$elUsuario',1)");
+	
+	
+	$titulo= utf8_encode($titulo);
+	$direccion= utf8_encode($direccion);	
+	$descripcion= utf8_encode($descripcion);
+	   
+	   
+	$result3=$conn->query($sql3); 
+	
 		
-	   
+	$query= $conn->query("SELECT @@identity AS id");
+
+ if ($row = $query->fetch_array(MYSQLI_BOTH)) {
+   $id = trim($row[0]);
+   echo $id;
+  
+    
+
+ //Con las siguientes instrucciones cambio de directorio las imágenes::::
+$directorio=opendir("./images/temporales");  
+//se leen 2 archivos que valen . y ..
+$archivo = readdir($directorio);
+$archivo = readdir($directorio);
+
+$i=0;
+while ($i < $total) {  
+ $archivo = readdir($directorio);
+ $archivo= utf8_encode($archivo); 
+ $extension= strstr($archivo, '.');
+ 
+$archivo_cortado= $id.'@'.$i.'@'.$_SESSION['usuario'].''.$extension;
+echo $archivo_cortado.'<br>';
+ if ((strpos($archivo,$_SESSION['usuario'])==true)){
+     rename("./images/temporales/".utf8_encode($archivo)."","./images/couch/".$archivo_cortado."");
+    //Se lo agrego a la bd:	
+	$sql4 = ("INSERT INTO fotos(idcouch,link) VALUES ('$id', '$archivo_cortado')"); 
+    $result4=$conn->query($sql4); 
+	
+ }
+$i++;
+}  	
+	
+	
+$i=0;	
+	
+	//Aca salgo de la página::::
+    echo "Sali de la páginaa::::.";
+ 
+ }
+	
+	
+	
 	   
 	   
 	   }else{
 		   $confirmado="";
 		   }
  
+
+
 
 ?>
     
@@ -577,7 +524,7 @@ $todas_fotos="";
  <hr>
 </div>
 
-
+<script language="javascript" src="agregarCouch.js"></script> 
 <script language="javascript" src="registrarUsuario.js"></script> 
 </body>
 </html>
