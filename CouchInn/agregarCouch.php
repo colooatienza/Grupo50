@@ -3,8 +3,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>CouchInn | Agregar Couch</title>
 
-
-
 <script src="js/dropzone.js"></script>
 <style type="text/css" media="screen">
   @import '../CouchInn/estilo/estilo.css';>
@@ -49,15 +47,16 @@ $(document).ready(function() {
 	}
 	function limpiar(elem){
 		//var foo = document.getElementById('titulo');
-		elem.style.borderColor='#FFFFFF';// this.style.color='#FFFFFF';
-		
+	elem.style.borderColor='#FFFFFF';// this.style.color='#FFFFFF';		
 	}
-	 function valida(){
-
-
-
-		valor = document.getElementById("titulo").value;
-		if (valor.length < 3) {
+	 function valida(){ 
+        var f = new Date();
+		var dia= f.getDate();       if(dia<10) dia= "0"+dia;
+		var mes= f.getMonth() + 1;  if(mes<10) mes= "0"+mes;
+		var anio= f.getFullYear();
+        var hoy=(anio + "-" + mes + "-" + dia);	  
+	    valor = document.getElementById("titulo").value;
+	   	if (valor.length < 3) {
 			alert ('ERROR! Debe ingresar un título válido!');
 			return false;
 		}
@@ -70,16 +69,20 @@ $(document).ready(function() {
 			alert ('ERROR! Debe seleccionar una fecha de inicio!');
 			return false;
 		}
-		
-		
-		if (!document.getElementById("fecha_fin").value){
-			alert ('ERROR! Debe seleccionar una fecha de fin!');
+			
+			
+		if (document.getElementById("fecha_inicio").value < hoy){			
+			alert ('ERROR! La fecha de inicio debe ser igual o posterior a hoy!');
 			return false;
 		}
-		if (document.getElementById("fecha_inicio").value>=document.getElementById("fecha_fin").value){
+					
+		if (document.getElementById("fecha_inicio").value>=document.getElementById("fecha_fin").value
+		 && document.getElementById("fecha_fin").value!=""
+		){
 			alert ('ERROR! La fecha de fin debe ser mayor a la de inicio!');
 			return false;
 		}
+				
 		if (!document.getElementById("tipo").value){
 			alert ('ERROR! Debe seleccionar una categoría!');
 			return false;
@@ -92,17 +95,20 @@ $(document).ready(function() {
 			alert ('ERROR! Debe seleccionar una ciudad!');
 			return false;
 		} 
+		if (document.getElementById("total_img").value==0){
+			alert ('ERROR! Debe tener al menos una foto!');
+			return false;
+		} 
 		 
 		
-		if (!document.getElementById("fotos[]").value){
-			alert ('ERROR! Debe seleccionar como mínimo 1 foto!');
-		return false;
-		}
 		valor = document.getElementById("descripcion").value;
 		if (valor.length < 3) {
 			alert ('ERROR! Debe ingresar una descripción!');
 		return false;
 		}
+		
+	document.getElementById('enviar_todo').value= "si";
+	document.registro.submit();
 	}
 	
 	//Activo las imagenes que tengo
@@ -111,6 +117,8 @@ $(document).ready(function() {
 		document.getElementById('total_img').value= 0;
 		document.registro.submit();
 		}
+		
+	
 
 	//Cancela multiples imagenes		
 		function cancela_multiples(){
@@ -139,16 +147,16 @@ $(document).ready(function() {
 </head>
  
 <body>
-   <?php
-   include("verificarUsuario.php");
-   include("conexion.php");
-   include("menu.php");
-	 
+<?php
+include("verificarUsuario.php");
+include("conexion.php");
+include("menu.php");	 
+
 	// Check connection
 	if ($conn->connect_error) {
 	    die("Connection failed: " . $conn->connect_error);
 	} 
-
+	     
 	$sqlciudades = "select * from ciudades";
 	$ciudades=$conn->query($sqlciudades);
 	
@@ -163,13 +171,24 @@ $(document).ready(function() {
 	$laProvincia = isset($_POST['provincia']) ? $_POST['provincia']:0;
     $laCiudad = isset($_POST['ciudad']) ? $_POST['ciudad']:0;
 	
+	
+    $confirmado=isset($_POST['enviar_todo']) ? $_POST['enviar_todo']:"si";
+	
 	$nombreDeProvincia="";
 	$nombreDeCiudad="";
 	$nombreDeTipo="";
 
 
-
-
+		  $titulo_mal="";			
+		  $direccion_mal="";		
+		  $fechaI_mal="";
+	      $fechaF_mal="";
+		  $tipo_mal="";  
+		  $provincia_mal=""; 
+		  $ciudad_mal="";
+	      $imagen_mal="";
+          $descripcion_mal="";
+			
 
 
 //Validar múltiples FOTOS no es JODA::::.
@@ -187,7 +206,7 @@ $(document).ready(function() {
  
   
  //Cuando recarga la página elimina temporales restos siemrpre:::: 
-/*
+
 if($imagenes_previas=='no' && $total==0){	
 $directorio=opendir("./images/temporales");  
 //se leen 2 archivos que valen . y ..
@@ -201,8 +220,10 @@ while ($archivo = readdir($directorio)) {
     unlink("images/temporales/".utf8_decode($archivo)."");
   }  
 }
-*/	
+
 	
+
+
 
 
 
@@ -218,9 +239,8 @@ if($imagenes_previas=='si' && $total==0){
    $cantidad_archivos= count($_FILES['fotos']['name']);
         
 
- echo $cantidad_archivos;
-
-	 
+ //echo $cantidad_archivos;
+ 
 	  $archivo="";  
 	  $i=0;
 	  while(  $i< $cantidad_archivos  &&   $valido_todo==true) {
@@ -237,9 +257,7 @@ if($imagenes_previas=='si' && $total==0){
 			error_reporting(-1);
             $valido_todo=false; 
 			 $imagen_mal="Las imágenes son muy pesadas";
-			 echo "<br><br>Archivos pesados<br><br>";
-     
-    }else{
+         }else{
 		
 		 error_reporting(-1);
    
@@ -249,7 +267,6 @@ if($imagenes_previas=='si' && $total==0){
     $tipo = $_FILES['fotos']['type'][$i];
     $archivo = $_FILES['fotos']['name'][$i];
     
-
    //verifico que solo sea formato para imagen y no OTRA COSA:::		
     $tipos = array('jpg', 'jpeg', 'gif', 'png', 'tif', 'tiff', 'bmp');       
 
@@ -260,14 +277,12 @@ if($imagenes_previas=='si' && $total==0){
      
     if(!in_array($extension, $tipos) && $tamano>0){ 
 	       $valido_todo=false; 
-		   $imagen_mal="Tienen que ser todas imágenes";   echo "TIENE que ser IMAGEN<br><br>";  }
-            
+		   $imagen_mal="Tienen que ser todas imágenes";}      
      }
-      
-	   }
-	   $arreglo_fotos_previas[$i]=$_FILES['fotos']['name'][$i];
-	    $arreglo_extension[$i]=$extension;
-	   $i++;
+    }
+	$arreglo_fotos_previas[$i]=$_FILES['fotos']['name'][$i];
+	$arreglo_extension[$i]=$extension;
+	$i++;
 	 }
 
 
@@ -275,8 +290,8 @@ if($imagenes_previas=='si' && $total==0){
     // Si las imágenes son CORRECTAS las guardo todas en una carpeta temporal  a menos que cancele couch 
 	//o que lo cierre sin querer!!!!    una vez que valide el resto de los campos es cuando se ponen en permanente ::::::::
 	
-     if($valido_todo==true ){
-		   echo "1 sola vez";  $i=0;
+     if($valido_todo==true ){		   
+		   $i=0;
 		   $total = $cantidad_archivos;
 		   while($i<$total){ 
 		    $nombre_imagen="T@@".($_SESSION['usuario'])."@".utf8_decode($arreglo_fotos_previas[$i])."";
@@ -289,34 +304,90 @@ if($imagenes_previas=='si' && $total==0){
     }
   }
 }
-   $i=0;
-   $todas_fotos="";
+$i=0;
+$todas_fotos="";
    
-  
-  
- 
- 
- 
-
-  if($valido_todo==true && $total!=0){
-          
-		 while($i<$total){ 
-            
+  //Necesito su lista de nombres de las IMÁGENES POR TANTO LAS PONGO EN ESE LISTADO. 
+  if($valido_todo==true && $total!=0){          
+		 while($i<$total){          
 	   $arreglo_fotos_previas[$i]= isset($_POST[$i.'cant']) ? $_POST[$i.'cant']:$arreglo_fotos_previas[$i];
-	  // echo $arreglo_fotos_previas[$i];
-		  
-	  
-
-		   $i++;
+	   $i++;
  		  }
-       
-
 	  }
 
 
 
 
 
+  //Si las imágenes pasaron la validación y ademàs tengo un total!=0 también pregunto si tengo confirmado
+  //y mando toooodo los inputs::
+   if($valido_todo==true){
+     if($confirmado=='si'){
+	    
+		
+		if(strlen($titulo)<3){
+			$titulo_mal="Tiene que tener al menos un título";
+			 $valido_todo=false;
+			}
+        if(strlen($direccion)<3){
+			$direccion_mal="Tiene que tener al menos una dirección";
+			$valido_todo=false;
+			}	
+	   
+	      if(($fecha_inicio)==""){
+			$fechaI_mal="Necesita una fecha de inicio";
+			$valido_todo=false;
+			}	
+	      	
+	    $hoy= date("20y-m-d");
+		echo $hoy; echo $fecha_inicio;
+		if(($fecha_inicio) < $hoy){
+			$fechaI_mal="Necesita ser una fecha igual o posterior a hoy";
+			$valido_todo=false;
+			}	
+		 
+		 if($fecha_fin <= $fecha_inicio && $fecha_fin!=""){
+	       $fechaF_mal="La fecha Fin tiene que ser mayor que la de inicio";
+		   $valido_todo=false;
+		 }	
+		
+		 if(($elTipo)==0){
+			$tipo_mal="Necesita un tipo de Couch";
+			$valido_todo=false;
+			}	
+		if(($laProvincia)==0){
+			$provincia_mal="Necesita una Provincia";
+			$valido_todo=false;
+			}	
+	    if(($laCiudad)==0){
+			$ciudad_mal="Necesita una Ciudad";
+			$valido_todo=false;
+		}
+	    
+		if( $total==0){
+	      $imagen_mal="Debe tener al menos una imagen";
+		  }
+	   
+	    if(strlen($descripcion)<3){
+			$descripcion_mal="Debe tener una breve descripción";
+			 $valido_todo=false;
+			}
+	 
+	 }  
+
+   }
+ 
+   if($valido_todo==true){
+	   
+	    
+		
+	   
+	   
+	   
+	   }else{
+		   $confirmado="";
+		   }
+ 
 
 ?>
     
@@ -328,18 +399,41 @@ if($imagenes_previas=='si' && $total==0){
 <form method="post" onSubmit="return valida()" action="agregarCouch.php" name="registro"  ENCTYPE="multipart/form-data" > 
 
     <input name="titulo" type="text" id="titulo" placeholder="Título" onblur="validar_campo(this);" onclick="limpiar(this)" maxlength="50" value="<?php echo $titulo;?>"/> 
-      </br></br>
+      </br>
+      <span class="cancela_todas"><?php echo $titulo_mal; ?> </span>
+      </br>
+
+
+
 
     <input name="direccion" type="text" id="direccion" placeholder="Dirección" onblur="validar_campo(this);" onclick="limpiar(this)"  maxlength="150" value="<?php echo $direccion;?>"/> 
-      </br></br>
-        
+      </br>
+      <span class="cancela_todas"><?php echo $direccion_mal; ?> </span>
+      </br>
+  
+  
+  
+          
     <input type="date" name="fecha_inicio" id="fecha_inicio" value="<?php echo $fecha_inicio;?>" />  
     Fecha de inicio
-      </br></br>
+      </br>
+      <span class="cancela_todas"><?php echo $fechaI_mal; ?> </span>
+      </br>
     
+    
+    
+        
       <input type="date" name="fecha_fin" id="fecha_fin" value="<?php echo $fecha_fin;?>"/>  
     Fecha de fin
-      </br></br>
+      </br>
+      <span class="cancela_todas"><?php echo $fechaF_mal; ?> </span>
+      </br>
+  
+  
+  
+  
+  
+  
   
     <select name="tipo"  id="tipo" class="select2" multiple="false"  style="width:350px">
     <?php 
@@ -360,10 +454,14 @@ if($imagenes_previas=='si' && $total==0){
       ?>
       </select> 
       </br>
+      <span class="cancela_todas"><?php echo $tipo_mal; ?> </span>
       </br>
     
     
  
+    
+    
+    
     
     <select name="provincia" id="provincia" class="selectProvincia" multiple="false" style="width:350px" onChange="enviar_provincia();">
     <?php 
@@ -383,10 +481,14 @@ if($imagenes_previas=='si' && $total==0){
       ?>
     </select> 
       </br>
+      <span class="cancela_todas"><?php echo $provincia_mal; ?> </span>
       </br>
     
     
     
+ 
+ 
+ 
     
     <select name="ciudad" id="ciudad" class="selectCiudad" multiple="false"  style="width:350px">
     <?php 
@@ -406,23 +508,29 @@ if($imagenes_previas=='si' && $total==0){
     ?>
       </select>   
       </br>
+      <span class="cancela_todas"><?php echo $ciudad_mal; ?> </span>
       </br>
+   
+   
+ 
+ 
+ 
+ 
       
       <input type="hidden" id="imagenes_previas" name="imagenes_previas" value="<?php echo $imagenes_previas; ?>"> 
-      
-     
+          
       <?php if($imagenes_previas=='no'){      ?>
       <input type="file" name="fotos[]" id="fotos[]" onChange="enviar_imagenes()" multiple>
         
         <?php    
 		  }else{ 		  
-		       $i=0;  
+		       $i=0; 
 			echo "Fotos elejidas:"; 
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 			
 			echo '<img src="images/eliminar.png" width="15" height="15" alt="f"><input type=button class="cancela_todas" value="cancelar todas" onClick="cancela_multiples()"><br>';
 		//  echo '<select name="previas" id="previas" multiple="false"  style="width:350px">';
-		
+		   echo '<span style="border:1px solid;">';
 		  while($i<$total){ 
             
 	       // echo "<option>".$arreglo_fotos[$i]."</option>";
@@ -433,28 +541,36 @@ if($imagenes_previas=='si' && $total==0){
 		   $i++;
 		  }
 		 } 
-		 
+		   echo '</span>';
 		 ?>
+  
+  
+  
      
      <input type="text" id="total_img" name="total_img" value="<?php echo $total;?>">
+     <input type="text" id="enviar_todo" name="enviar_todo" value="<?php echo $confirmado;?>">
      <!-- </select> -->
        
       </br>
+      <span class="cancela_todas"><?php echo $imagen_mal; ?> </span>
       </br>
        
        
+    
+    
        
        <textarea name="descripcion" id="descripcion" cols="41" rows="6" placeholder="Inserte una descripcion.."  class="textArea_fijo" ><?php echo $descripcion; ?></textarea>
       </br>
+      <span class="cancela_todas"><?php echo $descripcion_mal; ?> </span>
       </br>
       
-    <input type="button"  id="enviar" onClick="valida();" value="Agregar" />
+    <input type="button"  id="enviar" onClick="valida()"  value="Agregar" />
       </br>
       </br>
     
 </form>
        
-      
+    
 </div>
 
 <br><br>
