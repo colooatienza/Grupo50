@@ -86,6 +86,16 @@
 			   $usuario_vacio="Tiene que poner su nombre de usuario";
 			    $valido_todo=false;
 			  }else{
+				   $permitidos = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"; 
+                       for ($i=0; $i<strlen($usuario); $i++){ 
+                       if (strpos($permitidos, substr($usuario,$i,1))===false){ 
+                       $usuario_vacio="No se  permite ñ ni acentos";
+                       $valido_todo=false; 
+                    } 
+                } 
+                
+                   
+				  
 				  if(strlen($usuario)<6){
 					  $usuario_vacio="  El usuario debe tener al menos 6 caracteres";
 					  $valido_todo=false;

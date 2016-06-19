@@ -151,13 +151,21 @@ top:0px;
 	
 	 }	
 		
-   .cancela_todas{
+   .sin_nada{
 	font-size: 14px;
-	background:#DEF;
 	color: #D00;
+	background:#DEF;
 	border-width:0px;
 	
 	 }		
+	.cancela_todas{
+	font-size: 14px;
+	color: #222;
+	background:#DEF;
+	border-width:0px;
+	
+	 }		
+		
 		
 	.resaltado{
 		font-family:Verdana;

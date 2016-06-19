@@ -15,7 +15,7 @@ class usuario extends mysql
         # se limpian variables
         $usuario = htmlspecialchars(trim($usuario), ENT_QUOTES);        
         $password = htmlspecialchars(trim($password), ENT_QUOTES);
-		$usuario=utf8_decode($usuario); $password=utf8_decode($password);
+		
         # se realiza la consulta a la base de datos
         $r = $this->consulta("SELECT * FROM usuarios WHERE nombredeusuario='".($usuario)."' AND clave='".($password)."' ");
         # retorna resultado en boolean

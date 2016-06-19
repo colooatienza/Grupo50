@@ -8,12 +8,15 @@
 
 <?php
 
-//Eliminar temporales 
+//Eliminar temporales y moverlos a permanentes
 
+
+$total_imagenes = count(glob("images/temporales/{*.jpg,*.gif,*.png,*.bmp}",GLOB_BRACE));
+//echo "total_imagenes = ".$total_imagenes;
+  
  
 $lista_archivos;  
 $i=0;
-
 $directorio=opendir("./images/temporales");  
 //se leen 2 archivos que valen . y ..
 $archivo = readdir($directorio);
@@ -23,8 +26,12 @@ $archivo = readdir($directorio);
 
 while ($archivo = readdir($directorio)) {  
      
+//echo "<BR>".$archivo; 
+//$archivo_cortado= substr($archivo,3 );
+//echo $archivo_cortado.'<br>';
+//rename ("./images/temporales/".$archivo."","./images/permanentes/".$archivo_cortado."");
  $archivo=utf8_encode($archivo);
- if ((strpos($archivo,$_SESSION['usuario'])==true))
+ if ((strpos($archivo,'colooatienza')==true))
      echo $archivo."<BR>";
 	 //  unlink("images/temporales/".$archivo);
 }  

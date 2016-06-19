@@ -21,21 +21,9 @@
 function cargarCiudades(){
 	var list = document.getElementById("ciudad");
 	list.add(new Option("items[i].text", "items[i].value"));
-    /*if (str.length == 0) { 
-        document.getElementById("txtHint").innerHTML = "";
-        return;
-    } else {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
-            }
-        };
-        xmlhttp.open("GET", "gethint.php?q=" + str, true);
-        xmlhttp.send();
-    }*/
 
 }
+
 $(document).ready(function() {
   $(".select2").select2({
   	    placeholder: "Seleccione una categoría",
@@ -66,6 +54,8 @@ $(document).ready(function() {
 	}
 	 function valida(){
 
+
+
 		valor = document.getElementById("titulo").value;
 		if (valor.length < 3) {
 			alert ('ERROR! Debe ingresar un título válido!');
@@ -80,6 +70,8 @@ $(document).ready(function() {
 			alert ('ERROR! Debe seleccionar una fecha de inicio!');
 			return false;
 		}
+		
+		
 		if (!document.getElementById("fecha_fin").value){
 			alert ('ERROR! Debe seleccionar una fecha de fin!');
 			return false;
@@ -96,7 +88,13 @@ $(document).ready(function() {
 			alert ('ERROR! Debe seleccionar una provincia!');
 			return false;
 		}
-		if (!document.getElementById("fotos").value){
+		if (!document.getElementById("ciudad").value){
+			alert ('ERROR! Debe seleccionar una ciudad!');
+			return false;
+		} 
+		 
+		
+		if (!document.getElementById("fotos[]").value){
 			alert ('ERROR! Debe seleccionar como mínimo 1 foto!');
 		return false;
 		}
@@ -137,15 +135,15 @@ $(document).ready(function() {
 	
 	
 </script>
-
+  
 </head>
-
+ 
 <body>
    <?php
    include("verificarUsuario.php");
    include("conexion.php");
    include("menu.php");
-		
+	 
 	// Check connection
 	if ($conn->connect_error) {
 	    die("Connection failed: " . $conn->connect_error);
@@ -185,9 +183,26 @@ $(document).ready(function() {
    $arreglo_extension;
   $tamanios=0;
   $arreglo_fotos_previas;
-
+ 
+ 
   
+ //Cuando recarga la página elimina temporales restos siemrpre:::: 
+/*
+if($imagenes_previas=='no' && $total==0){	
+$directorio=opendir("./images/temporales");  
+//se leen 2 archivos que valen . y ..
+$archivo = readdir($directorio);
+$archivo = readdir($directorio);
 
+while ($archivo = readdir($directorio)) {  
+     
+ $archivo=utf8_encode($archivo);
+ if ((strpos($archivo, "@@".$_SESSION['usuario']."@")==true))
+    unlink("images/temporales/".utf8_decode($archivo)."");
+  }  
+}
+*/	
+	
 
 
 
@@ -196,7 +211,7 @@ $(document).ready(function() {
 
 //Caso que seleccionemos las imágenes:::::::::
 if($imagenes_previas=='si' && $total==0){
-
+  
 
 //Valida las imagenes:::::
  if(isset($_FILES['fotos']['name']))
@@ -264,7 +279,7 @@ if($imagenes_previas=='si' && $total==0){
 		   echo "1 sola vez";  $i=0;
 		   $total = $cantidad_archivos;
 		   while($i<$total){ 
-		    $nombre_imagen="T@@".$_SESSION['usuario']."@".utf8_decode($arreglo_fotos_previas[$i]).".". $arreglo_extension[$i]."";
+		    $nombre_imagen="T@@".($_SESSION['usuario'])."@".utf8_decode($arreglo_fotos_previas[$i])."";
    
    $destino1="images/temporales/".$nombre_imagen;
      if (copy($_FILES['fotos']['tmp_name'][$i],$destino1)) {
@@ -322,7 +337,7 @@ if($imagenes_previas=='si' && $total==0){
     Fecha de inicio
       </br></br>
     
-      <input type="date" name="fecha_fin" value="<?php echo $fecha_fin;?>"/>  
+      <input type="date" name="fecha_fin" id="fecha_fin" value="<?php echo $fecha_fin;?>"/>  
     Fecha de fin
       </br></br>
   
@@ -412,8 +427,8 @@ if($imagenes_previas=='si' && $total==0){
             
 	       // echo "<option>".$arreglo_fotos[$i]."</option>";
 		  
-		    echo  '<input type="text" id="'.$i.'cant" name="'.$i.'cant" 
-			value="'.$arreglo_fotos_previas[$i]. '">"'; 
+		    echo  '<input type="text" class="sin_nada" id="'.$i.'cant" name="'.$i.'cant" 
+			value="'.$arreglo_fotos_previas[$i]. '"><br>'; 
 		  //  echo $arreglo_fotos[$i].'<br>';
 		   $i++;
 		  }
@@ -433,7 +448,7 @@ if($imagenes_previas=='si' && $total==0){
       </br>
       </br>
       
-    <input type="button"  id="enviar" onClick="validarTodo();" value="Agregar" />
+    <input type="button"  id="enviar" onClick="valida();" value="Agregar" />
       </br>
       </br>
     
