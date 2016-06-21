@@ -16,8 +16,12 @@
     <link rel="icon" href="images/logo.jpg">
 <style>
 .separados{
-  margin: 10px;
-  padding: 10px;
+  margin: 15px;
+  padding: 15px;
+  
+	}
+	.fondo{
+  border-color:#000;
   
 	}
 .inpu{
@@ -31,6 +35,32 @@
 	}	
 
 </style>
+
+<script>
+ function despublicar(pagina){
+	 
+	 direccion="despublicarCouch.php?id="+ pagina +"&hacer="+0;
+	 if(confirm("seguro que quiere DESPUBLICAR este Couch?")){
+		 
+		 location.href=direccion;
+		 }
+		
+	 } 
+
+
+ function republicar(pagina){
+	 
+	 direccion="despublicarCouch.php?id="+ pagina +"&hacer="+1;
+	 if(confirm("Seguro que quiere RE-PUBLICAR este Couch?")){
+		 
+		 location.href=direccion;
+		 }
+		
+	 } 
+
+</script>
+
+
 </head>
 <body>
 <?php 
@@ -57,28 +87,35 @@
  
   $elUsuario=$_SESSION['usuario'];
   
-    $couchsql = "Select * FROM couchs INNER JOIN fotos ON couchs.id = fotos.idcouch INNER JOIN ciudad ON ciudad.id = couchs.ciudad  WHERE disponible=1 and usuario='$elUsuario'  AND fechafin> CURDATE() GROUP BY couchs.id order by couchs.fechafin desc";
+    $couchsql = "Select * FROM couchs INNER JOIN fotos ON couchs.id = fotos.idcouch INNER JOIN ciudad ON ciudad.id = couchs.ciudad  WHERE usuario='$elUsuario'  AND fechafin> CURDATE() GROUP BY couchs.id order by couchs.disponible desc";
        
  
    $couchs=$conn->query($couchsql);
  
  
-    
-   
+   $filas=$couchs->num_rows;    
 
- 
+   if($filas==0){
+	    echo "<br><br><span style='font-size:18px; color:#999;'>Todavía no cargaste ningún Couch<br><br><br>"; 
+	 
+	 
+	 }else{
     
-	echo '<table width="200" align="center" border="1">';
+	echo '<table width="1000" align="center" bordercolor="#CCCCCC" border="1px solid" > <tr><td colspan=8 ><hr class="fondo"></td></tr>';
 	
     while($row=$couchs->fetch_array()) {
-           
+        if($row['disponible']==0){ echo '<tr style="background:#EEEEEE;">';
+		
+		echo '<td><span style="color:#D00;">(Despublicado)</span><h3>'.utf8_encode($row["titulo"]).'</h3></td>';
+		
+		}else{ echo '<tr><td class="separados"><h3>'.utf8_encode($row["titulo"]).'</h3></td>';}
 	     
-	    echo'<tr><td><h3>'.utf8_encode($row["titulo"]).'</h3></td>';
-	 
+	   
+	    
         echo'<td><img src="images/couch/'.$row["link"].'" style="max-width:100px; max-height:100px;"></td>';
 		
            
-       echo'<td>'.utf8_encode($row['ciudad_nombre']).'</td>';
+       echo'<td class="separados">'.utf8_encode($row['ciudad_nombre']).'</td>';
 			
 
 		//Con estas líneas pongo la fecha inicio como hoy si llegara a ser anterior a la actual	
@@ -112,18 +149,30 @@
    ////----------------------
    
              
-			echo'<td>'.$fecha.'</td>';
-            echo'<td>'.date('d/m/y', strtotime(utf8_encode($row['fechafin']))).'</td>';
-             echo'<td><a href="consultaCouch.php?id='.$row[0].'" role="button"></span>Ver Detalles</a></td>';
-			 echo'<td><a href="consultaCouch.php?id='.$row[0].'" role="button"></span>Modificar</a></td>';
-			 echo'<td><a href="consultaCouch.php?id='.$row[0].'" role="button"></span>Despublicar</a></td>';
-			echo '</tr>';
+			echo'<td class="separados">'.$fecha.'</td>';
+            echo'<td class="separados">'.date('d/m/y', strtotime(utf8_encode($row['fechafin']))).'</td>';
+             echo'<td class="separados"><a href="consultaCouch.php?id='.$row[0].'" role="button"></span><img src="images/detalles.png" width="15" height="15"> Ver Detalles</a></td>';
+			 
+			 
+			 echo'<td class="separados"><a href="consultaCouch.php?id='.$row[0].'" role="button"></span><img src="images/editar.png" width="15" height="15" alt="sd"> Modificar</a></td>';
+			
+			
+			 if($row['disponible']==0){
+			
+				  echo'<td class="separados"><a  role="button" onClick="republicar('.$row[0].')"></span> Republicar</a></td>';
+				 
+				 
+			 }else{
+			 echo'<td class="separados"><a  role="button" onClick="despublicar('.$row[0].')"></span><img src="images/eliminar.png" width="15" height="15" > Despublicar</a></td>';}
+			
+			echo '</tr><tr><td colspan=8 ><hr class="fondo"></td></tr>';
     }
 	echo '</table>';
+	 }
 ?>
+
+ 
   
-
-
   </div>
   <nav class="text-center">
     <!-- Add class .pagination-lg for larger blocks or .pagination-sm for smaller blocks-->
