@@ -52,14 +52,18 @@
 
 
   <?php
-  
-      $TAMANIO_PAGINA = 3;
+      //Al iniciar la página despublico todos los couchs que tienen fecha pasada
+	 //$fecha_hoy= date("20y-m-d");
+     //$viejos="update couchs set disponible=1 where fechafin < '".$fecha_hoy."'"; 
+	 //$despublicarViejos= $conn->query($viejos);
+    
+      $TAMANIO_PAGINA = 6;
       $ULTIMO_ELEMENTO=$TAMANIO_PAGINA;
       $pagina = isset($_GET['pagina']) ? $_GET['pagina'] : 1 ;
       $inicio = ($pagina-1) * $TAMANIO_PAGINA;   
 	  
 	  
-	 
+	
   
   
     //filtro por provincia si llega a existir

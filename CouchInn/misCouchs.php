@@ -101,7 +101,12 @@
 	 
 	 }else{
     
-	echo '<table width="1000" align="center" bordercolor="#CCCCCC" border="1px solid" > <tr><td colspan=8 ><hr class="fondo"></td></tr>';
+	
+	
+	echo '<table width="1000" align="center" bordercolor="#CCCCCC" border="1px solid" >';
+	echo '<tr style="background:#DDF;"><td>Título:</td><td>Imagen:</td><td>Dirección:</td>';
+	echo '<td>Desde:</td><td>Hasta:</td>';
+	echo '</tr><tr><td colspan=8 ><hr class="fondo"></td></tr>';
 	
     while($row=$couchs->fetch_array()) {
         if($row['disponible']==0){ echo '<tr style="background:#EEEEEE;">';

@@ -8,7 +8,7 @@ function validar_nombre(input, valor , tipo){
 	   //document.getElementById('nombre_usuario').style="border-color:#F00";
 	    document.getElementById(input.id).type=tipo;
 	   document.getElementById(input.id).value=valor;
-	   document.getElementById(input.id).style="color:#888;";
+	   document.getElementById(input.id).style="color:#000;";
 	 }
 	}
 	

@@ -127,7 +127,7 @@
     
     
     <input name="nombre_usuario" type="text" class=<?php echo $evalua_campos[$i]; $i++; ?> id="nombre_usuario" onfocus="vaciar_nombre(this,'Nombre de usuario','text')" onblur="validar_nombre(this,'Nombre de usuario','text');" onkeypress="return sin_espacio(event);" value="<?php echo $usuario; ?>" maxlength="28"/> 
-    (min 6 letras)  
+      
     <p>&nbsp;<span class="rojo"><?php  echo $usuario_vacio; ?> </span><p>
       
       
@@ -136,7 +136,7 @@
       
       
       <input type="<?php echo $tipo; ?>" id="clave" name="clave" class=<?php echo $evalua_campos[$i]; $i++; ?> onblur="validar_nombre(this,'Clave','text');" onfocus="vaciar_nombre(this,'Clave','password')" onkeypress="return sin_espacio(event);" value="<?php echo utf8_encode($clave); ?>" maxlength="28"/>  
-      (min 6 letras)
+      
       <p> <span class="rojo"><?php echo $clave_vacio; ?> </span> <p>
         
         

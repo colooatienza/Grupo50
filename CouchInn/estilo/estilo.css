@@ -59,7 +59,7 @@ top:0px;
 .registro_ant{
 	border-radius:5px;
 	border-width:1px;
-    color:#555;
+    color:#000;
 	width:270px;
 	height:30px;
 	font-family:Verdana;
@@ -67,7 +67,7 @@ top:0px;
 	}
 
 .color_gris{
-	border-color:#AAA;
+	border-color:#888;
 	}
 	
 .color_rojo{
@@ -95,7 +95,7 @@ top:0px;
 	border-radius: 5px;
 	font-family: Verdana;
 	font-size: 14px;
-	background-color: #DEF;
+	background-color: #F0F0FF;
 		border: 1px solid #AAA;
 		}
  .posicion_registo_usuario_2{
@@ -110,7 +110,7 @@ top:0px;
 	border-radius: 5px;
 	font-family: Verdana;
 	font-size: 14px;
-	background-color: #DEF;
+	background-color: #F0F0FF;
 		border: 1px solid #AAA;
 		}		
 
@@ -145,7 +145,7 @@ top:0px;
 	left: 30%;
 	top: -15px;
 	font-size: 14px;
-	background:#DEF;
+	background:#F0F0FF;
 	color: #D00;
 	border-width:0px;
 	
@@ -153,15 +153,15 @@ top:0px;
 		
    .sin_nada{
 	font-size: 14px;
-	color: #333;
-	background:#DEF;
+	color: #111;
+	background:#F0F0FF;
 	border-width:0px;
 	
 	 }		
 	.cancela_todas{
 	font-size: 14px;
 	color: #D00;
-	background:#DEF;
+	background:#F0F0FF;
 	border-width:0px;
 	
 	 }		
@@ -192,7 +192,7 @@ top:0px;
  .cancela_registro{
 	
 	font-size: 14px;
-	background:#DEF;
+	background:#F0F0FF;
 	color: #D00;
 	border-width:0px;
 	
