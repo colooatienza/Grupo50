@@ -41,18 +41,22 @@
 		</thead>
 		<?php 
 			while($row=$result->fetch_array()){
-				echo '<tr>';
-				echo '<form method="post" action="calificar.php">';
-				echo '<td width="80%">'.utf8_encode($row["titulo"]). '</td>';
-				echo '<td><a href="perfil.php?id='.utf8_encode($row['usuario']). '">'.utf8_encode($row["usuario"]). '</a></td>';
-				echo '<td> <input type="number" name="puntuacion" id="puntuacion" min="1" max="5" value="5"> </td>';
-				echo '<td> <input type="text" name="resena" id="resena" maxlength="50"> </td>';
-				echo '<td> <input type="submit" value="Calificar"> </td>';
-				echo ' <input type="hidden" name="tipo" id="tipo" value="viajero">';
-				echo '<input type="hidden" name="idusuario" id="idusuario" value='.$row["idusuario"].'>';
-				echo '<input type="hidden" name="idcouch" id="idcouch" value='.$row["idcouch"].'>';
-				echo '</form>';
-				echo '</tr>';
+				$sql = "SELECT * FROM calificaciones WHERE tipo = 'viajero' AND idusuario ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+				$r=$conn->query($sql);
+				if(!$r->fetch_array()){
+					echo '<tr>';
+					echo '<form method="post" action="calificar.php">';
+					echo '<td width="80%">'.utf8_encode($row["titulo"]). '</td>';
+					echo '<td><a href="perfil.php?id='.utf8_encode($row['usuario']). '">'.utf8_encode($row["usuario"]). '</a></td>';
+					echo '<td> <input type="number" name="puntuacion" id="puntuacion" min="1" max="5" value="5"> </td>';
+					echo '<td> <input type="text" name="resena" id="resena" maxlength="50"> </td>';
+					echo '<td> <input type="submit" value="Calificar"> </td>';
+					echo ' <input type="hidden" name="tipo" id="tipo" value="viajero">';
+					echo '<input type="hidden" name="idusuario" id="idusuario" value='.$row["idusuario"].'>';
+					echo '<input type="hidden" name="idcouch" id="idcouch" value='.$row["idcouch"].'>';
+					echo '</form>';
+					echo '</tr>';
+				}
 			}
 		?>
 	</table>
@@ -72,18 +76,22 @@
 		</thead>
 		<?php 
 			while($row=$result->fetch_array()){
-				echo '<tr>';
-				echo '<form method="post" action="calificar.php">';
-				echo '<td width="80%">'.utf8_encode($row["titulo"]). '</td>';
-				echo '<td><a href="perfil.php?id='.utf8_encode($row['idusuario']). '">'.utf8_encode($row["idusuario"]). '</a></td>';
-				echo '<td> <input type="number" name="puntuacion" id="puntuacion" min="1" max="5" value="5"> </td>';
-				echo '<td> <input type="text" name="resena" id="resena" maxlength="50"> </td>';
-				echo '<td> <input type="submit" value="Calificar"> </td>';
-				echo '<input type="hidden" name="tipo" id="tipo" value="coucher">';
-				echo '<input type="hidden" name="idusuario" id="idusuario" value='.$row["idusuario"].'> ';
-				echo '<input type="hidden" name="idcouch" id="idcouch" value='.$row["idcouch"].'> ';
-				echo '</form>';
-				echo '</tr>';   
+				$sql = "SELECT * FROM calificaciones WHERE tipo = 'coucher' AND idusuario ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+				$r=$conn->query($sql);
+				if(!$r->fetch_array()){
+					echo '<tr>';
+					echo '<form method="post" action="calificar.php">';
+					echo '<td width="80%">'.utf8_encode($row["titulo"]). '</td>';
+					echo '<td><a href="perfil.php?id='.utf8_encode($row['idusuario']). '">'.utf8_encode($row["idusuario"]). '</a></td>';
+					echo '<td> <input type="number" name="puntuacion" id="puntuacion" min="1" max="5" value="5"> </td>';
+					echo '<td> <input type="text" name="resena" id="resena" maxlength="50"> </td>';
+					echo '<td> <input type="submit" value="Calificar"> </td>';
+					echo '<input type="hidden" name="tipo" id="tipo" value="coucher">';
+					echo '<input type="hidden" name="idusuario" id="idusuario" value='.$row["idusuario"].'> ';
+					echo '<input type="hidden" name="idcouch" id="idcouch" value='.$row["idcouch"].'> ';
+					echo '</form>';
+					echo '</tr>';   
+				}
 			}
 				?>
 	</table>
