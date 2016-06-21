@@ -19,7 +19,8 @@
          echo' <ul class="dropdown-menu">
 		     <li><a href="misCouchs.php">Ver mis Couchs</a> </li>
             <li><a href="agregarCouch.php">Agregar nuevo Couch</a> </li>
-            <li><a href="solicitudes.php">Solicitudes de mis Couchs</a> </li>';
+            <li><a href="solicitudes.php">Solicitudes de mis Couchs</a> </li>
+            <li><a href="calificaciones.php">Calificar</a> </li>';
          echo '</ul>
         </li>';
         }
