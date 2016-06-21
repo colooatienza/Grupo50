@@ -196,7 +196,7 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
-        <p> ______</p>
+        <p> </p>
       </div>
     </div>
   </div>

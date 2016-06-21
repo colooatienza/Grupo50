@@ -8,7 +8,26 @@
 </style>
 <script src="js/jquery-1.11.3.min.js"></script> 
 <script src="js/bootstrap.js"></script>
+
+<script>
+
+function validarPregunta(){
+	if((document.getElementById('pregunta').value).length<=3){
+	  document.getElementById('boton').disabled;
+	  return false;
+	 }
+	else{ 
+		 document.getElementById('boton').enabled;
+		 }
+		return true;
+}
+
+
+</script>
+
+
 </head>
+
 
 <body >
 
@@ -92,7 +111,7 @@
 
  </span>
     
-  <table>
+  <table >
     <tr>
       <td colspan="5" align="center"><hr /></td>
     </tr>
@@ -122,16 +141,61 @@
       ?> 
     </tr>
   <tr>
-    <td colspan="5">&nbsp;</td>
-  </tr>
-</table>
+    <td colspan="5"><br><br><span style="negro"><hr style="border-color:#888; border:1px solid;"><br><br></td></tr>
+
+    
+     <tr><td></td><td colspan="4">
+        <?php
+     if(isset($_SESSION['usuario'])){
+		 ?>
+          &nbsp;&nbsp;<br>
+		 <form method="post" onSubmit=" return validarPregunta()" action="preguntar.php"  name="pregg" id="pregg"  ENCTYPE="multipart/form-data" >
+          <textarea name="texto" id="texto" cols="40" rows="3"  style="resize:none;"></textarea>
+          <input type="hidden" name="couch" id="couch" value="<?php echo $id_couch; ?>"  >
+          <input type="submit" name="boton" id="boton" value="preguntar" onClick="validarPregunta()">
+          <form>
+         <?php
+		 }else{
+		?>
+           &nbsp;&nbsp;Debes Iniciar Sesión para preguntar:<br>
+		   <textarea name="pregunta" disabled id="pregunta" cols="40" rows="3"  style="resize:none;"></textarea>
+         <?php  }  ?>
+           <br><br><hr style="border-color:#999;">
+      <br><br>
+      <b>&nbsp;&nbsp;Preguntas anteriores:</b>      
+      <br><br>
+        
+		
+		<!-- Preg ANTERIORES  -->
+		<?php
+		$preguntas=$conn->query("select * from comentarios where idcouch=".$id_couch." and idcomentario IS NULL ");
+         while($fila=$preguntas->fetch_array()){
+			 echo '<b>'.($fila['usuario']).' </b>:<br>';
+			 echo '<textarea readonly cols="40" rows="2"  style="resize:none;">'.utf8_encode($fila['texto']).'</textarea><br>';
+			 
+			 $respuesta=$conn->query("select * from comentarios where idcouch=".$id_couch." and idcomentario =".$fila[0]." ");
+			 if($filaRTA=$respuesta->fetch_array())
+			 echo '<b>respuesta:</b><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea readonly  cols="40" rows="2"  style="resize:none;">'.utf8_encode($filaRTA['texto']).'</textarea>';
+			 
+			 
+			 }
+		      		
+		?>
+      
+      <br> <br><hr style="border-color:#666;"><br><br>
+       </td></tr>
+      </table>
+    
     </div>
   
  
   
   <p>
-    <?php
+  
+  
 
+     
+<?php
 /* mysqli_free_result($cant);
   mysqli_free_result($result);
    mysqli_free_result($couch);

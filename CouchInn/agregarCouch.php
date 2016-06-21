@@ -32,7 +32,7 @@ include("menu.php");
 	    die("Connection failed: " . $conn->connect_error);
 	} 
 	     
-	$sqlciudades = "select * from ciudades";
+	$sqlciudades = "select * from ciudades order by ciudad_nombre";
 	$ciudades=$conn->query($sqlciudades);
 	
 	$titulo= isset($_POST['titulo']) ? $_POST['titulo']:'';
@@ -437,7 +437,7 @@ $i=0;
     
     <select name="ciudad" id="ciudad" class="selectCiudad" multiple="false"  style="width:350px">
     <?php 
-	$sqltipos = "select * from ciudad where provincia_id=".$laProvincia."";
+	$sqltipos = "select * from ciudad where provincia_id=".$laProvincia." order by ciudad_nombre";
 	$tipos=$conn->query($sqltipos);
 
     while($row=$tipos->fetch_array()){ 
@@ -465,7 +465,7 @@ $i=0;
       <input type="hidden" id="imagenes_previas" name="imagenes_previas" value="<?php echo $imagenes_previas; ?>"> 
           
       <?php if($imagenes_previas=='no'){      ?>
-      <input type="file" name="fotos[]" id="fotos[]" onChange="enviar_imagenes()" multiple>
+      <input type="file" name="fotos[]" id="fotos[]" onChange="enviar_imagenes()" multiple accept=image/*>
         
         <?php    
 		  }else{ 		  
@@ -486,7 +486,7 @@ $i=0;
 		   $i++;
 		  }
 		 } 
-		   echo '</span>';   echo $total.'<br>'.$confirmado;
+		   echo '</span><br>'.$confirmado;
 		 ?>
   
   
