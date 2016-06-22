@@ -2,7 +2,7 @@
 Preguntas:
 
 - Filtrado de fechas
-- Restricciones al editar
+- Restricciones al editar couch
 - Que ventajas tiene el premium?
 - Como se ordena por default?
 - Hace falta ordenar por diferentes criterios?
