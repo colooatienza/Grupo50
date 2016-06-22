@@ -20,7 +20,7 @@
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		} 
-		$sql = "INSERT INTO `calificaciones`(`reseña`, `puntuacion`, `tipo`, `idcouch`, `idusuario`) VALUES ('".$_POST['resena']."', '".$_POST['puntuacion']."', '".$_POST['tipo']."', '".$_POST['idcouch']."', '".$_POST['idusuario']."') ";
+		$sql = "INSERT INTO `calificaciones`(`resenia`, `puntuacion`, `tipo`, `idcouch`, `idusuario`) VALUES ('".$_POST['resena']."', '".$_POST['puntuacion']."', '".$_POST['tipo']."', '".$_POST['idcouch']."', '".$_POST['idusuario']."') ";
 		
 		$r=$conn->query($sql);
 		echo $r;

@@ -145,12 +145,13 @@ function validarPregunta(){
     </tr>
     <tr>
       <td><b><p style="margin-left:20px; " align="right">Descripción:</b></td>
-      <td colspan="4">&nbsp; <textarea readonly name="descripcion" id="descripcion" cols="35" rows="6"  style="resize:none;"><?php  echo utf8_encode($datos['2']);  ?> </textarea></td> </p>
+      <td colspan="4">&nbsp;<textarea readonly name="descripcion" id="descripcion" cols="35" rows="6"  style="resize:none;"><?php  echo utf8_encode($datos['2']);  ?> </textarea></td> </p>
       <?php
         $nombredeusuario=$datos["nombredeusuario"];
         if(isset($_SESSION['logueado']) && $_SESSION['usuario']!=$nombredeusuario){
           echo'<td> <input type="button" value="Solicitar" onClick="solicitar('.$datos["0"].')">  </td>';
         }
+		$elUsuario=(isset($_SESSION['usuario']))?$_SESSION['usuario']:'';
 	  ?> 
     </tr></table>
    
@@ -162,7 +163,7 @@ function validarPregunta(){
       <tr>
         <td style="position:relative; left:130px; font-size:20px; color:#338;"><img src="images/pregs.jpg" width="45" height="30" alt="df"> 
         
-		<?php if($_SESSION['usuario']!=$esteCouch)
+		<?php if($elUsuario != $esteCouch)
                echo 'Haz una pregunta al dueño:';
 			   else  echo 'Preguntas para mi:';  ?>
       
@@ -176,7 +177,7 @@ function validarPregunta(){
       
        <?php 
 	   
-	    if($_SESSION['usuario']!=$esteCouch){
+	    if($elUsuario!=$esteCouch){
      if(isset($_SESSION['usuario'])){
 		 ?>
          
@@ -199,7 +200,7 @@ function validarPregunta(){
            
          
            <?php   
-		   if ($_SESSION['usuario']!=$esteCouch){ 
+		   if ($elUsuario!=$esteCouch){ 
            echo '</tr><tr><td style="position:relative; left:130px;">';
            
            echo '<hr style="position:absolute; width:500px; border-color:#66A;"></td></tr><tr><td><tr><td style="position:relative; left:130px;">';
