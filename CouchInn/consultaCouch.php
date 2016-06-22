@@ -20,6 +20,9 @@ function validarPregunta(){
 		 }
 
 }
+function solicitar(id){
+  window.location= 'solicitarCouch.php?id='+id;
+}
 
 
 </script>
