@@ -12,14 +12,13 @@
 <script>
 
 function validarPregunta(){
-	if((document.getElementById('pregunta').value).length<=3){
-	  document.getElementById('boton').disabled;
-	  return false;
-	 }
-	else{ 
-		 document.getElementById('boton').enabled;
+	if((document.getElementById('texto').value).length<=5)		
+	  document.getElementById('boton').disabled; 
+	else {
+      document.getElementById('boton').enabled;
+	  document.pregg.submit();
 		 }
-		return true;
+
 }
 
 
@@ -53,11 +52,15 @@ function validarPregunta(){
     //Consulta la BD:::
     $sql_couch = "select couchs.*, usuarios.*, ciudad.*, provincia.*, tipos_couch.* from couchs INNER JOIN usuarios ON usuarios.nombredeusuario=couchs.usuario INNER JOIN ciudad ON ciudad.id = couchs.ciudad INNER JOIN provincia ON provincia.id= ciudad.provincia_id INNER JOIN tipos_couch ON couchs.idtipo = tipos_couch.id where couchs.id='".$id_couch."'";
     $sql = "select * from fotos where idcouch='".$id_couch."'";
-  
+    
+	
     $fotos=$conn->query($sql);
     $couch=$conn->query($sql_couch);
+	if($couch->num_rows == 0){
+		header("Location: index.php");}
 
     $datos=$couch->fetch_array();
+	$esteCouch= $datos['nombredeusuario'];
     $cantFotos= mysqli_num_rows($fotos);
     ?>
    <!-- ARMO UN DIV Y DENTRO UNA TABLA CON ALGUNAS CARACTERÍSTICAS -->
@@ -148,10 +151,8 @@ function validarPregunta(){
         if(isset($_SESSION['logueado']) && $_SESSION['usuario']!=$nombredeusuario){
           echo'<td> <input type="button" value="Solicitar" onClick="solicitar('.$datos["0"].')">  </td>';
         }
-      ?> 
-    </tr>
-  <tr>
-   </table>
+	  ?> 
+    </tr></table>
    
     <br><br><br><br><br>
    <table style="width:100%;"> 
@@ -159,38 +160,54 @@ function validarPregunta(){
      
       <tr><td><hr style="width:95%; border-color:#22A; "></td></tr>
       <tr>
-        <td style="position:relative; left:130px; font-size:20px; color:#338;"><img src="images/pregs.jpg" width="45" height="30" alt="df"> Hacer alguna pregunta</td></tr>
+        <td style="position:relative; left:130px; font-size:20px; color:#338;"><img src="images/pregs.jpg" width="45" height="30" alt="df"> 
+        
+		<?php if($_SESSION['usuario']!=$esteCouch)
+               echo 'Haz una pregunta al dueño:';
+			   else  echo 'Preguntas para mi:';  ?>
+      
+        </td></tr>
       <tr><td><hr style="width:95%; border-color:#22A;"><br></td></tr>
      <tr><td style="position:relative; left:130px;">
        
     
     
-    
-    
-       <?php
+   
+      
+       <?php 
+	   
+	    if($_SESSION['usuario']!=$esteCouch){
      if(isset($_SESSION['usuario'])){
 		 ?>
          
-		 <form method="post" onSubmit="return validarPregunta()" action="preguntar.php"  name="pregg" id="pregg"  ENCTYPE="multipart/form-data" >
+	 <form method="post" action="preguntar.php"  name="pregg" id="pregg"  ENCTYPE="multipart/form-data" >
           <input type="hidden" name="couch" id="couch" value="<?php echo $id_couch; ?>"  >
           <textarea name="texto" id="texto" cols="59" rows="3"  style="resize:none;"></textarea><br>
           <span style="position:relative; top:0px;">
-          <input type="submit" name="boton" id="boton" value="preguntar" onClick="validarPregunta()">
+          <input type="button" name="boton" id="boton" onClick="validarPregunta()" value="Preguntar" >
           </span>
           <form>
          <?php
 		 }else{
 		?>
-           Debes Iniciar Sesión para preguntar:<br>
+           Debes <a href="login.php">Iniciar Sesión</a> para preguntar:<br>
 		   <textarea name="pregunta" disabled id="pregunta" cols="59" rows="3"  style="resize:none;"></textarea>
-         <?php  }  ?>
+         <?php  } }
+		  
+		  ?>
            <br><br>
+           
          
-         
-         
-           </tr><tr><td style="position:relative; left:130px;"><hr style="position:absolute; width:500px; border-color:#66A;"></td></tr><tr><td><tr><td style="position:relative; left:130px;">
-      <br><br>
-      <b><span style="color:#338">  Anteriores</span></b>:<br>
+           <?php   
+		   if ($_SESSION['usuario']!=$esteCouch){ 
+           echo '</tr><tr><td style="position:relative; left:130px;">';
+           
+           echo '<hr style="position:absolute; width:500px; border-color:#66A;"></td></tr><tr><td><tr><td style="position:relative; left:130px;">';
+      echo '<br><br><b><span style="color:#338">';
+      echo 'Anteriores:';
+
+		   }
+	   ?>  </span></b><br>
       <br>
       
       

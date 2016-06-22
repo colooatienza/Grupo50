@@ -30,17 +30,17 @@
 		$usuario = isset($_SESSION['usuario']) ? $_SESSION['usuario']:"";
 		$texto = isset($_POST['texto']) ? $_POST['texto']:"";
 		$couch = isset($_POST['couch']) ? $_POST['couch']:"";
-		if($usuario=="" || strlen($texto)<=3 || $couch=="")
-		  //header("Location:consultaCouch.php");
-		echo strlen($texto);
+		if($usuario=="" || strlen($texto)<=3 || $couch==""){
+            header("Location:consultaCouch.php?id=".$couch."");}else{
+		echo '<br><br>'.strlen($texto);
 		$texto=utf8_decode($texto); 
 		$usuario=utf8_decode($usuario); 
 			
 		$sql = "INSERT INTO comentarios(idcouch, usuario, texto) VALUES('$couch','$usuario','$texto') ";
 		$conn->query($sql);
 		
-		//header("Location:consultaCouch.php");
-   
+		 header("Location:consultaCouch.php?id=".$couch."");
+			}
   
 ?>
 </body>
