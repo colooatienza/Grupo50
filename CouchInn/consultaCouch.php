@@ -24,10 +24,20 @@ function validarPregunta(){
 
 
 </script>
-
+<style>
+  .contPregunta{
+	 
+	  width:500px;
+	 
+	  background:#FFF;
+	  border:1px solid;
+	  border-color:#AAA;
+	  padding:10px;
+	  }
+  
+</style>
 
 </head>
-
 
 <body >
 
@@ -141,51 +151,80 @@ function validarPregunta(){
       ?> 
     </tr>
   <tr>
-    <td colspan="5"><br><br><span style="negro"><hr style="border-color:#888; border:1px solid;"><br><br></td></tr>
-
+   </table>
+   
+    <br><br><br><br><br>
+   <table style="width:100%;"> 
+     
+     
+      <tr><td><hr style="width:95%; border-color:#22A; "></td></tr>
+      <tr>
+        <td style="position:relative; left:130px; font-size:20px; color:#338;"><img src="images/pregs.jpg" width="45" height="30" alt="df"> Hacer alguna pregunta</td></tr>
+      <tr><td><hr style="width:95%; border-color:#22A;"><br></td></tr>
+     <tr><td style="position:relative; left:130px;">
+       
     
-     <tr><td></td><td colspan="4">
-        <?php
+    
+    
+    
+       <?php
      if(isset($_SESSION['usuario'])){
 		 ?>
-          &nbsp;&nbsp;<br>
-		 <form method="post" onSubmit=" return validarPregunta()" action="preguntar.php"  name="pregg" id="pregg"  ENCTYPE="multipart/form-data" >
-          <textarea name="texto" id="texto" cols="40" rows="3"  style="resize:none;"></textarea>
+         
+		 <form method="post" onSubmit="return validarPregunta()" action="preguntar.php"  name="pregg" id="pregg"  ENCTYPE="multipart/form-data" >
           <input type="hidden" name="couch" id="couch" value="<?php echo $id_couch; ?>"  >
+          <textarea name="texto" id="texto" cols="59" rows="3"  style="resize:none;"></textarea><br>
+          <span style="position:relative; top:0px;">
           <input type="submit" name="boton" id="boton" value="preguntar" onClick="validarPregunta()">
+          </span>
           <form>
          <?php
 		 }else{
 		?>
-           &nbsp;&nbsp;Debes Iniciar Sesión para preguntar:<br>
-		   <textarea name="pregunta" disabled id="pregunta" cols="40" rows="3"  style="resize:none;"></textarea>
+           Debes Iniciar Sesión para preguntar:<br>
+		   <textarea name="pregunta" disabled id="pregunta" cols="59" rows="3"  style="resize:none;"></textarea>
          <?php  }  ?>
-           <br><br><hr style="border-color:#999;">
+           <br><br>
+         
+         
+         
+           </tr><tr><td style="position:relative; left:130px;"><hr style="position:absolute; width:500px; border-color:#66A;"></td></tr><tr><td><tr><td style="position:relative; left:130px;">
       <br><br>
-      <b>&nbsp;&nbsp;Preguntas anteriores:</b>      
-      <br><br>
+      <b><span style="color:#338">  Anteriores</span></b>:<br>
+      <br>
+      
+      
+      
         
 		
 		<!-- Preg ANTERIORES  -->
 		<?php
-		$preguntas=$conn->query("select * from comentarios where idcouch=".$id_couch." and idcomentario IS NULL ");
+		$preguntas=$conn->query("select * from comentarios inner join usuarios on usuarios.nombredeusuario=comentarios.usuario where idcouch=".$id_couch." and idcomentario IS NULL order by id desc ");
          while($fila=$preguntas->fetch_array()){
-			 echo '<b>'.($fila['usuario']).' </b>:<br>';
-			 echo '<textarea readonly cols="40" rows="2"  style="resize:none;">'.utf8_encode($fila['texto']).'</textarea><br>';
+			 echo '<div class="contPregunta">';
+			 echo '<span style="font-size:12px;"><img src="images/usuario/'.($fila['foto']).'" width=60px;>&nbsp;&nbsp;'.($fila['usuario']).'</span><br>';
+			 echo '<br>'.utf8_encode($fila['texto']).'';
 			 
 			 $respuesta=$conn->query("select * from comentarios where idcouch=".$id_couch." and idcomentario =".$fila[0]." ");
-			 if($filaRTA=$respuesta->fetch_array())
-			 echo '<b>respuesta:</b><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea readonly  cols="40" rows="2"  style="resize:none;">'.utf8_encode($filaRTA['texto']).'</textarea>';
+			
+			 if($filaRTA=$respuesta->fetch_array()){
+			 echo '<hr style="border-color:#555;">';
+			 echo '<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Respuesta:</b><br>';
+			 echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.utf8_encode($filaRTA['texto']).'';}
 			 
-			 
+			 echo '<br><br></div><br><br>';
 			 }
+			
 		      		
 		?>
       
-      <br> <br><hr style="border-color:#666;"><br><br>
-       </td></tr>
+      <br>
+      
+       </tr><tr><td><hr style="width:95%; border-color:#22A; "><br></td></tr>
+      
+
       </table>
-    
+     <BR><BR>
     </div>
   
  
