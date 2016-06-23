@@ -31,6 +31,10 @@ $(document).ready(function() {
 		//var foo = document.getElementById('titulo');
 	elem.style.borderColor='#FFFFFF';// this.style.color='#FFFFFF';		
 	}
+	
+	
+	
+	 //Valida por js   agregarCouch y modificar(el completo)
 	 function valida(){ 
         var f = new Date();
 		var dia= f.getDate();       if(dia<10) dia= "0"+dia;
@@ -77,7 +81,7 @@ $(document).ready(function() {
 			alert ('ERROR! Debe seleccionar una ciudad!');
 			return false;
 		} 
-		if (document.getElementById("total_img").value==0 && document.getElementById("fotoss").value=='no'){
+		if (document.getElementById("total_img").value==0 && document.getElementById("fotoss").value=='cambiar'){
 			alert ('ERROR! Debe tener al menos una foto!');
 			return false;
 		} 
@@ -92,6 +96,52 @@ $(document).ready(function() {
 	document.getElementById('enviar_todo').value= "si";
 	document.registro.submit();
 	}
+	
+	
+	
+	
+	  //valida el modificarParte de Couch
+	
+	 function validaParte(){ 
+       
+	    valor = document.getElementById("titulo").value;
+	   	if (valor.length < 3) {
+			alert ('ERROR! Debe ingresar un título válido!');
+			return false;}
+	
+	
+        if (document.getElementById("total_img").value==0 && document.getElementById("fotoss").value=='cambiar'){
+			alert ('ERROR! Debe tener al menos una foto!');
+			return false;} 
+		 
+		
+		valor = document.getElementById("descripcion").value;
+		if (valor.length < 3) {
+			alert ('ERROR! Debe ingresar una descripción!');
+		return false;}
+		
+		
+	 document.getElementById('enviar_todo').value= "si";
+	 document.registro.submit();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//Activo las imagenes que tengo
 	function enviar_imagenes(){
@@ -129,9 +179,9 @@ $(document).ready(function() {
 	
 	  //Para el modificarImagen::::::::
 	 function seguroCambiaImagen(){
-	 alert("seguro");
-	 document.getElementById('fotoss').value='no';
-	 document.registro.submit();
+	  if(confirm("Para cambiar imágenes se BORRARÁN las anteriores ¿Está seguro?")){
+	   document.getElementById('fotoss').value='no';
+	   document.registro.submit();}
 	 }
 
 	

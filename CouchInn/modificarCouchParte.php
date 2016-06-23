@@ -6,6 +6,13 @@
 <script src="js/dropzone.js"></script>
 <style type="text/css" media="screen">
   @import '../CouchInn/estilo/estilo.css';>
+.docel {
+	font-size: 10px;
+}
+.container .posicion_registo_usuario .docel {
+	font-size: 13px;
+	color:#039;
+}
 </style>
 <script src="js/jquery-1.11.3.min.js"></script> 
 	<script src="js/bootstrap.js"></script>
@@ -36,8 +43,8 @@ include("menu.php");
 	 
 
 	   	     	 
-	$sqlciudades = "select * from ciudades";
-	$ciudades=$conn->query($sqlciudades);
+	
+	
 	
 	$id=isset($_GET['idCouch'])? $_GET['idCouch'] :0;
 	$idvieja=isset($_POST['idF5'])? $_POST['idF5'] :$id;
@@ -48,16 +55,11 @@ include("menu.php");
 	
 	
 	$titulo='';
-	$direccion= '';
 	$descripcion='';	 
-	$fecha_inicio='';	
-	$fecha_fin='';	
-	$elTipo=0;	 
-	$laProvincia=0;	
-	$laCiudad=0;
 	
-	$imagenActual=isset($_POST['fotoss']) ? $_POST['fotoss']:'';
+
 	
+	$imagenActual=isset($_POST['fotoss']) ? $_POST['fotoss']:'';	
 	$primerImagen=isset($_POST['primerImagen']) ? $_POST['primerImagen']:'';
 	
 
@@ -69,8 +71,8 @@ if(!isset($_POST['unaVez'])){
 	//Antes de seguir la página tengo que ver esto depende de ello que desvíe a otra página si tiene SOLICITUD o no!!!
 	$paginaConsulta=$conn->query("Select * FROM couchs INNER JOIN solicitud ON couchs.id = solicitud.idcouch where couchs.id='$idvieja'"); 
 	
-	if($paginaConsulta->num_rows!=0)
-	  header("Location:modificarCouchParte.php?idCouch=$idvieja");  
+	if($paginaConsulta->num_rows==0)
+	  header("Location:modificarCouch.php?idCouch=$idvieja");  
 	
 	
 	
@@ -97,49 +99,22 @@ if(!isset($_POST['unaVez'])){
 	//echo "UNA VEZ";
 	
 	$titulo= addslashes(utf8_encode($row["titulo"]));
-	$direccion= addslashes(utf8_encode($row["direccion"]));
 	$descripcion=addslashes(utf8_encode($row["descripcion"]));	 
-	$fecha_inicio=addslashes(utf8_encode($row["fechainicio"]));	
-	if($fecha_inicio<= date("20y-m-d"))
-	   $fecha_inicio=date("20y-m-d");
-	$fecha_fin=addslashes(utf8_encode($row["fechafin"]));	
-	$elTipo=addslashes(utf8_encode($row["idtipo"]));	 
-	$laProvincia=addslashes(utf8_encode($row["provincia"]));	
-	$laCiudad=addslashes(utf8_encode($row["ciudad"]));
 	}
 	
 	
 	if($imagenActual=='no')
 		$imagenActual='cambiar';  
-    
+	
 	
 	
 	$titulo= isset($_POST['titulo']) ? $_POST['titulo']:$titulo;
-	$direccion= isset($_POST['direccion']) ? $_POST['direccion']:$direccion;
-	$fecha_inicio= isset($_POST['fecha_inicio']) ? $_POST['fecha_inicio']:$fecha_inicio;
-	$fecha_fin= isset($_POST['fecha_fin']) ? $_POST['fecha_fin']:$fecha_fin;
 	$descripcion= isset($_POST['descripcion']) ? $_POST['descripcion']:$descripcion;
-	
-	
-	$elTipo = isset($_POST['tipo']) ? $_POST['tipo']:$elTipo;
-	$laProvincia = isset($_POST['provincia']) ? $_POST['provincia']:$laProvincia;
-    $laCiudad = isset($_POST['ciudad']) ? $_POST['ciudad']:$laCiudad;
 	
 	
     $confirmado=isset($_POST['enviar_todo']) ? $_POST['enviar_todo']:"";
 	
-	$nombreDeProvincia="";
-	$nombreDeCiudad="";
-	$nombreDeTipo="";
-
-
-		  $titulo_mal="";			
-		  $direccion_mal="";		
-		  $fechaI_mal="";
-	      $fechaF_mal="";
-		  $tipo_mal="";  
-		  $provincia_mal=""; 
-		  $ciudad_mal="";
+		  $titulo_mal="";					
 	      $imagen_mal="";
           $descripcion_mal="";
 			
@@ -184,8 +159,7 @@ while ($archivo = readdir($directorio)) {
 
 
 if($imagenActual=='cambiar'){
-	
-	
+		
 //Caso que seleccionemos las imágenes:::::::::
 if($imagenes_previas=='si' && $total==0){
   
@@ -290,41 +264,7 @@ $todas_fotos="";
 			$titulo_mal="Tiene que tener al menos un título";
 			 $valido_todo=false;
 			}
-        if(strlen($direccion)<3){
-			$direccion_mal="Tiene que tener al menos una dirección";
-			$valido_todo=false;
-			}	
-	   
-	      if(($fecha_inicio)==""){
-			$fechaI_mal="Necesita una fecha de inicio";
-			$valido_todo=false;
-			}	
-	      	
-	    $hoy= date("20y-m-d");
-		
-		if(($fecha_inicio) < $hoy){
-			$fechaI_mal="Necesita ser una fecha igual o posterior a hoy";
-			$valido_todo=false;
-			}	
-		 
-		 if($fecha_fin <= $fecha_inicio && $fecha_fin!=""){
-	       $fechaF_mal="La fecha Fin tiene que ser mayor que la de inicio";
-		   $valido_todo=false;
-		 }	
-		
-		 if(($elTipo)==0){
-			$tipo_mal="Necesita un tipo de Couch";
-			$valido_todo=false;
-			}	
-		if(($laProvincia)==0){
-			$provincia_mal="Necesita una Provincia";
-			$valido_todo=false;
-			}	
-	    if(($laCiudad)==0){
-			$ciudad_mal="Necesita una Ciudad";
-			$valido_todo=false;
-		}
-	    
+ 
 		if( $total==0 && $imagenActual=='cambiar'){
 	      $imagen_mal="Debe tener al menos una imagen";
 		  $valido_todo=false;
@@ -352,21 +292,19 @@ $todas_fotos="";
 
 
     $titulo= utf8_decode($titulo);
-	$direccion= utf8_decode($direccion);	
 	$descripcion= utf8_decode($descripcion);
 
 	$elUsuario=$_SESSION['usuario'];  
 	   
 	  // echo $titulo.'<br>'.$idvieja;
    
-	   $sql3 = ("UPDATE couchs set titulo='$titulo',direccion='$direccion',fechainicio='$fecha_inicio',fechafin='$fecha_fin',descripcion='$descripcion',idtipo='$elTipo',provincia='$laProvincia',ciudad='$laCiudad' where id=$idvieja");
+	   $sql3 = ("UPDATE couchs set titulo='$titulo',descripcion='$descripcion' where id=$idvieja");
 	   
 	   
 	
 	
 	
 	$titulo= utf8_encode($titulo);
-	$direccion= utf8_encode($direccion);	
 	$descripcion= utf8_encode($descripcion);
 	   
 	   
@@ -378,7 +316,7 @@ $todas_fotos="";
 		//Elimino estas imágenes en este momento:::::
 		$imagenesNombres=$conn->query("select * from fotos where idcouch='$idvieja'");
 	   while($cadaUna=$imagenesNombres->fetch_array()){
-		  // echo $cadaUna['link'].'<br>';
+		   //echo $cadaUna['link'].'<br>';
 		   unlink("images/couch/".utf8_decode($cadaUna['link'])."");
 		   }
 	    $EliminarViejas=$conn->query("delete from fotos where idcouch='$idvieja'");
@@ -432,128 +370,19 @@ $todas_fotos="";
  
 <div class="container">
 <div class="posicion_registo_usuario" >
- <span class="titulo">Modificar Couch</span><br>
- <form method="post" onSubmit="return valida()" action="modificarCouch.php" name="registro"  ENCTYPE="multipart/form-data" > 
-
-    <input name="titulo" type="text" id="titulo" placeholder="Título" onblur="validar_campo(this);" onclick="limpiar(this)" maxlength="50" value="<?php echo $titulo;?>"/> 
+ <p class="titulo">Modificar Couch</p>
+ <span class="docel">( Tiene solicitudes pendientes o aceptadas<br>
+ Solo puede Cambiar los siguientes atributos )</span><br><br>
+ <form method="post" onSubmit="return validaParte()" action="modificarCouchParte.php" name="registro"  ENCTYPE="multipart/form-data" > 
+   
+   <input name="titulo" type="text" id="titulo" placeholder="Título" onblur="validar_campo(this);" onclick="limpiar(this)" maxlength="50" value="<?php echo $titulo;?>"/> 
       </br>
       <span class="cancela_todas"><?php echo $titulo_mal; ?> </span>
       </br>
 
 
 
-
-    <input name="direccion" type="text" id="direccion" placeholder="Dirección" onblur="validar_campo(this);" onclick="limpiar(this)"  maxlength="150" value="<?php echo $direccion;?>"/> 
-      </br>
-      <span class="cancela_todas"><?php echo $direccion_mal; ?> </span>
-      </br>
-  
-  
-  
-          
-    <input type="date" name="fecha_inicio" id="fecha_inicio" value="<?php echo $fecha_inicio;?>" />  
-    Fecha de inicio
-      </br>
-      <span class="cancela_todas"><?php echo $fechaI_mal; ?> </span>
-      </br>
-    
-    
-    
-        
-      <input type="date" name="fecha_fin" id="fecha_fin" value="<?php echo $fecha_fin;?>"/>  
-    Fecha de fin
-      </br>
-      <span class="cancela_todas"><?php echo $fechaF_mal; ?> </span>
-      </br>
-  
-  
-  
-  
-  
-  
-  
-    <select name="tipo"  id="tipo" class="select2" multiple="false"  style="width:350px">
-    <?php 
-	$sqltipos = "select * from tipos_couch";
-	$tipos=$conn->query($sqltipos);
-
-    while($row=$tipos->fetch_array()){ 
-       $nombre_nacion=addslashes(utf8_encode($row['tipo']));
-       echo "<option value=".$row['id'].">" .htmlentities($nombre_nacion )."</ option>"; 
-   
-   
-    if($elTipo==$row['id'])
-	  $nombreDeTipo= addslashes(utf8_encode($row['tipo']));	
-	} 
-    
-     if($elTipo!=0)
-       echo "<option value=".$elTipo." selected>" .$nombreDeTipo."</ option>";  
-      ?>
-      </select> 
-      </br>
-      <span class="cancela_todas"><?php echo $tipo_mal; ?> </span>
-      </br>
-    
-    
  
-    
-    
-    
-    
-    <select name="provincia" id="provincia" class="selectProvincia" multiple="false" style="width:350px" onChange="enviar_provincia();">
-    <?php 
-	$sqltipos = "select * from provincia";
-	$tipos=$conn->query($sqltipos);
-
-    while($row=$tipos->fetch_array()){ 
-       $nombre_nacion=addslashes(utf8_encode($row['provincia_nombre']));
-       echo "<option value=".$row['id'].">" .htmlentities($nombre_nacion )."</ option>"; 
-     
-	 if($laProvincia==$row['id'])
-	  $nombreDeProvincia= addslashes(utf8_encode($row['provincia_nombre']));	
-	} 
-    
-     if($laProvincia!=0)
-       echo "<option value=".$laProvincia." selected>" .$nombreDeProvincia."</ option>";  
-      ?>
-    </select> 
-      </br>
-      <span class="cancela_todas"><?php echo $provincia_mal; ?> </span>
-      </br>
-    
-    
-    
- 
- 
- 
-    
-    <select name="ciudad" id="ciudad" class="selectCiudad" multiple="false"  style="width:350px">
-    <?php 
-	$sqltipos = "select * from ciudad where provincia_id=".$laProvincia."";
-	$tipos=$conn->query($sqltipos);
-
-    while($row=$tipos->fetch_array()){ 
-       $ciudad=addslashes(utf8_encode($row['ciudad_nombre']));
-       echo "<option value=".$row['id'].">" .htmlentities($ciudad )."</ option>"; 
-    
-	 if($laCiudad==$row['id'])
-	  $nombreDeCiudad= addslashes(utf8_encode($row['ciudad_nombre']));	
-	} 
-    
-     if($laCiudad!=0 && $laProvincia!=0)
-       echo "<option value=".$laCiudad." selected>" .$nombreDeCiudad."</ option>";  
-    ?>
-      </select>   
-      </br>
-      <span class="cancela_todas"><?php echo $ciudad_mal; ?> </span>
-      </br>
-   
-   
- 
- 
- 
- 
-      
       <input type="hidden" id="imagenes_previas" name="imagenes_previas" value="<?php echo $imagenes_previas; ?>"> 
           
         <?php  if($imagenActual=='si'){

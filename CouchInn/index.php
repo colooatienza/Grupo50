@@ -91,19 +91,20 @@
        $Cadena_tipo=' AND couchs.idtipo='.$elTipo.' ';  
   
 	 if($fecha_inicio < date('20y-m-d') and $fecha_inicio!='' ){  $fecha_inicio=date('20y-m-d');}
-	
+	  
 	 if($fecha_inicio!='dd/mm/aa' && $fecha_inicio!=''){	
-         $Cadena_inicio=' AND couchs.fechainicio<="'.$fecha_inicio.'"';
-	     $Cadena_fin=' AND couchs.fechafin>="'.$fecha_inicio.'"'; }
+         $zero='0000-00-00';
+		 $Cadena_inicio='AND (( couchs.fechainicio<="'.$fecha_inicio.'"';
+	     $Cadena_fin=' AND couchs.fechafin>="'.$fecha_inicio.'")or (couchs.fechafin="'.$zero.'"))'; }
 	 	 
     $cadenaTitulo= ' AND titulo like "%'.$busqueda.'%"';	
 
-	$Cadena_total= ' '.$Cadena_provincia.' ' .$Cadena_ciudad.' '.$Cadena_tipo.' '.$Cadena_fin.' '.$Cadena_inicio.' '.$cadenaTitulo.' ';
+	$Cadena_total= ' '.$Cadena_provincia.' ' .$Cadena_ciudad.' '.$Cadena_tipo.' '.$Cadena_inicio.' '.$Cadena_fin.' '.$cadenaTitulo.' ';
  
  
  
    
-    $couchsql = "Select * FROM couchs INNER JOIN fotos ON couchs.id = fotos.idcouch INNER JOIN ciudad ON ciudad.id = couchs.ciudad  WHERE disponible=1 ".$Cadena_total." AND fechafin> CURDATE() GROUP BY couchs.id order by couchs.fechafin desc";
+    $couchsql = "Select * FROM couchs INNER JOIN fotos ON couchs.id = fotos.idcouch INNER JOIN ciudad ON ciudad.id = couchs.ciudad  WHERE disponible=1 ".$Cadena_total." AND (fechafin> CURDATE() or fechafin='0000-00-00') GROUP BY couchs.id order by couchs.fechafin desc";
  
  
        
@@ -291,13 +292,17 @@
         //---------------------
               
             if($fecha >= $row['fechainicio']){
-				 echo '<p>---</p>';
+				 echo '<p>Desde: Hoy</p>';
 				}else{ 
 			 echo '<p> Desde: '.date('d/m/y', strtotime(utf8_encode($row['fechainicio']))).'</p>';}
 			 
 			//echo'<p>Desde: '.$fecha.'</p>';
+			if( $row['fechafin']=='0000-00-00')
+			  echo "<p>Hasta: sin especificar</p>";
+			  else
             echo'<p>Hasta: '.date('d/m/y', strtotime(utf8_encode($row['fechafin']))).'</p>';
-             echo'<p><a href="consultaCouch.php?id='.$row[0].'" class="btn btn-primary" role="button"></span>Ver Detalles</a></p>';
+           
+		     echo'<p><a href="consultaCouch.php?id='.$row[0].'" class="btn btn-primary" role="button"></span>Ver Detalles</a></p>';
 			 echo'</div>';
           echo'</div>';
         echo'</div>';

@@ -146,7 +146,13 @@ function solicitar(id){
     </tr>
     <tr>
       <td height="48"><b><p style="margin-left:20px; " align="right">Fecha Fin:</b></td>
-      <td height="48">&nbsp;<input style="width:100px" type="text" readonly value=<?php  echo date('d/m/y', strtotime(utf8_encode($datos['fechafin']))); ?> ></td> 
+      <td height="48">&nbsp;<input style="width:100px" type="text" readonly value=<?php  
+	  if($datos['fechafin']=='0000-00-00')
+	  echo 'Inf.';
+	  else
+	  echo date('d/m/y', strtotime(utf8_encode($datos['fechafin']))); 
+	  ?> ></td> 
+    
     </tr>
     <tr>
       <td><b><p style="margin-left:20px; " align="right">Descripción:</b></td>
@@ -198,11 +204,11 @@ function solicitar(id){
 		 }else{
 		?>
            Debes <a href="login.php">Iniciar Sesión</a> para preguntar:<br>
-		   <textarea name="pregunta" disabled id="pregunta" cols="59" rows="3"  style="resize:none;"></textarea>
+		   <textarea name="pregunta" disabled id="pregunta" cols="59" rows="3"  style="resize:none;"></textarea>  <br><br>
          <?php  } }
 		  
 		  ?>
-           <br><br>
+          
            
          
            <?php   
@@ -215,7 +221,7 @@ function solicitar(id){
 
 		   }
 	   ?>  </span></b><br>
-      <br>
+      
       
       
       

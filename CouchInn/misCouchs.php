@@ -87,7 +87,7 @@
  
   $elUsuario=$_SESSION['usuario'];
   
-    $couchsql = "Select * FROM couchs INNER JOIN fotos ON couchs.id = fotos.idcouch INNER JOIN ciudad ON ciudad.id = couchs.ciudad  WHERE usuario='$elUsuario'  AND fechafin> CURDATE() GROUP BY couchs.id order by couchs.disponible desc";
+    $couchsql = "Select * FROM couchs INNER JOIN fotos ON couchs.id = fotos.idcouch INNER JOIN ciudad ON ciudad.id = couchs.ciudad  WHERE usuario='$elUsuario' AND (fechafin> CURDATE() or fechafin='0000-00-00') GROUP BY couchs.id order by couchs.disponible desc";
        
  
    $couchs=$conn->query($couchsql);
@@ -136,11 +136,18 @@
    
              
 			echo'<td class="separados">'.$fecha.'</td>';
-            echo'<td class="separados">'.date('d/m/20y', strtotime(utf8_encode($row['fechafin']))).'</td>';
-             echo'<td class="separados"><a href="consultaCouch.php?id='.$row[0].'" role="button"></span><img src="images/detalles.png" width="15" height="15"> Ver Detalles</a></td>';
+			
+            echo'<td class="separados">';
+			if($row['fechafin']=='0000-00-00')
+			  echo 'Sin Especificar';
+			  else
+			  echo date('d/m/20y', strtotime(utf8_encode($row['fechafin'])));
+			echo'</td>';
+            
+			 echo'<td class="separados"><a href="consultaCouch.php?id='.$row[0].'" role="button"></span><img src="images/detalles.png" width="15" height="15"> Ver Detalles</a></td>';
 			 
 			 
-			 echo'<td class="separados"><a href="consultaCouch.php?id='.$row[0].'" role="button"></span><img src="images/editar.png" width="15" height="15" alt="sd"> Modificar</a></td>';
+			 echo'<td class="separados"><a href="modificarCouch.php?idCouch='.$row[0].'" role="button"></span><img src="images/editar.png" width="15" height="15" alt="sd"> Modificar</a></td>';
 			
 			
 			 if($row['disponible']==0){
