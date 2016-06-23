@@ -36,6 +36,12 @@ include("menu.php");
 	$sqlciudades = "select * from ciudades";
 	$ciudades=$conn->query($sqlciudades);
 	
+	$id=isset($_GET['idCouch'])? $_GET['idCouch'] :0;
+	$idvieja=isset($_POST['idF5'])? $_POST['idF5'] :$id;
+	
+	if($idvieja==0){
+		header("Location: index.php");
+		}
 	
 	
 	$titulo='';
@@ -47,13 +53,30 @@ include("menu.php");
 	$laProvincia=0;	
 	$laCiudad=0;
 	
+	$imagenActual=isset($_POST['fotoss']) ? $_POST['fotoss']:'';
 	
-	
+	$primerImagen=isset($_POST['primerImagen']) ? $_POST['primerImagen']:'';
 	
 if(!isset($_POST['unaVez'])){
-	$traer_couch=$conn->query("select * from couchs where id=60");
+	$esteUsuario=$_SESSION['usuario'];
+    $traer_couch=$conn->query("select * from couchs where id='$idvieja' and usuario='$esteUsuario'");
+	
+	//Para que no cambiemos los couchs de otros USUARIOS::::::
+	if($traer_couch->num_rows == 0) 
+	  header("Location: index.php");	
+	
+	$imagen_couch=$conn->query("select * from fotos where idcouch='$idvieja'");
+	
+	$primerImagen=$imagen_couch->fetch_array();
+	$primerImagen=$primerImagen['link'];
+	$laImagen= $imagen_couch->num_rows;
+	if($laImagen!=0){
+	  //echo $laImagen;
+	  $imagenActual='si';
+	}else{ $imagenActual='';}
+	
 	$row=$traer_couch->fetch_array();
-	 
+	//echo "UNA VEZ";
 	
 	$titulo= addslashes(utf8_encode($row["titulo"]));
 	$direccion= addslashes(utf8_encode($row["direccion"]));
@@ -63,9 +86,20 @@ if(!isset($_POST['unaVez'])){
 	$elTipo=addslashes(utf8_encode($row["idtipo"]));	 
 	$laProvincia=addslashes(utf8_encode($row["provincia"]));	
 	$laCiudad=addslashes(utf8_encode($row["ciudad"]));
-
 	}
 	
+	
+	if($imagenActual=='no'){
+		$imagenActual='cambiar';  
+      echo "SE ELIMINAN ACÁ  Y PASA UNA SOLA VEZZZ HUIIIIJAAAAAAA<br><br>";
+     /*
+	   $imagenesNombres=$conn->query("select * from fotos where idcouch='$idvieja'");
+	   while($cadaUna=$imagenesNombres->fetch_array()){
+		   echo $cadaUna['link'].'<br>';
+		   unlink("images/couch/".utf8_decode($cadaUna['link'])."");
+		   }
+	    $EliminarViejas=$conn->query("delete from fotos where idcouch='$idvieja'"); */
+	}
 	
 	
 	$titulo= isset($_POST['titulo']) ? $_POST['titulo']:$titulo;
@@ -137,7 +171,9 @@ while ($archivo = readdir($directorio)) {
 
 
 
-
+if($imagenActual=='cambiar'){
+	
+	
 //Caso que seleccionemos las imágenes:::::::::
 if($imagenes_previas=='si' && $total==0){
   
@@ -216,16 +252,17 @@ $i=0;
 $todas_fotos="";
    
   //Necesito su lista de nombres de las IMÁGENES POR TANTO LAS PONGO EN ESE LISTADO. 
+  
   if($valido_todo==true && $total!=0){          
 		 while($i<$total){          
 	   $arreglo_fotos_previas[$i]= isset($_POST[$i.'cant']) ? $_POST[$i.'cant']:$arreglo_fotos_previas[$i];
 	   $i++;
  		  }
 	  }
+  
 
 
-
-
+}
 
 
 
@@ -276,8 +313,9 @@ $todas_fotos="";
 			$valido_todo=false;
 		}
 	    
-		if( $total==0){
+		if( $total==0 && $imagenActual=='cambiar'){
 	      $imagen_mal="Debe tener al menos una imagen";
+		  $valido_todo=false;
 		  }
 	   
 	    if(strlen($descripcion)<3){
@@ -307,7 +345,12 @@ $todas_fotos="";
 
 	$elUsuario=$_SESSION['usuario'];  
 	   
-	   $sql3 = ("INSERT INTO couchs(titulo,descripcion,fechainicio,fechafin,direccion,provincia,ciudad,idtipo,usuario,disponible) VALUES ('$titulo', '$descripcion','$fecha_inicio','$fecha_fin','$direccion','$laProvincia','$laCiudad','$elTipo','$elUsuario',1)");
+	  // echo $titulo.'<br>'.$idvieja;
+   
+	   $sql3 = ("UPDATE couchs set titulo='$titulo',direccion='$direccion',fechainicio='$fecha_inicio',fechafin='$fecha_fin',descripcion='$descripcion',idtipo='$elTipo',provincia='$laProvincia',ciudad='$laCiudad' where id=$idvieja");
+	   
+	   
+	
 	
 	
 	$titulo= utf8_encode($titulo);
@@ -317,48 +360,52 @@ $todas_fotos="";
 	   
 	$result3=$conn->query($sql3); 
 	
+  if($imagenActual=='cambiar'){	
+	    
+			
+		//Elimino estas imágenes en este momento:::::
+		$imagenesNombres=$conn->query("select * from fotos where idcouch='$idvieja'");
+	   while($cadaUna=$imagenesNombres->fetch_array()){
+		   echo $cadaUna['link'].'<br>';
+		   unlink("images/couch/".utf8_decode($cadaUna['link'])."");
+		   }
+	    $EliminarViejas=$conn->query("delete from fotos where idcouch='$idvieja'");
+			
+	
+		  
+      echo $idvieja;
+	     
+    //Con las siguientes instrucciones cambio de directorio las imágenes::::
+    $directorio=opendir("./images/temporales");  
+    //se leen 2 archivos que valen . y ..
+    $archivo = readdir($directorio);
+    $archivo = readdir($directorio);
+    $i=0;
+	
+    while ($i < $total) {  
+      $archivo = readdir($directorio);
+      $archivo= utf8_encode($archivo); 
+      $extension= strstr($archivo, '.'); 
+      $archivo_cortado= $idvieja.'@'.$i.'@'.$_SESSION['usuario'].''.$extension;
+
+
+      if ((strpos($archivo,$_SESSION['usuario'])==true)){
+         rename("./images/temporales/".utf8_encode($archivo)."","./images/couch/".$archivo_cortado."");
+	     //Se lo agrego a la bd:	
+	     $sql4 = ("INSERT INTO fotos(idcouch,link) VALUES ('$idvieja', '$archivo_cortado')"); 
+         $result4=$conn->query($sql4); 	
+      }
+    $i++;
+    }  	
 		
-	$query= $conn->query("SELECT @@identity AS id");
-
- if ($row = $query->fetch_array(MYSQLI_BOTH)) {
-   $id = trim($row[0]);
-   
-  
-  
-  
-    
-
- //Con las siguientes instrucciones cambio de directorio las imágenes::::
-$directorio=opendir("./images/temporales");  
-//se leen 2 archivos que valen . y ..
-$archivo = readdir($directorio);
-$archivo = readdir($directorio);
-
-$i=0;
-while ($i < $total) {  
- $archivo = readdir($directorio);
- $archivo= utf8_encode($archivo); 
- $extension= strstr($archivo, '.');
+  $i=0;	
+	
+  }
+	
+	
  
-$archivo_cortado= $id.'@'.$i.'@'.$_SESSION['usuario'].''.$extension;
-
- if ((strpos($archivo,$_SESSION['usuario'])==true)){
-     rename("./images/temporales/".utf8_encode($archivo)."","./images/couch/".$archivo_cortado."");
-    
-	//Se lo agrego a la bd:	
-	$sql4 = ("INSERT INTO fotos(idcouch,link) VALUES ('$id', '$archivo_cortado')"); 
-    $result4=$conn->query($sql4); 	
- }
-$i++;
-}  	
-		
-$i=0;	
-	
-	
-	
-	//Aca salgo de la página::::
+	  //Aca salgo de la página::::
     echo "Sali de la páginaa::::.";
- }
 	   
 	   }else{
 		   $confirmado="";
@@ -373,8 +420,8 @@ $i=0;
  
 <div class="container">
 <div class="posicion_registo_usuario" >
- <span class="titulo">Agregar Couch</span>
-<form method="post" onSubmit="return valida()" action="modificarCouch.php" name="registro"  ENCTYPE="multipart/form-data" > 
+ <span class="titulo">Modificar Couch</span>
+ <form method="post" onSubmit="return valida()" action="modificarCouch.php" name="registro"  ENCTYPE="multipart/form-data" > 
 
     <input name="titulo" type="text" id="titulo" placeholder="Título" onblur="validar_campo(this);" onclick="limpiar(this)" maxlength="50" value="<?php echo $titulo;?>"/> 
       </br>
@@ -497,7 +544,15 @@ $i=0;
       
       <input type="hidden" id="imagenes_previas" name="imagenes_previas" value="<?php echo $imagenes_previas; ?>"> 
           
-      <?php if($imagenes_previas=='no'){      ?>
+        <?php  if($imagenActual=='si'){
+			
+			echo '<input type="text" id="primerImagen" name="primerImagen" value="'.$primerImagen.'">';
+            echo '<input type="button"  id="enviar" onClick="seguroCambiaImagen()"   value="Cambiar imágenes actuales" />';
+			echo'<td><img src="images/couch/'.$primerImagen.'" style="max-width:100px; max-height:100px;"></td>';
+           
+		}else{
+		   ?>
+      <?php  if($imagenes_previas=='no'){      ?>
       <input type="file" name="fotos[]" id="fotos[]" onChange="enviar_imagenes()" multiple>
         
         <?php    
@@ -518,15 +573,16 @@ $i=0;
 		  //  echo $arreglo_fotos[$i].'<br>';
 		   $i++;
 		  }
-		 } 
-		   echo '</span>';   echo $total.'<br>'.$confirmado;
+		 }  }
+		   echo '</span><br>';
+		 
 		 ?>
   
   
   
-     
+     <input type="text" id="fotoss" name="fotoss" value="<?php echo $imagenActual;?>">
      <input type="hidden" id="total_img" name="total_img" value="<?php echo $total;?>">
-     <input type="hidden" id="enviar_todo" name="enviar_todo" value="<?php echo $confirmado;?>">
+     <input type="text" id="enviar_todo" name="enviar_todo" value="<?php echo $confirmado;?>">
      <!-- </select> -->
        
       </br>
@@ -535,7 +591,7 @@ $i=0;
        
        
     
-    
+        <input type="text" name="idF5" id="idF5" value="<?php echo $idvieja; ?>">
        <input type="hidden" name="unaVez" id="unaVez">
        <textarea name="descripcion" id="descripcion" cols="41" rows="6" placeholder="Inserte una descripcion.."  class="textArea_fijo" ><?php echo $descripcion; ?></textarea>
       </br>

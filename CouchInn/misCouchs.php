@@ -125,37 +125,18 @@
 
 		//Con estas líneas pongo la fecha inicio como hoy si llegara a ser anterior a la actual	
 			
-			$fecha= date('d/m/y', strtotime(utf8_encode($row['fechainicio']))). '<br><br>';
-			$dia_bd= intval(substr($fecha,0,2));
-			$mes_bd= intval(substr($fecha,3,2));
-			$anio_bd = intval(substr($fecha,6,2));
-		    
-			$fecha=date('d/m/y');  
-			$dia_hoy=intval(substr($fecha,0,2));	
-			$mes_hoy=intval(substr($fecha,3,2));	
-			$anio_hoy=intval(substr($fecha,6,2));	
-               $fecha_menor=false;
-			  if($anio_bd <= $anio_hoy){
-			          
-					   if($anio_bd==$anio_hoy){
-						   if($mes_bd<=$mes_hoy){
-							   
-							   if($mes_bd==$mes_hoy){
-								    if($dia_bd<=$dia_hoy){
-										$fecha_menor=true;}
-								   }else{$fecha_menor=true;}
-							}}else{ $fecha_menor=true; }
-			   
-				  }
+			$fecha= utf8_encode($row['fechainicio']);
+			$fechaHoy=date('20y-m-d');
+     
 				
-			     if($fecha_menor==true){ $fecha=date('d/m/y');}else{ $fecha= date('d/m/y',strtotime(utf8_encode($row['fechainicio'])));}
+			     if($fechaHoy>=$fecha){ $fecha=date('d/m/20y');}else{ $fecha= date('d/m/20y',strtotime(utf8_encode($row['fechainicio'])));}
 				 
 		  
    ////----------------------
    
              
 			echo'<td class="separados">'.$fecha.'</td>';
-            echo'<td class="separados">'.date('d/m/y', strtotime(utf8_encode($row['fechafin']))).'</td>';
+            echo'<td class="separados">'.date('d/m/20y', strtotime(utf8_encode($row['fechafin']))).'</td>';
              echo'<td class="separados"><a href="consultaCouch.php?id='.$row[0].'" role="button"></span><img src="images/detalles.png" width="15" height="15"> Ver Detalles</a></td>';
 			 
 			 

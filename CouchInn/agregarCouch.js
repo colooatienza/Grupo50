@@ -77,7 +77,7 @@ $(document).ready(function() {
 			alert ('ERROR! Debe seleccionar una ciudad!');
 			return false;
 		} 
-		if (document.getElementById("total_img").value==0){
+		if (document.getElementById("total_img").value==0 && document.getElementById("fotoss").value=='no'){
 			alert ('ERROR! Debe tener al menos una foto!');
 			return false;
 		} 
@@ -121,6 +121,19 @@ $(document).ready(function() {
 		document.registro.submit();
 		//location.href="index.php";
 		}
+	
+	
+	
+	
+	
+	
+	  //Para el modificarImagen::::::::
+	 function seguroCambiaImagen(){
+	 alert("seguro");
+	 document.getElementById('fotoss').value='no';
+	 document.registro.submit();
+	 }
+
 	
 	
 	

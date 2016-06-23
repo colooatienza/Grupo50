@@ -70,6 +70,8 @@ function solicitar(id){
   <div class="recuadro_consulta_couch" style="background:#F1F1F1; box-shadow: 0 2px 4px 0; width:900px" >
   <table width="800" border="0" style="padding-left:20px;">
  
+ 
+ 
 
     <!--1: La primer fila EL título del COUCH quién publicó el anuncio: -->
     <tr>
@@ -177,6 +179,7 @@ function solicitar(id){
     
     
    
+   
       
        <?php 
 	   
@@ -223,7 +226,7 @@ function solicitar(id){
 		$preguntas=$conn->query("select * from comentarios inner join usuarios on usuarios.nombredeusuario=comentarios.usuario where idcouch=".$id_couch." and idcomentario IS NULL order by id desc ");
          while($fila=$preguntas->fetch_array()){
 			 echo '<div class="contPregunta">';
-			 echo '<span style="font-size:12px;"><img src="images/usuario/'.($fila['foto']).'" width=60px;>&nbsp;&nbsp;'.($fila['usuario']).'</span><br>';
+			 echo '<span style="font-size:13px;"><img src="images/usuario/'.($fila['foto']).'" width=60px; " onerror="this.src=\'images/sin_imagen.png\'">&nbsp;&nbsp;'.($fila['usuario']).'</span><br>';
 			 echo '<br>'.utf8_encode($fila['texto']).'';
 			 
 			 $respuesta=$conn->query("select * from comentarios where idcouch=".$id_couch." and idcomentario =".$fila[0]." ");
