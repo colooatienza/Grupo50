@@ -55,13 +55,19 @@
 			die("Connection failed: " . $conn->connect_error);
 		} 
 
-		$sql = "Select fechainicio, fechafin FROM couchs WHERE id='".$_GET['id']."'";
+
+
+		$sql = "Select fechainicio, fechafin FROM couchs WHERE id='".$_GET['id']."' and disponible=1";
 
 
 		$result=$conn->query($sql);
+		if($result->num_rows==0)
+		  header("Location: index.php");
 		$row=$result->fetch_array();
 		$inicio=$row[0];
 		$fin=$row[1];
+
+
 
 	?> 
 
@@ -69,8 +75,13 @@
 <div class="divTipo" style="width:400px">
 	<form onSubmit="return valida()" method="post" action="couchSolicitado.php" enctype="multipart/form-data">
     
-		</br>
-		<input type="hidden" name="id" id="id" value= <?php echo $_GET['id'] ?> /> 
+		
+        
+        </br>	
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>
+    	  <input type="hidden" name="id" id="id" value= <?php echo $_GET['id'] ?> /> 
 
     	Fecha de inicio
 		<input type="date" name="inicio" id="inicio" value= <?php echo $inicio ?> min= <?php echo $inicio ?> max= <?php echo $fin ?>/>  
@@ -83,11 +94,12 @@
 		<input type="number" name="personas" id="personas" value="1" min="1"> 
       	</br></br>
 
-      <textarea name="descripcion" id="descripcion" placeholder="Inserte una descripción..." cols="41" rows="6"  ></textarea>
+        <textarea name="descripcion" id="descripcion" placeholder="Inserte una descripción..." cols="41" rows="6"  ></textarea>
       </br>
       </br>
 
 <input type= "submit" value= "Concretar solicitud" class= "botonAgregarPago">
+	  </p>
 	  </p> 
 	</form>
 </div>

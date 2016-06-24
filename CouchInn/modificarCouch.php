@@ -478,9 +478,10 @@ $todas_fotos="";
 	$tipos=$conn->query($sqltipos);
 
     while($row=$tipos->fetch_array()){ 
-       $nombre_nacion=addslashes(utf8_encode($row['tipo']));
-       echo "<option value=".$row['id'].">" .htmlentities($nombre_nacion )."</ option>"; 
-   
+       if($row['despublicado']==0){
+	   $nombre_tipo=addslashes(utf8_encode($row['tipo']));
+	   echo "<option value=".$row['id'].">" .htmlentities($nombre_tipo )."</ option>"; 
+	   }
    
     if($elTipo==$row['id'])
 	  $nombreDeTipo= addslashes(utf8_encode($row['tipo']));	

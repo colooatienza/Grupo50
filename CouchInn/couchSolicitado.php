@@ -35,16 +35,17 @@
 		include("conexion.php");
 		include("menu.php");
 		
-		echo'</br></br></br></br></br><div class="divTipo">';
+		echo'</br></br></br></br></br><div class="divTipo" style="width:400px;">';
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		} 
 		$inicio=$_POST['inicio'];
 		$fin=$_POST['fin'];
+		
 $sql = "Select * from solicitud where estado= 'aceptado' AND idcouch='".$_POST['id']."' and ((fin BETWEEN '".$inicio."' AND '".$fin."') OR inicio BETWEEN  '".$inicio."'AND '".$fin."'  OR(('".$fin."' BETWEEN inicio AND fin) OR '".$inicio."' BETWEEN  inicio AND fin)) AND (inicio <> '".$fin."') AND (fin <> '".$inicio."') ";
 
 		$result=$conn->query($sql);
-		if(!$result){
+		if($result->num_rows==0){
 
 
 		$sql = "INSERT INTO `solicitud`(`inicio`, `fin`, `personas`, `descripcion`, `estado`, `idcouch`, `idusuario`) VALUES ('".$_POST['inicio']."','".$_POST['fin']."','".$_POST['personas']."','".$_POST['descripcion']."', 'pendiente', '".$_POST['id']."', '".$_SESSION['usuario']."' ) ";
@@ -59,7 +60,34 @@ $sql = "Select * from solicitud where estado= 'aceptado' AND idcouch='".$_POST['
    else {
    		echo 'Los datos ingresados son inválidos, reintentar...';
    }
+   
+    if($result->num_rows!=0){
+        $solicitudes=$conn->query("select * from solicitud where idcouch='".$_POST['id']."' and estado='aceptado'");  
+        echo '<br><br><br>';
+       
+          echo "No puede solicitar entre las siguientes fechas";
+          echo '<div style="background:#FAA;">';
+		   while($filas=$solicitudes->fetch_array()){
+		  
+          echo '|'.$filas['inicio'].'---------------';
+		  echo $filas['fin'].'|<br>';
+		  
+		  } 
+	}
+       echo '</div>';
+   
+   
+   
    echo'</div>';
+
+
+
+
+
+
 ?>
+
+
+ 
 </body>
 </html>

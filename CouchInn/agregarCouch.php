@@ -31,8 +31,16 @@ include("menu.php");
 	if ($conn->connect_error) {
 	    die("Connection failed: " . $conn->connect_error);
 	} 
+   
+    //Si tiene Pendiente 
+   $sqlPendientes= $conn->query("select * from ");
+
+
+
+
+
 	     
-	$sqlciudades = "select * from ciudades order by ciudad_nombre";
+	$sqlciudades = " from ciudades order by ciudad_nombre";
 	$ciudades=$conn->query($sqlciudades);
 	
 	$titulo= isset($_POST['titulo']) ? $_POST['titulo']:'';
@@ -324,7 +332,7 @@ $i=0;
 	
 	
 	//Aca salgo de la página::::
-    echo "Sali de la páginaa::::.";
+   header("Location:index.php");
  }
 	   
 	   }else{
@@ -382,7 +390,7 @@ $i=0;
   
     <select name="tipo"  id="tipo" class="select2" multiple="false"  style="width:350px">
     <?php 
-	$sqltipos = "select * from tipos_couch";
+	$sqltipos = "select * from tipos_couch where despublicado=0";
 	$tipos=$conn->query($sqltipos);
 
     while($row=$tipos->fetch_array()){ 
