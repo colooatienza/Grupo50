@@ -27,6 +27,16 @@ include("verificarUsuario.php");
 include("conexion.php");
 include("menu.php");	 
 
+ $sql = "select * from solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' ORDER BY solicitud.estado='pendiente' DESC";
+  $result=$conn->query($sql);
+  if(mysqli_num_rows($result)>0){
+    echo' </br> </br> </br>';
+    echo'<div class="divTipo">';
+    echo '<h4 align="center">Tiene calificaciones pendientes! Califique para agregar nuevo Couch!</h4>';
+    echo'</div>';
+  }
+  else{
+
 	// Check connection
 	if ($conn->connect_error) {
 	    die("Connection failed: " . $conn->connect_error);
@@ -323,8 +333,7 @@ $i=0;
 	
 	
 	
-	//Aca salgo de la página::::
-    echo "Sali de la páginaa::::.";
+	header("Location: couchAgregado.php");
  }
 	   
 	   }else{
@@ -521,7 +530,9 @@ $i=0;
 <br><br>
  <hr>
 </div>
-
+<?php 
+}
+?>
 <script language="javascript" src="agregarCouch.js"></script> 
 <script language="javascript" src="registrarUsuario.js"></script> 
 </body>

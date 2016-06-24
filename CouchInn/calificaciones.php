@@ -27,7 +27,7 @@
 		die("Connection failed: " . $conn->connect_error);
 	} 
 	
-	$sql = "SELECT * FROM solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE solicitud.idusuario='".$_SESSION["usuario"]."' AND estado = 'aceptado' ";
+	$sql = "SELECT * FROM solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE solicitud.idusuario='".$_SESSION["usuario"]."' AND estado = 'aceptado' AND solicitud.fin<CURDATE()";
 	$result=$conn->query($sql);
 	?>
 	<h1 align="center">Calificar a Couchers</h1> </br> </br>
@@ -63,7 +63,7 @@
 	</br> </br>
 	<h1 align="center">Calificar a Viajeros</h1> </br> </br>
 	<?php
-		$sql = "SELECT * FROM solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' AND estado = 'aceptado' ";
+		$sql = "SELECT * FROM solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' AND estado = 'aceptado' AND solicitud.fin<CURDATE() ";
 	$result=$conn->query($sql);
 	?>
 	<table class="tablaTipos">

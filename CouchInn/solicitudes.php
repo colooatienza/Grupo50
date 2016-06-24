@@ -11,9 +11,14 @@
   	<link rel="stylesheet" href="css/c.css">
   	<link rel="icon" href="images/logo.jpg">
 	<script type="text/javascript">
-	function confirmar(id) {
-		if(confirm("Realmente desea eliminar?")){
-			window.location.href = "borrarTipo.php?id="+id;
+	function aceptar(ruta) {
+		if(confirm("Confirma aceptar la solicitud?")){
+			window.location.href = ruta;
+		}
+	}	
+	function rechazar(ruta) {
+		if(confirm("Confirma rechazar la solicitud?")){
+			window.location.href = ruta;
 		}
 	}
 	</script>
@@ -53,16 +58,14 @@
 				echo '<td>'. date('d/m/y', strtotime(utf8_encode($row['fin']))). '</td>';
 				echo '<td>'. utf8_encode($row['personas']). '</td>';
 				echo '<td>'. utf8_encode($row['4']). '</td>';
-				if($row["estado"]!='aceptado'){
-        			echo '<td align="center"><a href="aceptarSolicitud.php?id='.$row[0].'&idcouch='.utf8_encode($row['idcouch']).'&inicio='.utf8_encode($row['inicio']).'&fin='.utf8_encode($row['fin']).'" class="btn btn-default">Aceptar</a></td>';
+				if($row["estado"]=='pendiente'){
+					$ruta= 'aceptarSolicitud.php?id='.$row[0].'&idcouch='.utf8_encode($row['idcouch']).'&inicio='.utf8_encode($row['inicio']).'&fin='.utf8_encode($row['fin']);
+        			echo '<td align="center"><button onclick="aceptar(\''.$ruta.'\')">Aceptar</button></td>';
+        			$ruta= 'rechazarSolicitud.php?id='.$row[0];
+        			echo '<td align="center"><button onclick="rechazar(\''.$ruta.'\')">Rechazar</button></td>';
 				}
 				else{
 					echo '<td></td>';
-				}
-				if($row["estado"]!='rechazado'){
-        			echo '<td align="center"><a href="rechazarSolicitud.php?id='.$row[0].'" class="btn btn-default">Rechazar</a></td>';
-				}
-				else{
 					echo '<td></td>';
 				}
 				echo '</tr>';   
