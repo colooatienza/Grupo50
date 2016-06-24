@@ -29,7 +29,15 @@ include("menu.php");
 
  $sql = "select * from solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' ORDER BY solicitud.estado='pendiente' DESC";
   $result=$conn->query($sql);
-  if(mysqli_num_rows($result)>0){
+  $b=false;
+  while($row=$result->fetch_array()){
+    $sql = "SELECT * FROM calificaciones WHERE calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+        $r=$conn->query($sql);
+        if(!$r->fetch_array()){
+          $b=true;
+        }
+}
+if($b){
     echo' </br> </br> </br>';
     echo'<div class="divTipo">';
     echo '<h4 align="center">Tiene calificaciones pendientes! Califique para agregar nuevo Couch!</h4>';

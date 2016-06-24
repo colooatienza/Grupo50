@@ -55,6 +55,23 @@
 			die("Connection failed: " . $conn->connect_error);
 		} 
 
+ $sql = "select * from solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' ORDER BY solicitud.estado='pendiente' DESC";
+  $result=$conn->query($sql);
+  $b=false;
+  while($row=$result->fetch_array()){
+    $sql = "SELECT * FROM calificaciones WHERE calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+        $r=$conn->query($sql);
+        if(!$r->fetch_array()){
+          $b=true;
+        }
+}
+if($b){
+    echo' </br> </br> </br>';
+    echo'<div class="divTipo">';
+    echo '<h4 align="center">Tiene calificaciones pendientes! Califique para agregar nuevo Couch!</h4>';
+    echo'</div>';
+  }
+  else{
 		$sql = "Select fechainicio, fechafin FROM couchs WHERE id='".$_GET['id']."'";
 
 
@@ -90,6 +107,9 @@
 <input type= "submit" value= "Concretar solicitud" class= "botonAgregarPago">
 	  </p> 
 	</form>
+	<?php
+}
+?>
 </div>
 
 </body>
