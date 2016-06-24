@@ -41,7 +41,7 @@
 		</thead>
 		<?php 
 			while($row=$result->fetch_array()){
-				$sql = "SELECT * FROM calificaciones WHERE tipo = 'viajero' AND idusuario ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+				$sql = "SELECT * FROM calificaciones WHERE tipo = 'viajero' AND calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
 				$r=$conn->query($sql);
 				if(!$r->fetch_array()){
 					echo '<tr>';
@@ -76,7 +76,8 @@
 		</thead>
 		<?php 
 			while($row=$result->fetch_array()){
-				$sql = "SELECT * FROM calificaciones WHERE tipo = 'coucher' AND idusuario ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+				$sql = "SELECT * FROM calificaciones WHERE tipo = 'coucher' AND calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+				echo $sql;
 				$r=$conn->query($sql);
 				if(!$r->fetch_array()){
 					echo '<tr>';
