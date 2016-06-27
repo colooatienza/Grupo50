@@ -42,26 +42,37 @@
 	?>
 
 	<?php
-    if (validar()){
+    //if (validar()){
 		include("menu.php");
 		include("conexion.php");
 		
 		
 		// Check connection
-		if ($conn->connect_error) {
+		/*if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		} 
+
+  $sql = "select * from solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' ORDER BY solicitud.estado='pendiente' DESC";
+  $result=$conn->query($sql);
+  if(mysqli_num_rows($result)>0){
+    echo' </br> </br> </br>';
+    echo'<div class="divTipo">';
+    echo '<h4 align="center">Tiene calificaciones pendientes! Califique para agregar nuevo Couch!</h4>';
+    echo'</div>';
+  }
+  else{
 		$sql = "INSERT INTO `couchs`(`titulo`, `descripcion`, `fechafin`, `fechainicio`, `direccion`, `disponible`, `ciudad`, `usuario`, `idtipo`) 
 		VALUES (".$_POST['titulo'].",".$_POST['descripcion'].",".$_POST['fecha_fin'].",".$_POST['fecha_inicio'].",".$_POST['direccion'].",1,0,".$_SESSION['nombredeusuario'].",".$_POST['tipo'].")";
-		$conn->query($sql);
+		$conn->query($sql);*/
 		echo' </br> </br> </br>';
 		echo'<div class="divTipo">';
 		echo '<h4 align="center">Se ha agregado correctamente su Couch!</h4>';
 		echo'</div>';
+ /* }
    }
    else {
    	echo 'Los datos ingresados son inválidos, reintentar...';
-   }
+   }*/
 ?>
 
 </body>

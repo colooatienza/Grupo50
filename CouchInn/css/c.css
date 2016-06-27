@@ -23,6 +23,12 @@
 	margin-top: 15px;
 	}
 	
+	.separados{
+  margin: 10px;
+  padding: 10px;
+  text-align-last:center;
+	}	
+	
 	.cuadroEspect{
 		height: 180px;
 		width: 180px;
@@ -218,10 +224,14 @@
 		border-collapse: collapse;
 		margin:auto;
 	}
-	td,th{
-	background-color: rgb(238, 238, 238);
-	border: solid 1px black;
+	td, th{
+	 
+     background:#DDF;
+	 text-align-last:center;
 	}
+    table{
+		
+		}
 
 	.divEspectaculo{
 	border: solid 1px black;
@@ -257,10 +267,9 @@
 	border: 1px solid #000000;
 	}
 	.tablaTipos{
-		width:40%;
-		display:block;
-		border-collapse: collapse;
-		margin:auto;
+    	width:1000px;
+		border:1px solid #CCC;
+    	margin:auto;
 	}
 	.divTipo{
 	background-color: rgb(238, 238, 238);
@@ -278,4 +287,7 @@
 		margin:10px;
 	}
 }
-	
+
+
+
+

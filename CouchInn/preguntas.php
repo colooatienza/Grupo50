@@ -27,11 +27,20 @@
 		die("Connection failed: " . $conn->connect_error);
 	} 
 	?>
-	<h1 align="center">Preguntas Pendientes</h1> </br> </br>
+	<h1 align="center"><hr>Preguntas Pendientes<hr></h1>
 	<?php
 		$sql = "SELECT * FROM comentarios INNER JOIN couchs ON couchs.id=comentarios.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE couchs.usuario='".$_SESSION["usuario"]."' AND idcomentario IS NULL";
 	$result=$conn->query($sql);
-	?>
+	$filas=$result->num_rows;
+    
+    
+           if($filas==0){
+       echo "<h2 align='center'><span style='font-size:18px; color:#999;'>No tienes preguntas Pendientes</h2>";
+	   echo "<br><br><br>"; 
+	 
+	 
+	 }else{      ?>
+    
 	<table class="tablaTipos">
 		<thead>
 			<th >Couch</th>
@@ -60,5 +69,6 @@
 			}
 				?>
 	</table>
+    <?php }  ?>
 </body>
 </html>

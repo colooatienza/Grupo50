@@ -27,20 +27,39 @@ include("verificarUsuario.php");
 include("conexion.php");
 include("menu.php");	 
 
+ $sql = "select * from solicitud inner join couchs on couchs.id=solicitud.idcouch where estado='aceptado' and idusuario='".$_SESSION['usuario']."' and inicio < curdate() ";
+  $result=$conn->query($sql);
+
+
+ $sql2 = "select * from solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' and estado='aceptado' and inicio < curdate()  ";
+  $result2=$conn->query($sql2);  
+  
+  if(mysqli_num_rows($result)>0 || mysqli_num_rows($result2)>0){
+    echo'</br>';
+    echo'<div class="divTipo">';
+    echo '<h4 align="center"><hr>Tiene calificaciones pendientes. Para poder agregar un nuevo Couch:';
+      if(mysqli_num_rows($result)>0)
+	     echo '<br><br>Califique a Couchers';
+	   if(mysqli_num_rows($result2)>0)
+	     echo '<br><br>Califique a Viajeros';	 
+    echo'<hr></h4></div>';
+  }
+  else{
+
 	// Check connection
 	if ($conn->connect_error) {
 	    die("Connection failed: " . $conn->connect_error);
 	} 
    
     //Si tiene Pendiente 
-   $sqlPendientes= $conn->query("select * from ");
+    //$sqlPendientes= $conn->query("select * from ");
 
 
 
 
 
 	     
-	$sqlciudades = " from ciudades order by ciudad_nombre";
+	$sqlciudades = "select * from ciudades order by ciudad_nombre";
 	$ciudades=$conn->query($sqlciudades);
 	
 	$titulo= isset($_POST['titulo']) ? $_POST['titulo']:'';
@@ -331,8 +350,12 @@ $i=0;
 	
 	
 	
+
 	//Aca salgo de la página::::
-   header("Location:index.php");
+   //header("Location:index.php");
+
+	header("Location: couchAgregado.php");
+
  }
 	   
 	   }else{
@@ -529,7 +552,9 @@ $i=0;
 <br><br>
  <hr>
 </div>
-
+<?php 
+}
+?>
 <script language="javascript" src="agregarCouch.js"></script> 
 <script language="javascript" src="registrarUsuario.js"></script> 
 </body>

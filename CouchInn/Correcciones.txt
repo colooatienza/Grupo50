@@ -10,10 +10,10 @@ Preguntas:
 
 
 
-premium tiene foto
+*****premium tiene foto
 
 si no esta valorado no puede realizar lo siguiente: solicitar, agregar couch, confirmar
 
-la valoracion es cuando termina
+*****la valoracion es cuando termina
 
 no se puede cambiar de rechazado a aceptado

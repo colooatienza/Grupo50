@@ -31,19 +31,24 @@
 		include("menu.php");
 	if($_SESSION["admin"]==0)
 		header("Location: login.php");
-	?> 
 
+	
+	?> 
+  
 <h1 align="center">Modificar Tipo de Couch </h1>
 <div class="divTipo">
 	<form onSubmit="return valida()" method="post" action="TipoModificado.php" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?php echo $_GET['id'] ?> ">
 		Nombre:<input type="text" id="nombre" name="nombre" value= <?php echo getName(); ?> placeholder="Nombre del tipo"> </br>
+        <br>
+       
 		<input type= "submit" class= "botonAgregarTipo" value= "Guardar Cambios"> 
 	</form>
 </div>
 
 </body>
 <?php
+
 function getName(){
 include("conexion.php");
 if ($conn->connect_error) {

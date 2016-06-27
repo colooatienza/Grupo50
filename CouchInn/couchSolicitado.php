@@ -41,26 +41,57 @@
 		} 
 		$inicio=$_POST['inicio'];
 		$fin=$_POST['fin'];
+
+
+
+	
+				
+		
+		
+		$sql_mismoUsuario = "Select * from solicitud where estado!= 'rechazado' and idusuario='".$_SESSION['usuario']."'  AND idcouch='".$_POST['id']."'";
+		$resultado=$conn->query($sql_mismoUsuario);
+		
+		if($resultado->num_rows!=0){
+			 echo '<h4 align="center"> Usted ya tiene una solicitud a este Couch! </h4>';
+		}else{
 		
 $sql = "Select * from solicitud where estado= 'aceptado' AND idcouch='".$_POST['id']."' and ((fin BETWEEN '".$inicio."' AND '".$fin."') OR inicio BETWEEN  '".$inicio."'AND '".$fin."'  OR(('".$fin."' BETWEEN inicio AND fin) OR '".$inicio."' BETWEEN  inicio AND fin)) AND (inicio <> '".$fin."') AND (fin <> '".$inicio."') ";
 
+
+
+
+
+
 		$result=$conn->query($sql);
 		if($result->num_rows==0){
-
-
+           
+		   //En caso que todo esté correcto pueden haber 2 casos:  que se modifique el rechazado  o que se
+		   //agregue como uno nuevo
+		   
+		           
+        if($_POST['modi']!=0){
+			$modi=$_POST['modi'];
+		    $resultado=$conn->query("Update solicitud set estado='pendiente', inicio='".$_POST['inicio']."', fin='".$_POST['fin']."', personas='".$_POST['personas']."',descripcion='".$_POST['descripcion']."'
+		  where id=$modi");
+			
+			}	else{
+		   
 		$sql = "INSERT INTO `solicitud`(`inicio`, `fin`, `personas`, `descripcion`, `estado`, `idcouch`, `idusuario`) VALUES ('".$_POST['inicio']."','".$_POST['fin']."','".$_POST['personas']."','".$_POST['descripcion']."', 'pendiente', '".$_POST['id']."', '".$_SESSION['usuario']."' ) ";
 		$conn->query($sql);
+		
+			}
+			
+			
 		echo '<h4 align="center"> Ha solicitado el Couch exitosamente! </h4>';
-		echo '<a href="index.php">Volver al inicio</a>';
-		}
-		else{
+
+		
+		} else{
 		echo '<h4 align="center"> El Couch se encuentra ocupado en la fecha solicitada! </h4>';
 		}
-   }
-   else {
-   		echo 'Los datos ingresados son inválidos, reintentar...';
-   }
-   
+
+
+		
+		
     if($result->num_rows!=0){
         $solicitudes=$conn->query("select * from solicitud where idcouch='".$_POST['id']."' and estado='aceptado'");  
         echo '<br><br><br>';
@@ -73,14 +104,23 @@ $sql = "Select * from solicitud where estado= 'aceptado' AND idcouch='".$_POST['
 		  echo $filas['fin'].'|<br>';
 		  
 		  } 
-	}
-       echo '</div>';
+         }   
+		}
+	   
+   }else {
+   		echo 'Los datos ingresados son inválidos, reintentar...';
+   }
+   
+	
+	
+	   echo '<a href="index.php">Volver al inicio</a>';
+	   echo '</div>';
    
    
    
    echo'</div>';
 
-
+   
 
 
 

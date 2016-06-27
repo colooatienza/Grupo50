@@ -29,20 +29,30 @@
 	?>
 
 <?php
+    $exito='';
+ 
     if (validar()){
 		include("menu.php");
 		include("conexion.php");
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		} 
+		$consultaPrevia=$conn->query("select * from tipos_couch where tipo='".$_POST['nombre']."'");
+		if($consultaPrevia->num_rows==0){
 		$sql = "Update tipos_Couch  Set tipo= '".$_POST['nombre']."' where id=  '".$_POST['id']."' ";
 		$result = $conn->query($sql);
+		$exito='Se ha modificado correctamente el tipo '.$_POST['nombre'].'!';
+		}else{
+			$exito='No se pudo modificar., el tipo '.$_POST['nombre'].'Ya existe';
+			}
+		
 		echo' </br> </br> </br>';
 		echo'<div class="divTipo">';
-		echo '<h4 align="center">Se ha modificado correctamente el tipo '.$_POST['nombre'].'!</h4>';
+		echo '<h4 align="center">'.$exito.'</h4>';
 		echo '<a href="consultaTipo.php">Volver a Tipos de Couch</a>';
 		echo'</div>';
-   }
+		}
+   
    else {
    		echo 'Los datos ingresados son inválidos, reintentar...';
    }

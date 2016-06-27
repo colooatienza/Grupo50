@@ -57,32 +57,43 @@
 
 
 
-		$sql = "Select fechainicio, fechafin FROM couchs WHERE id='".$_GET['id']."' and disponible=1";
-
+		$sql = "Select fechainicio, fechafin FROM couchs WHERE id='".$_GET['id']."'";
+        
 
 		$result=$conn->query($sql);
+		
 		if($result->num_rows==0)
-		  header("Location: index.php");
+           header("Location: index.php");
+		
 		$row=$result->fetch_array();
 		$inicio=$row[0];
 		$fin=$row[1];
-
-
-
+        $elId=0;
+		
+		if($inicio< date('20y-m-d'))
+		    $inicio=date('20y-m-d');
+		
+       	$solicitud_rec = $conn->query("Select * FROM solicitud where idcouch='".$_GET['id']."' and estado='rechazado' and idusuario='".$_SESSION['usuario']."' ");
+        if($solicitud_rec->num_rows!=0){
+		   $recc=$solicitud_rec->fetch_array();
+		   $elId=$recc[0];
+		}
+	
 	?> 
 
 <h1 align="center">Solicitar Couch</h1>
 <div class="divTipo" style="width:400px">
-	<form onSubmit="return valida()" method="post" action="couchSolicitado.php" enctype="multipart/form-data">
-    
-		
-        
+     <?php  if($elId!=0)
+	    echo '<br><b>Usted tiene este couch como Rechazado.<br>Puede solicitarlo otra vez</b>';  ?>
+	
+    <form onSubmit="return valida()" method="post" action="couchSolicitado.php" enctype="multipart/form-data">
+          
         </br>	
 		<p>&nbsp;</p>
-		<p>&nbsp;</p>
 		<p>
-    	  <input type="hidden" name="id" id="id" value= <?php echo $_GET['id'] ?> /> 
-
+            <input type="hidden" name="modi" id="modi" value= <?php echo $elId; ?> >
+    	  <input type="hidden" name="id" id="id" value= <?php echo $_GET['id'] ?> > 
+         
     	Fecha de inicio
 		<input type="date" name="inicio" id="inicio" value= <?php echo $inicio ?> min= <?php echo $inicio ?> max= <?php echo $fin ?>/>  
       	</br></br>
@@ -91,10 +102,14 @@
 		<input type="date" name="fin" id="fin" value= <?php echo $fin ?>  min= <?php echo $inicio ?> max= <?php echo $fin ?> />  
       	</br></br>
 		Cantidad de Personas
-		<input type="number" name="personas" id="personas" value="1" min="1"> 
+		
+        
+        <input type="number" name="personas" id="personas" value="1" min="1"> 
       	</br></br>
+           
+       	
 
-        <textarea name="descripcion" id="descripcion" placeholder="Inserte una descripción..." cols="41" rows="6"  ></textarea>
+        <textarea style="resize:none;" name="descripcion" id="descripcion" placeholder="Inserte una descripción..." cols="41" rows="6"  ></textarea>
       </br>
       </br>
 

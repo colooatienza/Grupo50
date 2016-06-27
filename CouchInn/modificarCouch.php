@@ -67,7 +67,7 @@ if(!isset($_POST['unaVez'])){
 	
 			
 	//Antes de seguir la página tengo que ver esto depende de ello que desvíe a otra página si tiene SOLICITUD o no!!!
-	$paginaConsulta=$conn->query("Select * FROM couchs INNER JOIN solicitud ON couchs.id = solicitud.idcouch where couchs.id='$idvieja'"); 
+	$paginaConsulta=$conn->query("Select * FROM couchs INNER JOIN solicitud ON couchs.id = solicitud.idcouch where couchs.id='$idvieja' and estado!='rechazado'"); 
 	
 	if($paginaConsulta->num_rows!=0)
 	  header("Location:modificarCouchParte.php?idCouch=$idvieja");  

@@ -32,7 +32,7 @@
 				echo'<p> Nacimiento: '.date('d/m/y', strtotime(utf8_encode($row['fechadenacimiento']))).'</b></p>';
 			}
 		}
-		$sql = "Select AVG(puntuacion) as calif from usuarios INNER JOIN couchs ON couchs.usuario=usuarios.nombredeusuario INNER JOIN calificaciones ON calificaciones.idusuario=nombredeusuario where nombredeusuario='".$_GET['id']."' AND calificaciones.tipo='viajero' GROUP BY nombredeusuario";
+		$sql = "Select AVG(puntuacion) as calif from usuarios INNER JOIN couchs ON couchs.usuario=usuarios.nombredeusuario INNER JOIN calificaciones ON calificaciones.calificado=nombredeusuario where nombredeusuario='".$_GET['id']."' AND calificaciones.tipo='viajero' GROUP BY nombredeusuario";
 		$result=$conn->query($sql);
 		if(mysqli_num_rows($result)==1){
 			if($row=$result->fetch_array()){
@@ -52,7 +52,7 @@
 						echo'<p>Aún no tiene calificaciones como viajero</p>';
 
 		}
-				$sql = "Select AVG(puntuacion) as calif from usuarios INNER JOIN couchs ON couchs.usuario=usuarios.nombredeusuario INNER JOIN calificaciones ON calificaciones.idusuario=nombredeusuario  where nombredeusuario='".$_GET['id']."' AND calificaciones.tipo='coucher' GROUP BY nombredeusuario";
+				$sql = "Select AVG(puntuacion) as calif from usuarios INNER JOIN couchs ON couchs.usuario=usuarios.nombredeusuario INNER JOIN calificaciones ON calificaciones.calificado=nombredeusuario  where nombredeusuario='".$_GET['id']."' AND calificaciones.tipo='coucher' GROUP BY nombredeusuario";
 		$result=$conn->query($sql);
 		if(mysqli_num_rows($result)==1){
 		echo'<h5> Calificacion como Coucher</h5>';

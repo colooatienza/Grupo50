@@ -15,20 +15,30 @@
 
         <?php
         if(isset($_SESSION['logueado']) && $_SESSION['logueado']==true){
+			include('conexion.php');
+			$sqlSolicitudes=$conn->query("select * from solicitud where idusuario='".$_SESSION['usuario']."' and estado!='pendiente'");
+			$fila=$sqlSolicitudes->num_rows;
+			 
         echo '<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Couchs <span class="caret"></span></a>';
          echo' <ul class="dropdown-menu">
 		     <li><a href="misCouchs.php">Ver mis Couchs</a> </li>
             <li><a href="agregarCouch.php">Agregar nuevo Couch</a> </li>
-            <li><a href="solicitudes.php">Solicitudes de mis Couchs</a> </li>
+            <li><a href="solicitudes.php">Solicitudes a mis Couchs</a> </li>
+			 <li><a href="misSolicitudes.php">Solicitudes para Mi&nbsp;&nbsp;';
+			 if($fila!=0)
+			    echo '<span style="color:#FA0">'.$fila.'</span>'; 
+			 echo '</a> </li>
             <li><a href="preguntas.php">Preguntas</a> </li>
             <li><a href="calificaciones.php">Calificar</a> </li>';
-         echo '</ul>
-        </li>';
-        }
+         echo '</ul></li>';
+
+		}
+		
         ?>
 
         <li>
         <?php
+		
         if(isset($_SESSION['admin']) && $_SESSION['admin']==true){				//Pone logout o registrarse
         	echo '<a href="consultaTipo.php" class="active">Categorías de Couchs</a>';
         }
@@ -40,7 +50,8 @@
 
         <?php
         if(isset($_SESSION['logueado']) && $_SESSION['logueado']==true){				//Pone logout o registrarse
-        	echo '<a href="logout.php" class="btn btn-default">Log Out</a>';
+        	echo '<span style="color:#44D;">'.$_SESSION['usuario'].'&nbsp;&nbsp;</span>';
+			echo '<a href="logout.php" class="btn btn-default">Log Out</a>';
         }
         else{
 	        echo '<a href="registrarUsuario1.php" class="btn btn-default">Registrarse</a>';
@@ -51,6 +62,7 @@
       <ul class="nav navbar-nav navbar-right hidden-sm">
         <?php
         if(isset($_SESSION['logueado']) && $_SESSION['logueado']==true){
+			
         echo '<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Perfil <span class="caret"></span></a>';
          echo' <ul class="dropdown-menu">
             <li><a href="modificarUsuario1.php">Modificar Datos Personales</a> </li>';

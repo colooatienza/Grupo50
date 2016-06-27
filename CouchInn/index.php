@@ -104,7 +104,10 @@
  
  
    
-    $couchsql = "Select * FROM couchs INNER JOIN fotos ON couchs.id = fotos.idcouch INNER JOIN ciudad ON ciudad.id = couchs.ciudad  WHERE disponible=1 ".$Cadena_total." AND (fechafin> CURDATE() or fechafin='0000-00-00') GROUP BY couchs.id order by couchs.fechafin desc";
+
+    $couchsql = "Select * FROM couchs INNER JOIN fotos ON couchs.id = fotos.idcouch INNER JOIN ciudad ON ciudad.id = couchs.ciudad inner join usuarios on nombredeusuario=couchs.usuario  WHERE disponible=1 ".$Cadena_total." GROUP BY couchs.id order by destacado=1 desc ";
+
+
  
  
        
@@ -277,10 +280,19 @@
  
     while($row=$couchs->fetch_array()) {
       echo'<div class="col-sm-4 col-md-4 col-lg-4 col-xs-6">';
-        echo'<div class="thumbnail"> <img src="images/couch/'.$row["link"].'"  class="img-responsive">';
-		 echo'<div class="acomodado">';
+        echo'<div class="thumbnail">';
+      if($row["destacado"]==1){ 
+        echo'<img src="images/couch/'.$row["link"].'"  class="img-responsive">';
+		
+      }else{
+	     echo '<br><hr style="border-color:#AAA"><br><img src="images/prohibido.png" width="100" height="100" style="opacity:0.2">(No destacado)<hr style="border-color:#AAA">';}
+		 
+		
+		 echo'<div class="acomodado">';     
          echo'<div class="caption">';
-         echo'<h3>'.utf8_encode($row["titulo"]).'</h3>';
+          if($row["destacado"]==1)
+		    echo '<span style="color:#C80">(Destacado)</span>';
+		 echo'<h3>'.utf8_encode($row["titulo"]).'</h3>';
          echo'<p>Ciudad: '.utf8_encode($row['ciudad_nombre']).'</p>';
 			
 			

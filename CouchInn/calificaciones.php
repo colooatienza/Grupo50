@@ -27,10 +27,19 @@
 		die("Connection failed: " . $conn->connect_error);
 	} 
 	
-	$sql = "SELECT * FROM solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE solicitud.idusuario='".$_SESSION["usuario"]."' AND estado = 'aceptado' ";
+	$sql = "SELECT * FROM solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE solicitud.idusuario='".$_SESSION["usuario"]."' AND estado = 'aceptado' AND solicitud.fin<CURDATE()";
 	$result=$conn->query($sql);
-	?>
-	<h1 align="center">Calificar a Couchers</h1> </br> </br>
+	$filas=$result->num_rows;
+    
+	echo '<hr><h1 align="center">Calificar a Couchers<hr></h1>';
+	
+           if($filas==0){
+       echo "<h2 align='center'><span style='font-size:18px; color:#999;'>No tienes Couchers para Calificar</h2>";
+	   echo "<br>"; 
+	 
+	 
+	 }else{      ?>
+	
 	<table class="tablaTipos">
 		<thead>
 			<th >Couch</th>
@@ -41,7 +50,7 @@
 		</thead>
 		<?php 
 			while($row=$result->fetch_array()){
-				$sql = "SELECT * FROM calificaciones WHERE tipo = 'viajero' AND idusuario ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+				$sql = "SELECT * FROM calificaciones WHERE tipo = 'viajero' AND calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
 				$r=$conn->query($sql);
 				if(!$r->fetch_array()){
 					echo '<tr>';
@@ -60,12 +69,19 @@
 			}
 		?>
 	</table>
+    <?php  } ?>
 	</br> </br>
-	<h1 align="center">Calificar a Viajeros</h1> </br> </br>
+	<h1 align="center"><hr>Calificar a Viajeros<hr></h1> 
 	<?php
-		$sql = "SELECT * FROM solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' AND estado = 'aceptado' ";
+		$sql = "SELECT * FROM solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' AND estado = 'aceptado' AND solicitud.fin<CURDATE() ";
 	$result=$conn->query($sql);
-	?>
+	$filas=$result->num_rows;
+           if($filas==0){
+       echo "<h2 align='center'><span style='font-size:18px; color:#999;'>No tienes Viajeros para Calificar</h2>";
+	   echo "<br>"; 
+	 
+	 
+	 }else{      ?>
 	<table class="tablaTipos">
 		<thead>
 			<th >Couch</th>
@@ -76,7 +92,8 @@
 		</thead>
 		<?php 
 			while($row=$result->fetch_array()){
-				$sql = "SELECT * FROM calificaciones WHERE tipo = 'coucher' AND idusuario ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+				$sql = "SELECT * FROM calificaciones WHERE tipo = 'coucher' AND calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+				echo $sql;
 				$r=$conn->query($sql);
 				if(!$r->fetch_array()){
 					echo '<tr>';
@@ -95,5 +112,6 @@
 			}
 				?>
 	</table>
+    <?php } ?>
 </body>
 </html>

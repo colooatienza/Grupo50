@@ -15,11 +15,7 @@
 <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="icon" href="images/logo.jpg">
 <style>
-.separados{
-  margin: 15px;
-  padding: 15px;
-  
-	}
+
 	.fondo{
   border-color:#000;
   
@@ -96,7 +92,7 @@
    $filas=$couchs->num_rows;    
 
    if($filas==0){
-	    echo "<br><br><span style='font-size:18px; color:#999;'>Todavía no cargaste ningún Couch<br><br><br>"; 
+	    echo "<span style='font-size:18px; color:#999;'>Todavía no cargaste ningún Couch<br><br><br>"; 
 	 
 	 
 	 }else{

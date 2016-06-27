@@ -35,6 +35,10 @@
 
 		}
    echo'</div>';
+	
+	 $sql_rechazarOtras="UPDATE solicitud SET estado= 'rechazado' WHERE idusuario!='".$_GET['idusuario']."' and  idcouch= '".$_GET['idcouch']."' and ((fin BETWEEN '".$inicio."' AND '".$fin."') OR inicio BETWEEN  '".$inicio."'AND '".$fin."'  OR(('".$fin."' BETWEEN inicio AND fin) OR '".$inicio."' BETWEEN  inicio AND fin)) AND (inicio <> '".$fin."') AND (fin <> '".$inicio."')";
+	$rechazos=$conn->query($sql_rechazarOtras);
+	
 	?>
 
 </body>
