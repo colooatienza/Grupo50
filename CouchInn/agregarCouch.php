@@ -31,11 +31,24 @@ include("menu.php");
   $result=$conn->query($sql);
 
 
+
  $sql2 = "select * from solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' and estado='aceptado' and inicio < curdate()  ";
   $result2=$conn->query($sql2);  
   
   if(mysqli_num_rows($result)>0 || mysqli_num_rows($result2)>0){
     echo'</br>';
+
+  $b=false;
+  while($row=$result->fetch_array()){
+    $sql = "SELECT * FROM calificaciones WHERE calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+        $r=$conn->query($sql);
+        if(!$r->fetch_array()){
+          $b=true;
+        }
+}
+if($b==true){
+   
+
     echo'<div class="divTipo">';
     echo '<h4 align="center"><hr>Tiene calificaciones pendientes. Para poder agregar un nuevo Couch:';
       if(mysqli_num_rows($result)>0)
@@ -553,7 +566,7 @@ $i=0;
  <hr>
 </div>
 <?php 
-}
+} }
 ?>
 <script language="javascript" src="agregarCouch.js"></script> 
 <script language="javascript" src="registrarUsuario.js"></script> 

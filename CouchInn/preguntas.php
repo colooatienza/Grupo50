@@ -29,15 +29,21 @@
 	?>
 	<h1 align="center"><hr>Preguntas Pendientes<hr></h1>
 	<?php
+	  //Las preguntas y las respuestas
 		$sql = "SELECT * FROM comentarios INNER JOIN couchs ON couchs.id=comentarios.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE couchs.usuario='".$_SESSION["usuario"]."' AND idcomentario IS NULL";
+		
+	  $sql_res = "SELECT * FROM comentarios INNER JOIN couchs ON couchs.id=comentarios.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE couchs.usuario='".$_SESSION["usuario"]."' AND idcomentario IS not NULL";	
+		
 	$result=$conn->query($sql);
 	$filas=$result->num_rows;
-    
-    
-           if($filas==0){
+	
+	$resp=$conn->query($sql_res);
+	$resp=$resp->num_rows;
+ 
+              if($filas-$resp == 0){
        echo "<h2 align='center'><span style='font-size:18px; color:#999;'>No tienes preguntas Pendientes</h2>";
 	   echo "<br><br><br>"; 
-	 
+	  
 	 
 	 }else{      ?>
     
@@ -51,13 +57,13 @@
 		</thead>
 		<?php 
 			while($row=$result->fetch_array()){
-				$sql = "SELECT * FROM comentarios WHERE idcomentario = ".$row[0];
+				$sql = "SELECT * FROM comentarios WHERE idcomentario=".$row['0'];
 				$r=$conn->query($sql);
 				if(!$r->fetch_array()){
 					echo '<tr>';
 					echo '<form method="post" action="responder.php">';
 					echo '<td>'.utf8_encode($row["titulo"]). '</td>';
-					echo '<td><a href="perfil.php?id='.utf8_encode($row['usuario']). '">'.utf8_encode($row["usuario"]). '</a></td>';
+					echo '<td><a href="perfil.php?id='.utf8_encode($row[2]). '">'.utf8_encode($row[2]). '</a></td>';
 					echo '<td>'.utf8_encode($row["texto"]). '</td>';
 					echo '<td> <input type="text" name="respuesta" id="respuesta" maxlength="50" style="width:500px"> </td>';
 					echo '<td> <input type="submit" value="Responder"> </td>';
