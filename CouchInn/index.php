@@ -105,7 +105,7 @@
  
    
 
-    $couchsql = "Select * FROM couchs INNER JOIN fotos ON couchs.id = fotos.idcouch INNER JOIN ciudad ON ciudad.id = couchs.ciudad inner join usuarios on nombredeusuario=couchs.usuario  WHERE disponible=1 ".$Cadena_total." GROUP BY couchs.id order by destacado=1 desc ";
+    $couchsql = "Select * FROM couchs INNER JOIN fotos ON couchs.id = fotos.idcouch INNER JOIN ciudad ON ciudad.id = couchs.ciudad inner join usuarios on nombredeusuario=couchs.usuario  WHERE disponible=1 ".$Cadena_total." and (fechafin>Curdate() or fechafin=0000-00-00) GROUP BY couchs.id order by destacado=1 desc ";
 
 
  
@@ -285,7 +285,7 @@
         echo'<img src="images/couch/'.$row["link"].'"  class="img-responsive">';
 		
       }else{
-	     echo '<br><hr style="border-color:#AAA"><br><img src="images/prohibido.png" width="100" height="100" style="opacity:0.2">(No destacado)<hr style="border-color:#AAA">';}
+	     echo '<br><hr style="border-color:#AAA"><br><img src="images/prohibido.png" width="100" height="100" style="opacity:0.2">&nbsp;<hr style="border-color:#AAA">';}
 		 
 		
 		 echo'<div class="acomodado">';     

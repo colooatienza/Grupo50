@@ -50,7 +50,7 @@
 		</thead>
 		<?php 
 			while($row=$result->fetch_array()){
-				$sql = "SELECT * FROM calificaciones WHERE tipo = 'viajero' AND calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+				$sql = "SELECT * FROM calificaciones WHERE tipo = 'coucher' AND calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
 				$r=$conn->query($sql);
 				if(!$r->fetch_array()){
 					echo '<tr>';
@@ -60,8 +60,8 @@
 					echo '<td> <input type="number" name="puntuacion" id="puntuacion" min="1" max="5" value="5"> </td>';
 					echo '<td> <input type="text" name="resena" id="resena" maxlength="50"> </td>';
 					echo '<td> <input type="submit" value="Calificar"> </td>';
-					echo ' <input type="hidden" name="tipo" id="tipo" value="viajero">';
-					echo '<input type="hidden" name="idusuario" id="idusuario" value='.$row["idusuario"].'>';
+					echo ' <input type="hidden" name="tipo" id="tipo" value="coucher">';
+					echo '<input type="hidden" name="idusuario" id="idusuario" value='.$row["usuario"].'>';
 					echo '<input type="hidden" name="idcouch" id="idcouch" value='.$row["idcouch"].'>';
 					echo '</form>';
 					echo '</tr>';
@@ -73,7 +73,7 @@
 	</br> </br>
 	<h1 align="center"><hr>Calificar a Viajeros<hr></h1> 
 	<?php
-		$sql = "SELECT * FROM solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' AND estado = 'aceptado' AND solicitud.fin<CURDATE() ";
+		$sql = "SELECT * FROM solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' AND solicitud.fin<CURDATE() ";
 	$result=$conn->query($sql);
 	$filas=$result->num_rows;
            if($filas==0){
@@ -92,7 +92,7 @@
 		</thead>
 		<?php 
 			while($row=$result->fetch_array()){
-				$sql = "SELECT * FROM calificaciones WHERE tipo = 'coucher' AND calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+				$sql = "SELECT * FROM calificaciones WHERE tipo = 'viajero' AND calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
 				$r=$conn->query($sql);
 				if(!$r->fetch_array()){
 					echo '<tr>';
@@ -102,7 +102,7 @@
 					echo '<td> <input type="number" name="puntuacion" id="puntuacion" min="1" max="5" value="5"> </td>';
 					echo '<td> <input type="text" name="resena" id="resena" maxlength="50"> </td>';
 					echo '<td> <input type="submit" value="Calificar"> </td>';
-					echo '<input type="hidden" name="tipo" id="tipo" value="coucher">';
+					echo '<input type="hidden" name="tipo" id="tipo" value="viajero">';
 					echo '<input type="hidden" name="idusuario" id="idusuario" value='.$row["idusuario"].'> ';
 					echo '<input type="hidden" name="idcouch" id="idcouch" value='.$row["idcouch"].'> ';
 					echo '</form>';

@@ -44,7 +44,7 @@
 		die("Connection failed: " . $conn->connect_error);
 	} 
 	
-	$sql = "select * from solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' and estado!='rechazado' order by couchs.id,estado ";
+	$sql = "select * from solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."'  order by couchs.id,estado ";
 	$result=$conn->query($sql);
 	$filas=$result->num_rows;    
 	
@@ -84,8 +84,8 @@
 				
 				echo '<td colspan=2  class="separados"><a href="perfil.php?id='.utf8_encode($row["idusuario"]). '">'.utf8_encode($row["idusuario"]). '</a></td>';
 				
-				echo '<td  class="separados">'. date('d/m/y', strtotime(utf8_encode($row['inicio']))). '</td>';
-				echo '<td  class="separados">'. date('d/m/y', strtotime(utf8_encode($row['fin']))). '</td>';
+				echo '<td  class="separados">'.$row['inicio']. '</td>';
+				echo '<td  class="separados">'.$row['fin']. '</td>';
 				echo '<td  class="separados">'. utf8_encode($row['personas']). '</td>';
 				echo '<td  class="separados">'. utf8_encode($row['4']). '</td>';
 			

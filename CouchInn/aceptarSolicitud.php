@@ -19,11 +19,11 @@
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		} 
-		$sql = "select * from solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' ORDER BY solicitud.estado='pendiente' DESC";
+		$sql = "select * from solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' and inicio<Curdate() ORDER BY solicitud.estado='pendiente' DESC";
   $result=$conn->query($sql);
   $b=false;
   while($row=$result->fetch_array()){
-    $sql = "SELECT * FROM calificaciones WHERE calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+    $sql = "SELECT * FROM calificaciones WHERE calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"]." ";
         $r=$conn->query($sql);
         if(!$r->fetch_array()){
           $b=true;
@@ -52,14 +52,14 @@ if($b){
 
 		}
    echo'</div>';
-<<<<<<< HEAD
+
 	
 	 $sql_rechazarOtras="UPDATE solicitud SET estado= 'rechazado' WHERE idusuario!='".$_GET['idusuario']."' and  idcouch= '".$_GET['idcouch']."' and ((fin BETWEEN '".$inicio."' AND '".$fin."') OR inicio BETWEEN  '".$inicio."'AND '".$fin."'  OR(('".$fin."' BETWEEN inicio AND fin) OR '".$inicio."' BETWEEN  inicio AND fin)) AND (inicio <> '".$fin."') AND (fin <> '".$inicio."')";
 	$rechazos=$conn->query($sql_rechazarOtras);
 	
-=======
+
 }
->>>>>>> origin/master
+
 	?>
 
 </body>

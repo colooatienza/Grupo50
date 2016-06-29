@@ -27,40 +27,57 @@ include("verificarUsuario.php");
 include("conexion.php");
 include("menu.php");	 
 
- $sql = "select * from solicitud inner join couchs on couchs.id=solicitud.idcouch where estado='aceptado' and idusuario='".$_SESSION['usuario']."' and inicio < curdate() ";
+ $sql = "select * from solicitud inner join couchs on couchs.id=solicitud.idcouch where estado='aceptado' and idusuario='".$_SESSION['usuario']."' and fin < curdate() ";
   $result=$conn->query($sql);
 
 
 
- $sql2 = "select * from solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' and estado='aceptado' and inicio < curdate()  ";
+ $sql2 = "select * from solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' and estado='aceptado' and fin < curdate()  ";
   $result2=$conn->query($sql2);  
-  
+   $b=false;
+   $coucheritos=''; $viajeritos='';
   if(mysqli_num_rows($result)>0 || mysqli_num_rows($result2)>0){
     echo'</br>';
 
-  $b=false;
+
   while($row=$result->fetch_array()){
     $sql = "SELECT * FROM calificaciones WHERE calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
         $r=$conn->query($sql);
         if(!$r->fetch_array()){
-          $b=true;
-        }
+           $b=true;
+		   $coucheritos='<br><br>Califique a Couchers';
+		}
+ }
+
+
+  while($row=$result2->fetch_array()){
+    $sql = "SELECT * FROM calificaciones WHERE calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+        $r=$conn->query($sql);
+        if(!$r->fetch_array()){
+           $b=true;
+		 $viajeritos='<br><br>Califique a Viajeros';
+		}
+ }
+
 }
+
+
 if($b==true){
-   
+     
 
     echo'<div class="divTipo">';
     echo '<h4 align="center"><hr>Tiene calificaciones pendientes. Para poder agregar un nuevo Couch:';
       if(mysqli_num_rows($result)>0)
-	     echo '<br><br>Califique a Couchers';
+	     echo $coucheritos;
 	   if(mysqli_num_rows($result2)>0)
-	     echo '<br><br>Califique a Viajeros';	 
+	     echo $viajeritos;	 
     echo'<hr></h4></div>';
   }
   else{
 
 	// Check connection
 	if ($conn->connect_error) {
+		
 	    die("Connection failed: " . $conn->connect_error);
 	} 
    
@@ -566,7 +583,7 @@ $i=0;
  <hr>
 </div>
 <?php 
-} }
+} 
 ?>
 <script language="javascript" src="agregarCouch.js"></script> 
 <script language="javascript" src="registrarUsuario.js"></script> 

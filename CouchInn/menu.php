@@ -16,7 +16,7 @@
         <?php
         if(isset($_SESSION['logueado']) && $_SESSION['logueado']==true){
 			include('conexion.php');
-			$sqlSolicitudes=$conn->query("select * from solicitud where idusuario='".$_SESSION['usuario']."' and estado!='pendiente'");
+			$sqlSolicitudes=$conn->query("select * from solicitud where idusuario='".$_SESSION['usuario']."' and estado!='pendiente' and fin<Curdate()");
 			$fila=$sqlSolicitudes->num_rows;
 			 
         echo '<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Couchs <span class="caret"></span></a>';

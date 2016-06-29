@@ -20,43 +20,26 @@
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		} 
-		echo'</br></br></br></br></br><div class="divTipo">';
+		echo'</br></br></br></br></br><div class="divTipo" style="width:400px;">';
 		$sql = "Select * from usuarios where nombredeusuario='".$_GET['id']."' ";
 		$result=$conn->query($sql);
 		if(mysqli_num_rows($result)==1){
 			if($row=$result->fetch_array()){
 				echo'<p><b>'.$_GET['id'].'</p>';
 				if($row["foto"]!="")
-        			echo'<div style="width:200px; height:150px"> <img src="'.$row["foto"].'"  class="img-responsive"> </div>';
+        			echo'<img src="images/usuario/'.$row["foto"].'"  class="img-responsive" width="180">';
 				echo'<p> Sexo: '.$row['sexo'].'</p>';
 				echo'<p> Nacimiento: '.date('d/m/y', strtotime(utf8_encode($row['fechadenacimiento']))).'</b></p>';
+				echo'<p><b>e-Mail: </b>'.utf8_encode($row['mail']).'</b></p>';
+				if($row['destacado']==1)
+				   echo'<p><div style="color:#E90"> (Destacado) </div></p>';
 			}
-		}
-		$sql = "Select AVG(puntuacion) as calif from usuarios INNER JOIN couchs ON couchs.usuario=usuarios.nombredeusuario INNER JOIN calificaciones ON calificaciones.calificado=nombredeusuario where nombredeusuario='".$_GET['id']."' AND calificaciones.tipo='viajero' GROUP BY nombredeusuario";
+		} echo '<br>';
+		$sql = "Select AVG(puntuacion) as calif from usuarios INNER JOIN calificaciones ON calificaciones.calificado=nombredeusuario where nombredeusuario='".$_GET['id']."' AND calificaciones.tipo='coucher' GROUP BY nombredeusuario";
 		$result=$conn->query($sql);
 		if(mysqli_num_rows($result)==1){
 			if($row=$result->fetch_array()){
-				echo'<h5> Calificacion como viajero</h5>';
-				for($i=1;$i<=5;$i++)
-					if($row['calif']<$i)
-						echo'<span style="font-size:200%">☆</span>';
-					else
-						echo'<span style="font-size:200%">★</span>';
-
-			}
-			else{
-				//header("Locaion: index.php")
-			}
-		}
-		else{
-						echo'<p>Aún no tiene calificaciones como viajero</p>';
-
-		}
-				$sql = "Select AVG(puntuacion) as calif from usuarios INNER JOIN couchs ON couchs.usuario=usuarios.nombredeusuario INNER JOIN calificaciones ON calificaciones.calificado=nombredeusuario  where nombredeusuario='".$_GET['id']."' AND calificaciones.tipo='coucher' GROUP BY nombredeusuario";
-		$result=$conn->query($sql);
-		if(mysqli_num_rows($result)==1){
-		echo'<h5> Calificacion como Coucher</h5>';
-			if($row=$result->fetch_array()){
+				echo'<h5> Calificación como Coucher :</h5>';
 				for($i=1;$i<=5;$i++)
 					if($row['calif']<$i)
 						echo'<span style="font-size:200%">☆</span>';
@@ -70,6 +53,26 @@
 		}
 		else{
 						echo'<p>Aún no tiene calificaciones como Coucher</p>';
+
+		}
+				$sql = "Select AVG(puntuacion) as calif from usuarios INNER JOIN calificaciones ON calificaciones.calificado=nombredeusuario  where nombredeusuario='".$_GET['id']."' AND calificaciones.tipo='viajero' GROUP BY nombredeusuario";
+		$result=$conn->query($sql);
+		if(mysqli_num_rows($result)==1){
+		echo'<h5> Calificación como Viajero :</h5>';
+			if($row=$result->fetch_array()){
+				for($i=1;$i<=5;$i++)
+					if($row['calif']<$i)
+						echo'<span style="font-size:200%">☆</span>';
+					else
+						echo'<span style="font-size:200%">★</span>';
+
+			}
+			else{
+				//header("Locaion: index.php")
+			}
+		}
+		else{
+						echo'<p>Aún no tiene calificaciones como Viajero</p>';
 
 		}
    		echo'</div>';
