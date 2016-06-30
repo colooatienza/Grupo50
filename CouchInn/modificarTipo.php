@@ -39,7 +39,7 @@
 <div class="divTipo">
 	<form onSubmit="return valida()" method="post" action="TipoModificado.php" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?php echo $_GET['id'] ?> ">
-		Nombre:<input type="text" id="nombre" name="nombre" value= <?php echo getName(); ?> placeholder="Nombre del tipo"> </br>
+		Nombre:<input type="text" id="nombre" name="nombre" value= <?php echo utf8_encode(getName()); ?> placeholder="Nombre del tipo"> </br>
         <br>
        
 		<input type= "submit" class= "botonAgregarTipo" value= "Guardar Cambios"> 

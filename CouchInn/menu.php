@@ -16,15 +16,15 @@
         <?php
         if(isset($_SESSION['logueado']) && $_SESSION['logueado']==true){
 			include('conexion.php');
-			$sqlSolicitudes=$conn->query("select * from solicitud where idusuario='".$_SESSION['usuario']."' and estado!='pendiente' and fin<Curdate()");
+			$sqlSolicitudes=$conn->query("select * from solicitud where idusuario='".$_SESSION['usuario']."' and estado='pendiente' and fin>Curdate()");
 			$fila=$sqlSolicitudes->num_rows;
 			 
         echo '<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Couchs <span class="caret"></span></a>';
          echo' <ul class="dropdown-menu">
 		     <li><a href="misCouchs.php">Ver mis Couchs</a> </li>
             <li><a href="agregarCouch.php">Agregar nuevo Couch</a> </li>
-            <li><a href="solicitudes.php">Solicitudes a mis Couchs</a> </li>
-			 <li><a href="misSolicitudes.php">Solicitudes para Mi&nbsp;&nbsp;';
+            <li><a href="solicitudes.php">Solicitudes de mis Couchs</a> </li>
+			 <li><a href="misSolicitudes.php">Mis solicitudes&nbsp;&nbsp;';
 			 if($fila!=0)
 			    echo '<span style="color:#FA0">'.$fila.'</span>'; 
 			 echo '</a> </li>
@@ -35,6 +35,9 @@
 		}
 		
         ?>
+
+
+
 
         <li>
         <?php
@@ -50,7 +53,7 @@
 
         <?php
         if(isset($_SESSION['logueado']) && $_SESSION['logueado']==true){				//Pone logout o registrarse
-        	echo '<span style="color:#44D;">'.$_SESSION['usuario'].'&nbsp;&nbsp;</span>';
+        	echo '<span style="color:#44D;"><a href="perfil.php?id='.$_SESSION['usuario'].'">'.$_SESSION['usuario'].'</a>&nbsp;&nbsp;&nbsp;&nbsp;</span>';
 			echo '<a href="logout.php" class="btn btn-default">Log Out</a>';
         }
         else{

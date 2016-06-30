@@ -47,13 +47,25 @@
 	
 				
 		
+		//Si el mismo usuario lo quiere Registrar 2 veces el mismo COUCH:::::::::::::
 		
-		$sql_mismoUsuario = "Select * from solicitud where estado!= 'rechazado' and idusuario='".$_SESSION['usuario']."'  AND idcouch='".$_POST['id']."'";
+		$sql_mismoUsuario = "Select * from solicitud where estado!= 'rechazado' and idusuario='".$_SESSION['usuario']."'  AND idcouch='".$_POST['id']."' and fin>Curdate()";
 		$resultado=$conn->query($sql_mismoUsuario);
 		
 		if($resultado->num_rows!=0){
 			 echo '<h4 align="center"> Usted ya tiene una solicitud a este Couch! </h4>';
 		}else{
+
+        //SI EL USUARIO TIENE un aceptado de OTRO couch en el rango de fechas que quiere solicitar este.
+		$sql_AceptadoOtro = "Select * from solicitud where estado= 'aceptado' and idusuario='".$_SESSION['usuario']."'  and ((fin BETWEEN '".$inicio."' AND '".$fin."') OR inicio BETWEEN  '".$inicio."'AND '".$fin."'  OR(('".$fin."' BETWEEN inicio AND fin) OR '".$inicio."' BETWEEN  inicio AND fin)) AND (inicio <> '".$fin."') AND (fin <> '".$inicio."') ";
+		$resultado2=$conn->query($sql_AceptadoOtro);
+		
+		if($resultado2->num_rows!=0){
+			
+			     echo '<h4 align="center"> Usted Tiene un Aceptado de otro Couch en ESA FECHA<br> Búsquelo en mis solicitudes </h4>';
+			}else{
+		  
+		
 		
 $sql = "Select * from solicitud where estado= 'aceptado' AND idcouch='".$_POST['id']."' and ((fin BETWEEN '".$inicio."' AND '".$fin."') OR inicio BETWEEN  '".$inicio."'AND '".$fin."'  OR(('".$fin."' BETWEEN inicio AND fin) OR '".$inicio."' BETWEEN  inicio AND fin)) AND (inicio <> '".$fin."') AND (fin <> '".$inicio."') ";
 
@@ -106,7 +118,7 @@ $sql = "Select * from solicitud where estado= 'aceptado' AND idcouch='".$_POST['
 		  } 
          }   
 		}
-	   
+		}
    }else {
    		echo 'Los datos ingresados son inválidos, reintentar...';
    }

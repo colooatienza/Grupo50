@@ -31,12 +31,19 @@
 		// Check connection
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
-		} 
-		$sql = "Insert INTO tipos_Couch (tipo) VALUES ('".$_POST['nombre']."') ";
-		$conn->query($sql);
+		}
+		$texto="No se pudo agregar porque ya existe una categoría con el mismo nombre!"; 
+		$consulta = $conn->query("select * from tipos_Couch where tipo=('".utf8_decode($_POST['nombre'])."')");
+		 if($consulta->num_rows==0){
+			  		$sql = "Insert INTO tipos_Couch (tipo) VALUES ('".utf8_decode($_POST['nombre'])."') ";
+		$conn->query($sql); 
+		$texto="Se ha agregado correctamente la categoría!";
+			 }
+		   
+	
 		echo' </br> </br> </br>';
 		echo'<div class="divTipo">';
-		echo '<h4 align="center">Se ha agregado correctamente la categoría '.$_POST['nombre'].'!</h4>';
+		echo '<h4 align="center">'.$texto.'</h4>';
 		echo '<a href="consultaTipo.php">Volver a Tipos de Couch</a>';
 		echo'</div>';
    }

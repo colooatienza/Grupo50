@@ -37,9 +37,9 @@
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		} 
-		$consultaPrevia=$conn->query("select * from tipos_couch where tipo='".$_POST['nombre']."'");
+		$consultaPrevia=$conn->query("select * from tipos_couch where tipo='".utf8_decode($_POST['nombre'])."'");
 		if($consultaPrevia->num_rows==0){
-		$sql = "Update tipos_Couch  Set tipo= '".$_POST['nombre']."' where id=  '".$_POST['id']."' ";
+		$sql = "Update tipos_Couch  Set tipo= '".utf8_decode($_POST['nombre'])."' where id=  '".utf8_decode($_POST['id'])."' ";
 		$result = $conn->query($sql);
 		$exito='Se ha modificado correctamente el tipo '.$_POST['nombre'].'!';
 		}else{

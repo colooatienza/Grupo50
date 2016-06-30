@@ -374,16 +374,15 @@
 
 
 
+    
+
+<?php
+ //Pongo como caducado todas las solicitudes pendientes cuya fecha inicio pasó hoy y no fueron aceptadas!
+
+  $caducarlas=$conn->query("delete from solicitud where estado!='aceptado' and inicio<curdate()");
 
 
-
-
-
-
-
-
-
-
+?>
 <footer class="text-center">
   <div class="container">
     <div class="row">

@@ -56,17 +56,42 @@
 		} 
 
 
- $sql = "select * from solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' ORDER BY solicitud.estado='pendiente' DESC";
-  $result=$conn->query($sql);
-  $b=false;
-  while($row=$result->fetch_array()){
+
+
+ $sql_ = "select * from solicitud inner join couchs on couchs.id=solicitud.idcouch where estado='aceptado' and idusuario='".$_SESSION['usuario']."' and fin < curdate() ";
+  $result_=$conn->query($sql_);
+
+
+
+ $sql2_ = "select * from solicitud INNER JOIN couchs ON couchs.id=solicitud.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE usuarios.nombredeusuario='".$_SESSION["usuario"]."' and estado='aceptado' and fin < curdate()  ";
+  $result2_=$conn->query($sql2_);  
+   $b=false;
+   $coucheritos=''; $viajeritos='';
+  if(mysqli_num_rows($result_)>0 || mysqli_num_rows($result2_)>0){
+    echo'</br>';
+
+
+  while($row=$result_->fetch_array()){
     $sql = "SELECT * FROM calificaciones WHERE calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
         $r=$conn->query($sql);
         if(!$r->fetch_array()){
-          $b=true;
-        }
+           $b=true;
+		}
+ }
+
+
+  while($row=$result2_->fetch_array()){
+    $sql_ = "SELECT * FROM calificaciones WHERE calificador ='".$_SESSION["usuario"]."' AND idcouch = ".$row["idcouch"];
+        $r=$conn->query($sql_);
+        if(!$r->fetch_array()){
+           $b=true;
+		}
+ }
+
 }
-if($b){
+
+
+if($b==true){
     echo' </br> </br> </br>';
     echo'<div class="divTipo">';
     echo '<h4 align="center">Tiene calificaciones pendientes! Califique para agregar nuevo Couch!</h4>';
