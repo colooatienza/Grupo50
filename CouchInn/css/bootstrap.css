@@ -1123,7 +1123,7 @@ img {
 .carousel-inner > .item > a > img {
   
   max-width:100%;
-   min-height:100px;
+   min-height:240px;
   max-height:450px;
   display: table;
     margin: 0 auto;
