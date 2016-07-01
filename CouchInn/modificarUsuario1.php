@@ -257,7 +257,10 @@
         <br>
           
           <input type="button" value="Cancelar Imagen" onclick="cancela_vieja();" id="resetear2" />
-                <img src="images/usuario/<?php echo $imagen; ?>" style="max-width:100px; max-height:100px;"/> 
+                
+             <img src="images/usuario/<?php echo $imagen;?>?<?php echo time();?>" style="max-width:100px; max-height:100px;"/>
+                
+           
         <div id="vista_previal"><!-- miniatura --></div>
             
 				 

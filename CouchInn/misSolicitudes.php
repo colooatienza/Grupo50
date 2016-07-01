@@ -76,9 +76,10 @@
 				echo '<tr>';
 
 				   echo '<td  class="separados">'.utf8_encode($row["titulo"]).'</td>';	    
-				
-				
-				echo '<td  class="separados"><img src="images/couch/'.$row["link"].'" style="max-width:100px; max-height:100px;"></td>';
+			       echo '<td  class="separados">';	
+			           	
+		?> <img src="images/couch/<?php echo $row["link"];?>?<?php echo time();?>"  style="max-width:100px; max-height:100px;"> <?php
+				echo '</td>';
 				
 				echo '<td  class="separados">'. date('d/m/y', strtotime(utf8_encode($row['inicio']))). '</td>';
 				echo '<td  class="separados">'. date('d/m/y', strtotime(utf8_encode($row['fin']))). '</td>';

@@ -561,7 +561,9 @@ $todas_fotos="";
 			
 			echo '<input type="hidden" id="primerImagen" name="primerImagen" value="'.$primerImagen.'">';
             echo '<input type="button"  id="enviar" onClick="seguroCambiaImagen()"   value="Cambiar imágenes actuales" />';
-			echo'&nbsp;&nbsp;&nbsp;<img src="images/couch/'.$primerImagen.'" style="max-width:100px; max-height:100px;">';
+			
+			?> <img src="images/couch/<?php echo $primerImagen;?>?<?php echo time();?>"  style="max-width:100px; max-height:100px;"> <?php
+			
            
 		}else{
 		   ?>
@@ -574,6 +576,7 @@ $todas_fotos="";
 			echo "Fotos elejidas:"; 
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 			
+			
 			echo '<img src="images/eliminar.png" width="15" height="15" alt="f"><input type=button class="cancela_todas" value="cancelar todas" onClick="cancela_multiples()"><br>';
 		//  echo '<select name="previas" id="previas" multiple="false"  style="width:350px">';
 		   echo '<span style="border:1px solid;">';
@@ -581,7 +584,7 @@ $todas_fotos="";
             
 	       // echo "<option>".$arreglo_fotos[$i]."</option>";
 		  
-		    echo  '<input type="hidden" class="sin_nada" id="'.$i.'cant" name="'.$i.'cant" 
+		    echo  '<input type="text" class="sin_nada" id="'.$i.'cant" name="'.$i.'cant" 
 			value="'.$arreglo_fotos_previas[$i]. '"><br>'; 
 		  //  echo $arreglo_fotos[$i].'<br>';
 		   $i++;

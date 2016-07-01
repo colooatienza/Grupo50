@@ -390,8 +390,10 @@ $todas_fotos="";
 			
 			echo '<input type="hidden" id="primerImagen" name="primerImagen" value="'.$primerImagen.'">';
             echo '<input type="button"  id="enviar" onClick="seguroCambiaImagen()"   value="Cambiar imágenes actuales" />';
-			echo'&nbsp;&nbsp;&nbsp;<img src="images/couch/'.$primerImagen.'" style="max-width:100px; max-height:100px;">';
-           
+			echo'&nbsp;&nbsp;&nbsp';
+			
+			?> <img src="images/couch/<?php echo $primerImagen;?>?<?php echo time();?>"  style="max-width:100px; max-height:100px;"> <?php
+		
 		}else{
 		   ?>
       <?php  if($imagenes_previas=='no'){      ?>

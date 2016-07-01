@@ -109,12 +109,16 @@ function solicitar(id){
           while($row=$fotos->fetch_array()){
             if($i==0){
 				
-              echo'<div class="item active"> <img class="img-responsive"  src="images/couch/'.$row["link"].'" alt="thumb">
-              </div>';
+              echo'<div class="item active">'; ?>
+			   <img src="images/couch/<?php echo $row["link"];?>?<?php echo time();?>"  class="img-responsive"  alt="thumb" >
+			 
+            <?php  echo '</div>';
             }
             else{
-              echo'<div class="item"> <img class="img-responsive" src="images/couch/'.$row["link"].'" alt="thumb">
-              </div>';
+              echo'<div class="item">'; ?>
+              <img src="images/couch/<?php echo $row["link"];?>?<?php echo time();?>"  class="img-responsive"  alt="thumb" >
+			
+             <?php echo '</div>';
             }
             $i++;
           }

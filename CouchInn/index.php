@@ -255,10 +255,10 @@
 				  }
 			}			
 			if($elTipo==0){ ?>
-               <option selected value="0">Cualquiera</option>
+               <option selected value="0">Todos</option>
                <?php }else{  ?>
                
-               <option value="0">Cualquiera</option>
+               <option value="0">Todos</option>
                <?php } ?>
                
              </select>
@@ -284,8 +284,10 @@
       echo'<div class="col-sm-4 col-md-4 col-lg-4 col-xs-6">';
         echo'<div class="thumbnail">';
       if($row["destacado"]==1){ 
-        echo'<img src="images/couch/'.$row["link"].'"  class="img-responsive">';
-		
+      ?>
+      <img src="images/couch/<?php echo $row["link"];?>?<?php echo time();?>" class="img-responsive">;
+   
+		 <?php
       }else{
 	     echo '<br><hr style="border-color:#AAA"><br><img src="images/prohibido.png" width="100" height="100" style="opacity:0.2">&nbsp;<hr style="border-color:#AAA">';}
 		 

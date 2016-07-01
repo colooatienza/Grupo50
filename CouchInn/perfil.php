@@ -27,7 +27,10 @@
 			if($row=$result->fetch_array()){
 				echo'<p><b>'.$_GET['id'].'</p>';
 				if($row["foto"]!="")
-        			echo'<img src="images/usuario/'.$row["foto"].'"  class="img-responsive" width="180">';
+				    
+					?><img src="images/usuario/<?php echo $row["foto"];?>?<?php echo time();?>" class="img-responsive" width="180"> <?php
+					
+        			
 				echo'<p> Sexo: '.$row['sexo'].'</p>';
 				echo'<p> Nacimiento: '.date('d/m/y', strtotime(utf8_encode($row['fechadenacimiento']))).'</b></p>';
 				echo'<p><b>e-Mail: </b>'.utf8_encode($row['mail']).'</b></p>';
