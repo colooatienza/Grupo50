@@ -59,6 +59,7 @@
 
 </head>
 <body>
+  
 <?php 
   include("verificarUsuario.php");
   include("menu.php");
@@ -66,31 +67,34 @@
       if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     } 
-    ?>
+	 
 
+    ?>
+      
 <hr>
 <h2 class="text-center">Mis COUCHS</h2>
 <hr>
 <div class="container">
   <div class="row text-center">
 
-
+     
 
 
   <?php
+                     
   
-
- 
   $elUsuario=$_SESSION['usuario'];
+     
   
     $couchsql = "Select * FROM couchs INNER JOIN fotos ON couchs.id = fotos.idcouch INNER JOIN ciudad ON ciudad.id = couchs.ciudad  WHERE usuario='$elUsuario' AND (fechafin> CURDATE() or fechafin='0000-00-00') GROUP BY couchs.id order by couchs.disponible desc";
        
  
    $couchs=$conn->query($couchsql);
- 
+     
  
    $filas=$couchs->num_rows;    
-
+        
+        
    if($filas==0){
 	    echo "<span style='font-size:18px; color:#999;'>Todavía no cargaste ningún Couch<br><br><br>"; 
 	 
@@ -113,8 +117,8 @@
 	     
 	   
 	    
-        echo'<td><img src="images/couch/'.$row["link"].'" style="max-width:100px; max-height:100px;"></td>';
-		
+      //  echo'<td><img src="images/couch/'.$row["link"].'?time()" style="max-width:100px; max-height:100px;"></td>';
+		?> <td><img src="images/couch/<?php echo $row["link"];?>?<?php echo time();?>" style="max-width:100px; max-height:100px;"></td> <?php
            
        echo'<td class="separados">'.utf8_encode($row['ciudad_nombre']).'</td>';
 			
@@ -158,6 +162,8 @@
     }
 	echo '</table>';
 	 }
+
+	    
 ?>
 
  
@@ -171,11 +177,6 @@
     </ul>
   </nav>
 </div>
-<hr>
-
-
-
-
 <footer class="text-center">
   <div class="container">
     <div class="row">
@@ -189,5 +190,15 @@
 <script src="js/jquery-1.11.3.min.js"></script> 
 <!-- Include all compiled plugins (below), or include individual files as needed --> 
 <script src="js/bootstrap.js"></script>
+<?php
+
+
+
+
+ 
+?>
+ 
+
+<hr>
 </body>
 </html>

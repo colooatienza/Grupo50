@@ -402,7 +402,7 @@ $todas_fotos="";
 
 
       if ((strpos($archivo,$_SESSION['usuario'])==true)){
-         rename("./images/temporales/".utf8_encode($archivo)."","./images/couch/".$archivo_cortado."");
+         rename("./images/temporales/".utf8_decode($archivo)."","./images/couch/".$archivo_cortado."");
 	     //Se lo agrego a la bd:	
 	     $sql4 = ("INSERT INTO fotos(idcouch,link) VALUES ('$idvieja', '$archivo_cortado')"); 
          $result4=$conn->query($sql4); 	
@@ -418,7 +418,7 @@ $todas_fotos="";
  
 	  //Aca salgo de la página::::
     //echo "Sali de la páginaa::::.";
-	    header("Location: misCouchs.php");
+	    header("Location: misCouchs.php?dosPasadas");
 	   }else{
 		   $confirmado="";
 		   }
@@ -622,8 +622,7 @@ $todas_fotos="";
 
 <br><br>
  <hr>
-</div>
-
+</div>     
 <script language="javascript" src="agregarCouch.js"></script> 
 <script language="javascript" src="registrarUsuario.js"></script> 
 </body>

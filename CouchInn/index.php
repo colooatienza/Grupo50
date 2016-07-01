@@ -52,7 +52,9 @@
 
 
   <?php
-      //Al iniciar la página despublico todos los couchs que tienen fecha pasada
+    
+	  
+	  //Al iniciar la página despublico todos los couchs que tienen fecha pasada
 	 //$fecha_hoy= date("20y-m-d");
      //$viejos="update couchs set disponible=1 where fechafin < '".$fecha_hoy."'"; 
 	 //$despublicarViejos= $conn->query($viejos);
@@ -378,6 +380,8 @@
 
 <?php
  //Pongo como caducado todas las solicitudes pendientes cuya fecha inicio pasó hoy y no fueron aceptadas!
+
+
 
   $caducarlas=$conn->query("delete from solicitud where estado!='aceptado' and inicio<curdate()");
 

@@ -367,7 +367,7 @@ while ($i < $total) {
 $archivo_cortado= $id.'@'.$i.'@'.$_SESSION['usuario'].''.$extension;
 
  if ((strpos($archivo,$_SESSION['usuario'])==true)){
-     rename("./images/temporales/".utf8_encode($archivo)."","./images/couch/".$archivo_cortado."");
+     rename("./images/temporales/".utf8_decode($archivo)."","./images/couch/".$archivo_cortado."");
     
 	//Se lo agrego a la bd:	
 	$sql4 = ("INSERT INTO fotos(idcouch,link) VALUES ('$id', '$archivo_cortado')"); 
