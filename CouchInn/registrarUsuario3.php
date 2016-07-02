@@ -97,10 +97,13 @@ $sql_n=$conn->query("select * from paises where id=".$row['nacionalidad']."");
        
    <?php
      $directorio_foto=$row["foto"]; 
-    
+      if($directorio_foto=="")
+	    echo '<img src="images/sin_imagen.png"  style="max-width:150px; max-height:150px; >';
+		 else
 	?>
-    
-    <img src="images/usuario/<?php echo $directorio_foto;?>?<?php echo time();?>" style="max-width:150px; max-height:150px;    min-height:110px; " onerror="this.src=\'images/sin_imagen.png\'">
+     
+    <img src="images/usuario/<?php echo $directorio_foto;?>?<?php echo time();?>" style="max-width:150px; max-height:150px;    min-height:110px; " onerror="this.src=\'images/usuario/premiun.jpg\'">
+   
     </td>
 </tr>
 <tr> <td colspan="2"><hr class="linea_tabla"></td>  </tr>

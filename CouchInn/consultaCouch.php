@@ -110,13 +110,13 @@ function solicitar(id){
             if($i==0){
 				
               echo'<div class="item active">'; ?>
-			   <img src="images/couch/<?php echo $row["link"];?>?<?php echo time();?>"  class="img-responsive"  alt="thumb" >
+			   <img src="images/couch/<?php echo $row["link"];?>?<?php echo time();?>"  class="img-responsive"  alt="thumb" style="min-height:300px;" >
 			 
             <?php  echo '</div>';
             }
             else{
               echo'<div class="item">'; ?>
-              <img src="images/couch/<?php echo $row["link"];?>?<?php echo time();?>"  class="img-responsive"  alt="thumb" >
+              <img src="images/couch/<?php echo $row["link"];?>?<?php echo time();?>"  class="img-responsive"  alt="thumb" style="min-height:300px;" >
 			
              <?php echo '</div>';
             }

@@ -285,17 +285,18 @@
         echo'<div class="thumbnail">';
       if($row["destacado"]==1){ 
       ?>
-      <img src="images/couch/<?php echo $row["link"];?>?<?php echo time();?>" class="img-responsive">;
+      <img src="images/couch/<?php echo $row["link"];?>?<?php echo time();?>" class="img-responsive">
    
 		 <?php
       }else{
-	     echo '<br><hr style="border-color:#AAA"><br><img src="images/prohibido.png" width="100" height="100" style="opacity:0.2">&nbsp;<hr style="border-color:#AAA">';}
+	     echo '<hr style="border-color:#AAA"><br><img src="images/prohibido.png" width="100" height="50" style="opacity:0.2">&nbsp;<hr style="border-color:#AAA">';}
 		 
 		
 		 echo'<div class="acomodado">';     
          echo'<div class="caption">';
           if($row["destacado"]==1)
 		    echo '<span style="color:#C80">(Destacado)</span>';
+			else echo '<br>';
 		 echo'<h3>'.utf8_encode($row["titulo"]).'</h3>';
          echo'<p>Ciudad: '.utf8_encode($row['ciudad_nombre']).'</p>';
 			
