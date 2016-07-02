@@ -101,13 +101,15 @@
      $result_nac=$conn->query($sql_nac);
 	 $row_nac=$result_nac->fetch_array(MYSQLI_BOTH);
 	 
-	 $sexo = isset($_POST['sexo']) ? $_POST['sexo']:"Masculino";
+	 $sexo = isset($_POST['sexo']) ? $_POST['sexo']:"";
 
-	   $m=false;  $f=false;  $mail_mal="";
+	    $mail_mal="";
 	 if($sexo=="Masculino"){
-		 $m=true;
-		 }else{  $f=true;}
-
+		 $m=true; $f=false;
+		 }
+     if($sexo=="Femenino"){
+		 $f=true; $m=false;
+		 }
 	 
 	 $usuario_viejo=$usuario;
     
