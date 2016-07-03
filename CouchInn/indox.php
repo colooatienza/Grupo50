@@ -6,15 +6,17 @@
 <body>
 	<br/>
 	<br/>
-	<h1>Gráficas en PHP</h1>
-	<br/>
-	<img src="graficaUsuariosNuevos.php" />
-    
-    <?php 
-	$i=1;
+  <div style="width:100px; position:relative; left:10%;">
 	
-	$mes= date('Y-'.$i.'-01');  echo $mes;?>
-    
+     <img src="graficaUsuariosNuevos.php">
+    <?php 
+	  
+
+
+	
+	
+    ?>
+    <div>
 </body>
 </html>
 

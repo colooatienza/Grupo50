@@ -37,35 +37,15 @@
 
 </style>
 
-<script>
- function despublicar(pagina){
-	 
-	 direccion="despublicarCouch.php?id="+ pagina +"&hacer="+0;
-	 if(confirm("seguro que quiere DESPUBLICAR este Couch?")){
-		 
-		 location.href=direccion;
-		 }
-		
-	 } 
-
-
- function republicar(pagina){
-	 
-	 direccion="despublicarCouch.php?id="+ pagina +"&hacer="+1;
-	 if(confirm("Seguro que quiere RE-PUBLICAR este Couch?")){
-		 
-		 location.href=direccion;
-		 }
-		
-	 } 
-
-</script>
 
 
 </head>
 <body>
   
 <?php 
+  
+
+
   include("verificarUsuario.php");
   include("menu.php");
   include("conexion.php");
@@ -77,7 +57,7 @@
     ?>
       
 <hr>
-<h2 class="text-center">Mis COUCHS</h2>
+<h2 class="text-center">Todos los Usuarios</h2>
 <hr>
 <div class="container">
   <div class="row text-center">
@@ -88,14 +68,8 @@
   <?php
                      
   
-  $elUsuario=$_SESSION['usuario'];
-     
-  
-    $users=$conn->query( "Select * FROM usuarios order by fecha_registro desc");
-       
- 
-  
-   $filas=$users->num_rows;    
+  $users=$conn->query( "Select * FROM usuarios order by fecha_registro desc");
+  $filas=$users->num_rows;    
         
         
    if($filas==0){
@@ -120,38 +94,8 @@
 	 }
     echo '<br><br><br>';
 	
+
 	
-	$FechaHoy=date('y-m-d');
-	$Fecha1sem= date('Y-m-d', strtotime('-1 week'));
-	$Fecha2sem= date('Y-m-d', strtotime('-2 week'));
-	$Fecha3sem= date('Y-m-d', strtotime('-3 week'));
-    $Fecha4sem= date('Y-m-d', strtotime('-4 week'));
-	$Fecha2mes= date('Y-m-d', strtotime('-2 month'));
-    $Fecha3mes= date('Y-m-d', strtotime('-3 month'));
-	$Fecha4mes= date('Y-m-d', strtotime('-4 month'));
-    $Fecha5mes= date('Y-m-d', strtotime('-5 month'));
-	
-
- $i=0;
-while($i<12){
-	    
-		$mes= date('Y-m-00', strtotime('-'.(11-$i).' month'));
-		$mesAntes= date('Y-m-00', strtotime('-'.(11-$i+1).' month'));
-		$consultaMes=$conn->query( "Select fecha_registro, month(fecha_registro) as mes FROM usuarios  where fecha_registro Between '$mesAntes' AND '$mes'");
-	    $columnas=$consultaMes->num_rows;
-		echo $columnas.'<br>';
-	 $datos[$i]=($columnas)*20;
-  $i++;
-  }
-
-
-
-
-
-
-
-
-
 ?>
 
  

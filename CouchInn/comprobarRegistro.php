@@ -344,7 +344,7 @@ $i=$i+strlen($dominio)+1;
  
 			
 				
-						$sql3 = ("INSERT INTO usuarios(nombredeusuario, clave, nacionalidad, fechadenacimiento,sexo,mail,telefono,celular,descripcion,foto,destacado,admin) VALUES ('$usuario', '$clave','$nacionalidad','$fecha','$sexo','$email','$telefono','$telefono_movil','$descripcion','$destino',0,0)");
+						$sql3 = ("INSERT INTO usuarios(nombredeusuario, clave, nacionalidad, fechadenacimiento,sexo,mail,telefono,celular,descripcion,foto,destacado,admin,fecha_registro) VALUES ('$usuario', '$clave','$nacionalidad','$fecha','$sexo','$email','$telefono','$telefono_movil','$descripcion','$destino',0,0,Curdate())");
 			 
              $result3=$conn->query($sql3);
              

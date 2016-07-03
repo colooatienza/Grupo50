@@ -113,7 +113,7 @@
 		
 		echo '<td><span style="color:#D00;">(Despublicado)</span><h3>'.utf8_encode($row["titulo"]).'</h3></td>';
 		
-		}else{ echo '<tr><td class="separados"><h3>'.utf8_encode($row["titulo"]).'</h3></td>';}
+		}else{ echo '<tr><td><h3>'.utf8_encode($row["titulo"]).'</h3></td>';}
 	     
 	   
 	    
@@ -152,7 +152,7 @@
 			
 			 if($row['disponible']==0){
 			
-				  echo'<td class="separados"><a  role="button" onClick="republicar('.$row[0].')"></span> Republicar</a></td>';
+				  echo'<td><a  role="button" onClick="republicar('.$row[0].')"></span> Republicar</a></td>';
 				 
 				 
 			 }else{

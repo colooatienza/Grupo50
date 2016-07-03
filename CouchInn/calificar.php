@@ -11,9 +11,9 @@
 </head>
 <body>
 	<?php
-		session_start();
-		include("menu.php");
-		include("conexion.php");
+   include("verificarUsuario.php");
+   include("menu.php");
+   include("conexion.php");
 		
 		
 		// Check connection
