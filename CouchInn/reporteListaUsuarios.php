@@ -15,7 +15,11 @@
 <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="icon" href="images/logo.jpg">
 <style>
-
+    .separados{
+  margin: 10px;
+  padding: 10px;
+  
+	}
 	.fondo{
   border-color:#000;
   
@@ -82,10 +86,51 @@
       
 <hr>
 <h2 class="text-center">Todos los Usuarios<hr></h2>
-<hr>
+
 <div class="container">
   <div class="row text-center">
-
+      <?php
+      $fecha_inicio = isset($_GET['fechaI']) ? $_GET['fechaI']:'dd/mm/aa'; 
+      $fecha_fin = isset($_GET['fechaF']) ? $_GET['fechaF']:'dd/mm/aa'; 
+	  $inpu="";
+	  $Cadena_inicio='';
+	  $Cadena_fin='';
+	  
+	    if($fecha_inicio!='dd/mm/aa' && $fecha_inicio!=''){	
+		 $Cadena_inicio='AND (( fecha_registro >= "'.$fecha_inicio.'"))';}
+	   
+	
+	   if($fecha_fin!='dd/mm/aa' && $fecha_fin!=''){	
+		 $Cadena_fin='AND (( fecha_registro <= "'.$fecha_fin.'"))'; }
+	
+	    $Cadena_total= ' '.$Cadena_inicio.' '.$Cadena_fin.' ';
+	  ?>
+      
+    
+    
+    
+    
+      <div class="filtros">
+      <form method="get"  action="reporteListaUsuarios.php"  name="filtro" id="filtro"  ENCTYPE="multipart/form-data" >
+    <table align="center"><tr>
+    <td><b> Rango de fechas
+    <br>(antes que hoy)</b></td>
+    
+    <td class="separados" ><p>Fecha desde:
+      </p>
+      <p>
+        <input type="date" class="<?php echo $inpu;?>" name="fechaI" value="<?php echo $fecha_inicio;?>"onBlur="enviar_filtro()">
+      </p></td>
+    
+    <td class="separados"><p>Hasta:
+      </p>
+      <p>
+        <input type="date" class="<?php echo $inpu;?>" name="fechaF" value="<?php echo $fecha_fin;?>"onBlur="enviar_filtro()">
+      </p></td>
+    </tr></table>
+      <form>
+    </div>
+    
   <?php
    
    
@@ -95,8 +140,8 @@
    $pagina = isset($_GET['pagina']) ? $_GET['pagina'] : 1 ;
    $inicio = ($pagina-1) * $TAMANIO_PAGINA;   
 			          
-  
-  $consulta=( "Select * FROM usuarios order by fecha_registro desc");
+    
+  $consulta=( "Select * FROM usuarios where nombredeusuario=nombredeusuario ".$Cadena_total." order by fecha_registro desc");
   $consulta_lim="".$consulta." limit ".$inicio.",".$ULTIMO_ELEMENTO."";	  
   $users= $conn->query($consulta_lim);
   

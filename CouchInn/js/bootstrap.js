@@ -2367,3 +2367,4 @@ function enviar_filtro(){
 	document.filtro.submit();
 	
 	}
+	
