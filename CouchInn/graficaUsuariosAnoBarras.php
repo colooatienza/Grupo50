@@ -4,7 +4,9 @@ require_once("lib/jpgraph/jpgraph_bar.php");
 
   include("conexion.php");
      
-
+    include("verificarUsuario.php");
+   if($_SESSION["admin"]==false)
+      header("Location: index.php");
 
  
  $datos=array();

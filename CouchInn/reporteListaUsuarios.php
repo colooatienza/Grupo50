@@ -52,8 +52,7 @@
 		 
 		 location.href=direccion;
 		 }
-		
-	 } 
+     } 
 
 
  function republicar(pagina){
@@ -76,6 +75,10 @@
   include("verificarUsuario.php");
   include("menu.php");
   include("conexion.php");
+   
+   if($_SESSION["admin"]==false)
+      header("Location: index.php");
+	 
       if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     } 

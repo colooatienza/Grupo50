@@ -11,7 +11,14 @@ function centrar() {
     de=(screen.height-document.body.clientHeight) / 2; 
     moveTo(iz,de); 
 }     
-</script> 
+</script>
+ <?php
+  include("verificarUsuario.php");
+
+   
+   if($_SESSION["admin"]==false)
+      header("Location: index.php");
+	  ?> 
 </head> 
 <body bgcolor="#FFFFFF" text="#000000" onLoad="centrar()"> 
 <div style="width: 100%; height: 50px; background: #8EE; font-family: Verdana; color: #F00; font-size: 14px;">
