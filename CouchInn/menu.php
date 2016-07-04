@@ -45,7 +45,7 @@
         if(isset($_SESSION['admin']) && $_SESSION['admin']==true){				//Pone logout o registrarse
         	
            
-		    echo '<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Administrador tareas <span class="caret"></span></a>';
+		    echo '<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Administrador <span class="caret"></span></a>';
          echo' <ul class="dropdown-menu">
 		     <li><a href="consultaTipo.php" class="active">Categorías de Couchs</a></li>
 			 <li><a href="reporteListaUsuarios.php" class="active">Lista de Usuarios</a></li>';
