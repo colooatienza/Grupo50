@@ -32,7 +32,7 @@
 				    
 		
 				echo'<p> Sexo: '.$row['sexo'].'</p>';
-				echo'<p> Nacimiento: '.date('d/m/y', strtotime(utf8_encode($row['fechadenacimiento']))).'</b></p>';
+				echo'<p> Nacimiento: '.date('d/m/Y', strtotime(utf8_encode($row['fechadenacimiento']))).'</b></p>';
 				echo'<p><b>e-Mail: </b>'.utf8_encode($row['mail']).'</b></p>';
 				if($row['destacado']==1)
 				   echo'<p><div style="color:#E90"> (Destacado) </div></p>';

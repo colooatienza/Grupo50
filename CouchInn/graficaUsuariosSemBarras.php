@@ -54,12 +54,12 @@ for($i=0; $i<4; $i++){
 	
     
 	
-$cantidad[$i]=$cantidad[$i]."\n\n".$mes;
+$cantidad[$i]=" ".$cantidad[$i]."\n Usuarios\n\n ".$mes;
 	
 	
 	}
 
- $cantidad[0]= $cantidad[0]."\n".date('Y-m-d', strtotime('-'.(3).' week'));;
+ $cantidad[0]= $cantidad[0]."\n ".date('Y-m-d', strtotime('-'.(3).' week'));;
 
 
 $columnas = array($cantidad[0],$cantidad[1],$cantidad[2],$cantidad[3]);

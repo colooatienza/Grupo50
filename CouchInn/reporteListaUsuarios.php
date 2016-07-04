@@ -206,9 +206,9 @@
 		  echo'<tr><td colspan="2" ><br><b>'.nombreMes($mes).'</b></td></tr>';
 		  $mesViejo=$mes;   $i=0;
 		  }
-
-		
-	   echo'<td class="separados">'.utf8_encode($row['nombredeusuario']).'</td>';
+        
+		$perfil=utf8_encode($row['nombredeusuario']);
+	   echo'<td class="separados"><a href="perfil.php?id='.$perfil.'">'.$perfil.'</a></td>';
        echo'<td class="separados">'.$fecha.'</td>';
 	  
 	    echo '</tr><tr>';

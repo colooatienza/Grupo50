@@ -51,10 +51,11 @@ $grafica->SetBox(false);
 
 
 for($i=0; $i<12; $i++){
+	
 	$mes=nombremes(date('m', strtotime('-'.(11-$i).' month')));
     
 	
-$cantidad[$i]=$cantidad[$i]."\n".$mes;
+$cantidad[$i]="  ".$cantidad[$i]."\n\n ".$mes;
 	 if($mes=='enero')
 	    $cantidad[$i]=$cantidad[$i]."\n\n".date("Y")." >>";
 	

@@ -57,10 +57,10 @@ $grafica->SetBox(false);
 //Nombre de las columnas
 
 for($i=0; $i<=4; $i++){
-	$mes=date('20y', strtotime('-'.(4-$i).' year'));
+	$mes=date('Y', strtotime('-'.(4-$i).' year'));
     
-	
-$cantidad[$i]=$cantidad[$i]."\n".$mes;
+$cantidad[$i]=$cantidad[$i]."\nUsuarios";	
+$cantidad[$i]=$cantidad[$i]."\n\n".$mes;
 	
 	
 	}
