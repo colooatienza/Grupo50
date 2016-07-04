@@ -95,13 +95,21 @@
 	  $inpu="";
 	  $Cadena_inicio='';
 	  $Cadena_fin='';
+	   
+	    if($fecha_inicio!='' and $fecha_fin!=''){
+			 if($fecha_inicio > $fecha_fin)
+			    $fecha_inicio=$fecha_fin;
+			} 
 	  
-	    if($fecha_inicio!='dd/mm/aa' && $fecha_inicio!=''){	
+	    if($fecha_inicio!='' ){	
+		 
 		 $Cadena_inicio='AND (( fecha_registro >= "'.$fecha_inicio.'"))';}
 	   
 	
-	   if($fecha_fin!='dd/mm/aa' && $fecha_fin!=''){	
+	   if($fecha_fin!=''){	
 		 $Cadena_fin='AND (( fecha_registro <= "'.$fecha_fin.'"))'; }
+	
+	    
 	
 	    $Cadena_total= ' '.$Cadena_inicio.' '.$Cadena_fin.' ';
 	  ?>
@@ -154,7 +162,7 @@
   
   
    if($filas==0){
-	    echo "<span style='font-size:18px; color:#999;'>No tienes Usuarios Registrados<br><br><br>"; 
+	    echo "<span style='font-size:18px; color:#999;'>No tienes Usuarios Registrados en la fecha<br><br><br>"; 
 	 
 	 
 	 }else{
@@ -164,27 +172,29 @@
 	echo '<table width="400" align="center" bordercolor="#CCCCCC" border="1px solid" >';
 	echo '<tr style="background:#DDF;"><td>Perfil:</td><td>Fecha registrado:</td></tr>';
 	$mesViejo='';
-	$anioViejo='';
+	$anioViejo=''; 
     while($row=$users->fetch_array()) {
-       
+         
         $fecha=utf8_encode($row['fecha_registro']);
 		$anio= date("Y",strtotime($fecha)); 
 		$mes= date("m",strtotime($fecha)); 
 		
 	    if($anio!=$anioViejo){
 		   echo'<tr><td colspan="2" style="color:#22F;" ><br><br><b>Año '.$anio.'</b></td></tr>';
-		   $anioViejo=$anio;
+		   $anioViejo=$anio;  $i=0; 
 		  }
 		
 		if($mes!=$mesViejo){
 		  echo'<tr><td colspan="2" ><br><b>'.nombreMes($mes).'</b></td></tr>';
-		  $mesViejo=$mes;
+		  $mesViejo=$mes;   $i=0;
 		  }
 
 		
 	   echo'<td class="separados">'.utf8_encode($row['nombredeusuario']).'</td>';
-       echo'<td class="separados">'.$fecha.'</td></tr>';
-	   
+       echo'<td class="separados">'.$fecha.'</td>';
+	  
+	    echo '</tr><tr>';
+	  
 	   
        }
 	echo '</table>';
@@ -206,9 +216,9 @@
    <?php
 
 	     if($pagina>1){
-	    		echo '<li> <a href="reporteListaUsuarios.php?&pagina=1" aria-label="Previous"> <span aria-hidden="true">&laquo;&laquo;</span> </a> </li>';
+	    		echo '<li> <a href="reporteListaUsuarios.php?pagina=1" aria-label="Previous"> <span aria-hidden="true">&laquo;&laquo;</span> </a> </li>';
 	   
-	    echo '<li> <a href="reporteListaUsuarios.php?&pagina='.($pagina-1).'" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a> </li>'; 
+	    echo '<li> <a href="reporteListaUsuarios.php?pagina='.($pagina-1).'" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a> </li>'; 
 		} 
 	    //Si pagina está en mayor a 6:::
             if($pagina>5){
@@ -225,14 +235,14 @@
 		 if($pagina==$i){
 			 echo '<li><a><span style="color:#000"><b>'.$i.'</b></span></a></li>';
 			 } else{    
-      echo '<li><a href="reporteListaUsuarios.php?&pagina='.$i.'">'.$i.'</a></li>';
+      echo '<li><a href="reporteListaUsuarios.php?pagina='.$i.'">'.$i.'</a></li>';
 			 }
 	  } 
 	  
 	  
 	   if($pagina< $total_paginas){
-		   echo '<li> <a href="reporteListaUsuarios.php?&pagina='.($pagina+1).'" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>';
-		    echo '<li> <a href="reporteListaUsuarios.php?&pagina='.($total_paginas).'" aria-label="Next"> <span aria-hidden="true">&raquo;&raquo;</span> </a> </li>';
+		   echo '<li> <a href="reporteListaUsuarios.php?pagina='.($pagina+1).'" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>';
+		    echo '<li> <a href="reporteListaUsuarios.php?pagina='.($total_paginas).'" aria-label="Next"> <span aria-hidden="true">&raquo;&raquo;</span> </a> </li>';
 		    } 
 	
 ?>
