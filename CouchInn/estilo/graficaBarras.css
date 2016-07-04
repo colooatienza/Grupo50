@@ -1,0 +1,24 @@
+@charset "utf-8";
+
+  .bot{
+	  background:#66F;
+	  color:#FFF;
+	   border-radius:4px;
+	  border-color:2px black solid;
+	  margin:2px;
+	  padding:2px;
+	  }
+ .selec{
+	 	  padding:5px;
+	  margin:5px;
+	  background:#11C;
+	 }	  
+.ffg {
+	color: #800;
+}
+.e {
+	font-size: 14px;
+	font-family: Verdana, Geneva, sans-serif;
+	 color:#400;
+}/* CSS Document */
+

@@ -34,7 +34,14 @@
 	font-family:Verdana;
 	font-size:14px;
 	}	
-
+ .bot{
+	  background:#66F;
+	  color:#FFF;
+	   border-radius:4px;
+	  border-color:2px black solid;
+	  margin:2px;
+	  padding:2px;
+	 }
 </style>
 
 <script>
@@ -90,8 +97,8 @@
 <div class="container">
   <div class="row text-center">
       <?php
-      $fecha_inicio = isset($_GET['fechaI']) ? $_GET['fechaI']:'dd/mm/aa'; 
-      $fecha_fin = isset($_GET['fechaF']) ? $_GET['fechaF']:'dd/mm/aa'; 
+      $fecha_inicio = isset($_GET['fechaI']) ? $_GET['fechaI']:''; 
+      $fecha_fin = isset($_GET['fechaF']) ? $_GET['fechaF']:''; 
 	  $inpu="";
 	  $Cadena_inicio='';
 	  $Cadena_fin='';
@@ -100,7 +107,7 @@
 			 if($fecha_inicio > $fecha_fin)
 			    $fecha_inicio=$fecha_fin;
 			} 
-	  
+	    
 	    if($fecha_inicio!='' ){	
 		 
 		 $Cadena_inicio='AND (( fecha_registro >= "'.$fecha_inicio.'"))';}
@@ -112,16 +119,17 @@
 	    
 	
 	    $Cadena_total= ' '.$Cadena_inicio.' '.$Cadena_fin.' ';
+	  
 	  ?>
       
     
-    
+     
     
     
       <div class="filtros">
       <form method="get"  action="reporteListaUsuarios.php"  name="filtro" id="filtro"  ENCTYPE="multipart/form-data" >
     <table align="center"><tr>
-    <td><b> Rango de fechas
+    <td><b> Filtrar fechas
     <br>(antes que hoy)</b></td>
     
     <td class="separados" ><p>Fecha desde:
@@ -135,6 +143,13 @@
       <p>
         <input type="date" class="<?php echo $inpu;?>" name="fechaF" value="<?php echo $fecha_fin;?>"onBlur="enviar_filtro()">
       </p></td>
+      <td style="background:#999; width:2px;"></td>
+      
+      <td class="separados">&nbsp;<br><a href="javascript:window.open('ventanaUsuariosMes.php','','width= 900,height=620');void(null)"><span class="bot"> Ver gráfico de Barras </span><img src="images/graficoBarras.png" width="40" height="35" alt="barra"></a>
+     
+      </td><td class="separados">&nbsp;<br>
+     <a href="javascript:window.open('ventanaUsuariosMes.php','','width= 900,height=620');void(null)"><span class="bot"> Ver gráfico de Torta</span><img src="images/graficoTorta.jpg" width="40" height="35" alt="torta"></a>
+      </td>
     </tr></table>
       <form>
     </div>
@@ -208,6 +223,8 @@
    
    
    
+   
+   
     <!--Las flechitasss y PAGINACIÓN:               -->
   <nav class="text-center">
     <!-- Add class .pagination-lg for larger blocks or .pagination-sm for smaller blocks-->
@@ -215,12 +232,16 @@
    
    <?php
 
+        $cadena_get='fechaI='.$fecha_inicio.'&fechaF='.$fecha_fin.'';
+ 
+       $inpu='inpu';
+      //Paginación!!!
 	     if($pagina>1){
-	    		echo '<li> <a href="reporteListaUsuarios.php?pagina=1" aria-label="Previous"> <span aria-hidden="true">&laquo;&laquo;</span> </a> </li>';
+	    		echo '<li> <a href="reporteListaUsuarios.php?'.$cadena_get.'&pagina=1" aria-label="Previous"> <span aria-hidden="true">&laquo;&laquo;</span> </a> </li>';
 	   
-	    echo '<li> <a href="reporteListaUsuarios.php?pagina='.($pagina-1).'" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a> </li>'; 
+	    echo '<li> <a href="reporteListaUsuarios.php?'.$cadena_get.'&pagina='.($pagina-1).'" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a> </li>'; 
 		} 
-	    //Si pagina está en mayor a 6:::
+	    //Si pagina está en mayor a 60:::
             if($pagina>5){
 				$diferencia=5; 
 				}else{ $diferencia=($pagina-1);}
@@ -235,14 +256,14 @@
 		 if($pagina==$i){
 			 echo '<li><a><span style="color:#000"><b>'.$i.'</b></span></a></li>';
 			 } else{    
-      echo '<li><a href="reporteListaUsuarios.php?pagina='.$i.'">'.$i.'</a></li>';
+      echo '<li><a href="reporteListaUsuarios.php?'.$cadena_get.'&pagina='.$i.'">'.$i.'</a></li>';
 			 }
 	  } 
 	  
 	  
 	   if($pagina< $total_paginas){
-		   echo '<li> <a href="reporteListaUsuarios.php?pagina='.($pagina+1).'" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>';
-		    echo '<li> <a href="reporteListaUsuarios.php?pagina='.($total_paginas).'" aria-label="Next"> <span aria-hidden="true">&raquo;&raquo;</span> </a> </li>';
+		   echo '<li> <a href="reporteListaUsuarios.php?'.$cadena_get.'&pagina='.($pagina+1).'" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>';
+		    echo '<li> <a href="reporteListaUsuarios.php?'.$cadena_get.'&pagina='.($total_paginas).'" aria-label="Next"> <span aria-hidden="true">&raquo;&raquo;</span> </a> </li>';
 		    } 
 	
 ?>
@@ -251,8 +272,9 @@
 
     </ul>
   </nav>
-
-
+   
+  
+  
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
 <script src="js/jquery-1.11.3.min.js"></script> 
 <!-- Include all compiled plugins (below), or include individual files as needed --> 
@@ -260,7 +282,7 @@
 <?php
 
 
-
+   
 
  
 ?>

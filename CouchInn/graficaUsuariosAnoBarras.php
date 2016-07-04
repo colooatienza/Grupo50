@@ -11,17 +11,24 @@ require_once("lib/jpgraph/jpgraph_bar.php");
  
  
  $i=0;
-while($i<12){
-	    $mes= date('Y-m-00', strtotime('-'.(10-$i).' month'));
-		$mesAntes= date('Y-m-00', strtotime('-'.(10-$i+1).' month'));
-	 	$consultaMes=$conn->query( "Select fecha_registro, month(fecha_registro) as mes FROM usuarios  where fecha_registro Between '$mesAntes' AND '$mes'");
+while($i<4){
+	    $mes= date('Y-00-00', strtotime('-'.(3-$i).' year'));
+		$mesAntes= date('Y-00-00', strtotime('-'.(3-$i+1).' year'));
+	 	$consultaMes=$conn->query( "Select fecha_registro, year(fecha_registro) as mes FROM usuarios  where fecha_registro > '$mesAntes' AND  fecha_registro <='$mes'");
 		$cantidad[$i]=$consultaMes->num_rows;
 	    $columnas=$consultaMes->num_rows;
 	 $datos[$i]=($columnas);
   $i++;
   }
-
-
+  
+  
+    
+    $mesAntes=date('Y-00-00');
+  	$consultaMes=$conn->query( "Select fecha_registro, year(fecha_registro) as mes FROM usuarios  where fecha_registro > '$mesAntes' AND fecha_registro <= Curdate()");
+    $cantidad[4]=$consultaMes->num_rows;
+	$columnas=$consultaMes->num_rows;
+	$datos[4]=($columnas);
+	
 
   function nombremes($mes){
  setlocale(LC_TIME, 'spanish');  
@@ -47,22 +54,19 @@ $grafica->yaxis->SetTickPositions($mayor,$menor);
 $grafica->SetBox(false);
 //Nombre de las columnas
 
-
-for($i=0; $i<12; $i++){
-	$mes=nombremes(date('m', strtotime('-'.(11-$i).' month')));
+for($i=0; $i<=4; $i++){
+	$mes=date('20y', strtotime('-'.(4-$i).' year'));
     
 	
 $cantidad[$i]=$cantidad[$i]."\n".$mes;
-	 if($mes=='enero')
-	    $cantidad[$i]=$cantidad[$i]."\n\n".date("Y")." >>";
+	
 	
 	}
 
 
 
 
-$columnas = array($cantidad[0],$cantidad[1],$cantidad[2],$cantidad[3],$cantidad[4],$cantidad[5],$cantidad[6]
-,$cantidad[7],$cantidad[8],$cantidad[9],$cantidad[10],$cantidad[11]);
+$columnas = array($cantidad[0],$cantidad[1],$cantidad[2],$cantidad[3],$cantidad[4]);
 
 
 
