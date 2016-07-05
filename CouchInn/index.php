@@ -107,7 +107,7 @@
  
    
 
-    $couchsql = "Select * FROM couchs INNER JOIN fotos ON couchs.id = fotos.idcouch INNER JOIN ciudad ON ciudad.id = couchs.ciudad inner join usuarios on nombredeusuario=couchs.usuario  WHERE disponible=1 ".$Cadena_total." and (fechafin>Curdate() or fechafin=0000-00-00) GROUP BY couchs.id order by destacado=1 desc ";
+    $couchsql = "Select * FROM couchs INNER JOIN fotos ON couchs.id = fotos.idcouch INNER JOIN ciudad ON ciudad.id = couchs.ciudad inner join usuarios on nombredeusuario=couchs.usuario left join pagos on nombredeusuario=pagos.usuario   WHERE disponible=1 ".$Cadena_total." and (fechafin>Curdate() or fechafin=0000-00-00) GROUP BY couchs.id order by destacado=1 desc ";
 
 
  
@@ -123,7 +123,7 @@
 
  
  $provincias=$conn->query("select * from provincia order by provincia_nombre");
- $tipos=$conn->query("select * from tipos_couch");
+ $tipos=$conn->query("select * from tipos_couch where despublicado=0");
 
 
 //La provincia !=0
@@ -149,7 +149,7 @@
  
  
  if($elTipo!=0){
-	 $tipoSel=$conn->query("select * from tipos_couch where id=".$elTipo."");
+	 $tipoSel=$conn->query("select * from tipos_couch where id=".$elTipo." and despublicado=0");
      $row_tipo=$tipoSel->fetch_array(MYSQLI_BOTH);
      $tipoL=$row_tipo['tipo']; 
    }

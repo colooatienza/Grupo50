@@ -43,17 +43,8 @@
         <?php
 		
         if(isset($_SESSION['admin']) && $_SESSION['admin']==true){				//Pone logout o registrarse
-        	
-           
-		    echo '<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Administrador <span class="caret"></span></a>';
-         echo' <ul class="dropdown-menu">
-		     <li><a href="consultaTipo.php" class="active">Categorías de Couchs</a></li>
-			 <li><a href="reporteListaUsuarios.php" class="active">Lista de Usuarios</a></li>';
-         echo '</ul></li>';
-
-		
-		
-		}
+        	echo '<a href="consultaTipo.php" class="active">Categorías de Couchs</a>';
+        }
         ?>
         </li>
         
@@ -61,6 +52,8 @@
       <form class="navbar-form navbar-right" role="search">
 
         <?php
+       
+
         if(isset($_SESSION['logueado']) && $_SESSION['logueado']==true){				//Pone logout o registrarse
         	echo '<span style="color:#44D;"><a href="perfil.php?id='.$_SESSION['usuario'].'">'.$_SESSION['usuario'].'</a>&nbsp;&nbsp;&nbsp;&nbsp;</span>';
 			echo '<a href="logout.php" class="btn btn-default">Log Out</a>';
@@ -71,6 +64,29 @@
     	}
     	?>
       </form>
+      <?php
+       if(isset($_SESSION['admin']) && $_SESSION['admin']==true){        //Pone logout o registrarse
+          ?>
+                <ul class="nav navbar-nav navbar-right hidden-sm">
+          <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Reportes y estadísticas <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+            <li><a href="ReporteCouchsConcretados.php">Couchs Concretados</a> </li>  
+            <li><a href="ReporteIngresos.php">Ingresos</a> </li>
+            <li><a href="ReporteListaUsuarios.php">Usuarios nuevos</a> </li>
+         </ul>
+        </li>
+      </ul>
+      <?php 
+        } ?>
+      <ul class="nav navbar-nav navbar-right hidden-sm">
+          <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Nosotros <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+            <li><a href="QuienesSomos.php">Quienes Somos?</a> </li>  
+            <li><a href="FAQ.php">Preguntas Frecuentes</a> </li>
+
+         </ul>
+        </li>
+      </ul>
       <ul class="nav navbar-nav navbar-right hidden-sm">
         <?php
         if(isset($_SESSION['logueado']) && $_SESSION['logueado']==true){

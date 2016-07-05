@@ -26,7 +26,7 @@
 			die("Connection failed: " . $conn->connect_error);
 		} 
 
-		$sql = "Insert INTO pagos (usuario, monto, tarjeta) VALUES ('".$_SESSION['usuario']."', '".$_POST['monto']."', '".$_POST['tarjeta']."') ";
+		$sql = "Insert INTO pagos (usuario, monto, tarjeta, fecha) VALUES ('".$_SESSION['usuario']."', '".$_POST['monto']."', '".$_POST['tarjeta']."', curdate()) ";
 		$conn->query($sql);
 		$sql = "UPDATE usuarios set destacado = 1 WHERE nombredeusuario= '".$_SESSION['usuario']."' ";
 		$conn->query($sql);

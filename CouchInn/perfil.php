@@ -20,7 +20,7 @@
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		} 
-		echo'</br></br></br></br></br><div class="divTipo" style="width:400px;">';
+		echo'</br></br></br></br></br><div class="divTipo" style="width:400px; margin-bottom:30px">';
 		$sql = "Select * from usuarios where nombredeusuario='".$_GET['id']."' ";
 		$result=$conn->query($sql);
 		if(mysqli_num_rows($result)==1){
@@ -78,6 +78,23 @@
 						echo'<p>Aún no tiene calificaciones como Viajero</p>';
 
 		}
+   		echo'</div>';
+   			$sql = "Select calificador, resenia, tipo from calificaciones where calificado='".$_GET['id']."' order by tipo,id desc LIMIT 10";
+		$result=$conn->query($sql);
+		echo'<div class="divTipo" style="width:400px;">';
+		echo'<h4> Últimas 10 reseñas:</h4>';
+         $tipoViejo='';
+		while($row=$result->fetch_array()){
+			    
+				if($row['tipo']!=$tipoViejo){
+				echo '<b> Como '.$row['tipo'].'</b><br><br>';
+				$tipoViejo=$row['tipo'];
+				}
+				
+				echo '<b>'.$row[0].':</b>  '.$row[1].'</br>' ;
+
+			}
+
    		echo'</div>';
 	?>
 

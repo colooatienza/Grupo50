@@ -27,7 +27,7 @@
 		die("Connection failed: " . $conn->connect_error);
 	} 
 	?>
-	<h1 align="center"><hr>Preguntas Pendientes<hr></h1>
+	<h2 align="center"><hr>Preguntas Pendientes<hr></h2>
 	<?php
 	  //Las preguntas y las respuestas
 		$sql = "SELECT * FROM comentarios INNER JOIN couchs ON couchs.id=comentarios.idcouch INNER JOIN usuarios ON couchs.usuario=usuarios.nombredeusuario WHERE couchs.usuario='".$_SESSION["usuario"]."' AND idcomentario IS NULL";

@@ -42,7 +42,7 @@ if($b){
 		$sql = "Select * from solicitud where estado= 'aceptado' AND idcouch='".$_GET['idcouch']."' and ((fin BETWEEN '".$inicio."' AND '".$fin."') OR inicio BETWEEN  '".$inicio."'AND '".$fin."'  OR(('".$fin."' BETWEEN inicio AND fin) OR '".$inicio."' BETWEEN  inicio AND fin)) AND (inicio <> '".$fin."') AND (fin <> '".$inicio."') ";
 		$result=$conn->query($sql);
 		if(mysqli_num_rows($result)==0){
-			$conn->query("UPDATE solicitud SET estado= 'aceptado' WHERE id = '".$_GET['id']."' ") or die (mysql_error());
+			$conn->query("UPDATE solicitud SET estado= 'aceptado', aceptado= curdate() WHERE id = '".$_GET['id']."' ") or die (mysql_error());
 			echo'<h3> Ha aceptado exitosamente la solicitud!</h3>';
 			echo '<a href="solicitudes.php">Volver al listado de solicitudes</a>';
 		}
@@ -52,7 +52,7 @@ if($b){
 
 		}
    echo'</div>';
-     echo $inicio.'<br><br>';  echo $fin;
+    
 	 //Rechazar todas las peticiones para esa fecha:
 	 $sql_rechazarOtras="UPDATE solicitud SET estado= 'rechazado' WHERE idusuario!='".$_GET['idusuario']."' and  idcouch= '".$_GET['idcouch']."' and ((fin BETWEEN '".$inicio."' AND '".$fin."') OR inicio BETWEEN  '".$inicio."'AND '".$fin."'  OR(('".$fin."' BETWEEN inicio AND fin) OR '".$inicio."' BETWEEN  inicio AND fin)) AND (inicio <> '".$fin."') AND (fin <> '".$inicio."')";
 	$rechazos=$conn->query($sql_rechazarOtras);

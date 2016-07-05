@@ -44,34 +44,13 @@
 	 }
 </style>
 
-<script>
- function despublicar(pagina){
-	 
-	 direccion="despublicarCouch.php?id="+ pagina +"&hacer="+0;
-	 if(confirm("seguro que quiere DESPUBLICAR este Couch?")){
-		 
-		 location.href=direccion;
-		 }
-     } 
-
-
- function republicar(pagina){
-	 
-	 direccion="despublicarCouch.php?id="+ pagina +"&hacer="+1;
-	 if(confirm("Seguro que quiere RE-PUBLICAR este Couch?")){
-		 
-		 location.href=direccion;
-		 }
-		
-	 } 
-
-</script>
 
 
 </head>
 <body>
   
 <?php 
+  include("libchart/libchart/classes/libchart.php");
   include("verificarUsuario.php");
   include("menu.php");
   include("conexion.php");
@@ -95,7 +74,8 @@
     ?>
       
 <hr>
-<h2 class="text-center">Todos los Usuarios<hr></h2>
+<h2 class="text-center">Reporte de Ingresos
+  <hr></h2>
 
 <div class="container">
   <div class="row text-center">
@@ -113,11 +93,11 @@
 	    
 	    if($fecha_inicio!='' ){	
 		 
-		 $Cadena_inicio='AND (( fecha_registro >= "'.$fecha_inicio.'"))';}
+		 $Cadena_inicio='AND (( fecha>= "'.$fecha_inicio.'"))';}
 	   
 	
 	   if($fecha_fin!=''){	
-		 $Cadena_fin='AND (( fecha_registro <= "'.$fecha_fin.'"))'; }
+		 $Cadena_fin='AND (( fecha<= "'.$fecha_fin.'"))'; }
 	
 	    
 	
@@ -130,7 +110,7 @@
     
     
       <div class="filtros">
-      <form method="get"  action="reporteListaUsuarios.php"  name="filtro" id="filtro"  ENCTYPE="multipart/form-data" >
+      <form method="get"  action="reporteIngresos.php"  name="filtro" id="filtro"  ENCTYPE="multipart/form-data" >
     <table align="center"><tr>
     <td><b> Filtrar fechas
     <br>(antes que hoy)</b></td>
@@ -146,15 +126,7 @@
       <p>
         <input type="date" class="<?php echo $inpu;?>" name="fechaF" value="<?php echo $fecha_fin;?>"onBlur="enviar_filtro()">
       </p></td>
-      <td style="background:#999; width:2px;"></td>
-      
-      <td class="separados">&nbsp;<br>
-      
-      <a href="javascript:window.open('ventanaUsuariosMes.php','','width= 900,height=620');void(null)">
-      
-      <span class="bot"> Ver gráfico de Barras </span><img src="images/graficoBarras.png" width="40" height="35" alt="barra"></a>
      
-      </td>
     </tr></table>
       <form>
     </div>
@@ -163,13 +135,14 @@
    
    
    //Realizo paginación con lo siguiente::::::     
-   $TAMANIO_PAGINA = 15;
+   $TAMANIO_PAGINA = 60;
    $ULTIMO_ELEMENTO=$TAMANIO_PAGINA;
    $pagina = isset($_GET['pagina']) ? $_GET['pagina'] : 1 ;
    $inicio = ($pagina-1) * $TAMANIO_PAGINA;   
 			          
     
-  $consulta=( "Select * FROM usuarios where nombredeusuario=nombredeusuario ".$Cadena_total." order by fecha_registro desc");
+  $consulta=( "
+  SELECT * FROM pagos INNER JOIN tarjetas ON pagos.tarjeta = tarjetas.id WHERE usuario=usuario  ".$Cadena_total." order by fecha desc");
   $consulta_lim="".$consulta." limit ".$inicio.",".$ULTIMO_ELEMENTO."";	  
   $users= $conn->query($consulta_lim);
   
@@ -181,6 +154,49 @@
         
   
   
+  
+  
+  $sql2="SELECT tarjetas.tarjeta, sum(monto) FROM pagos  INNER JOIN tarjetas ON pagos.tarjeta = tarjetas.id  ".$Cadena_total." GROUP BY tarjetas.id";
+			$result2=$conn->query($sql2) or die (mysql_error());
+	$num_results = $result2->num_rows;
+     $total=0; $sum=0;
+	if( $num_results > 0){
+	      //new pie chart instance
+	    $chart = new PieChart( 700, 300 );
+	 
+	    //data set instance
+	    $dataSet = new XYDataSet();
+	    
+        while( $row = $result2->fetch_array() ){
+            $name= $row[0];
+            $sum=$row[1];
+            $dataSet->addPoint(new Point("{$name} $ ".$sum, $sum));
+        }
+		$total=$sum;
+        //finalize dataset
+        $chart->setDataSet($dataSet);
+ 
+        //set chart title
+        $chart->setTitle("Monto por tarjeta");
+        
+        //render as an image and store under "generated" folder
+        $chart->render("images/1.png");
+    
+        //pull the generated chart where it was stored
+        echo " <center> <img  align='middle' alt='Pie chart'  src='images/1.png' style='border: 1px solid gray;'/></center>";
+    
+    }else{
+    }
+  
+  
+  
+    echo '<br><br>Suma total: <b>$ '.$total.'</b><br><br>';
+  
+  
+  
+  
+  
+  
    if($filas==0){
 	    echo "<span style='font-size:18px; color:#999;'>No tienes Usuarios Registrados en la fecha<br><br><br>"; 
 	 
@@ -190,34 +206,25 @@
 	
 	
 	echo '<table width="400" align="center" bordercolor="#CCCCCC" border="1px solid" >';
-	echo '<tr style="background:#DDF;"><td>Perfil:</td><td>Fecha registrado:</td></tr>';
+	echo '<tr style="background:#DDF;">';
+	echo '<td class="separados">Fecha</td><td class="separados">Usuario</td><td class="separados">Monto</td><td class="separados">Targeta</td></tr>';
 	$mesViejo='';
 	$anioViejo=''; 
-    while($row=$users->fetch_array()) {
-         
-        $fecha=utf8_encode($row['fecha_registro']);
-        $anio= date("Y",strtotime($fecha)); 
-		$mes= date("m",strtotime($fecha)); 
+    $total = 0;
+	
+	
+	
+	while($row=$users->fetch_array()){
+		$total+= $row["monto"];
 		
-	    if($anio!=$anioViejo){
-		   echo'<tr><td colspan="2" style="color:#22F;" ><br><br><b>Año '.$anio.'</b></td></tr>';
-		    echo'<tr><td colspan="2" ><br><b>'.nombreMes($mes).'</b></td></tr>';
-		   $anioViejo=$anio;  $mesViejo=$mes;   $i=0;
-		  }else{
-		
-		if($mes!=$mesViejo){
-		  echo'<tr><td colspan="2" ><br><b>'.nombreMes($mes).'</b></td></tr>';
-		  $mesViejo=$mes;   $i=0;
-		  } }
-        
-		$perfil=utf8_encode($row['nombredeusuario']);
-	   echo'<td class="separados"><a href="perfil.php?id='.$perfil.'">'.$perfil.'</a></td>';
-       echo'<td class="separados">'.$fecha.'</td>';
-	  
-	    echo '</tr><tr>';
-	  
-	   
-       }
+		echo' <tr><td class="separados">'.date('d/m/y', strtotime(utf8_encode($row['fecha']))).'</td>';
+	    echo '<td class="separados"><a href="perfil.php?id='.utf8_encode($row["usuario"]). '">'.utf8_encode($row["usuario"]). '</a></td>
+			<td class="separados">$ '.$row["monto"].'</td>
+			<td class="sepadados">'.$row[6].'</td>
+			</tr>';
+
+			}
+
 	echo '</table>';
 	 }
     echo '<br><br><br>';
@@ -243,9 +250,9 @@
        $inpu='inpu';
       //Paginación!!!
 	     if($pagina>1){
-	    		echo '<li> <a href="reporteListaUsuarios.php?'.$cadena_get.'&pagina=1" aria-label="Previous"> <span aria-hidden="true">&laquo;&laquo;</span> </a> </li>';
+	    		echo '<li> <a href="reporteIngresos.php?'.$cadena_get.'&pagina=1" aria-label="Previous"> <span aria-hidden="true">&laquo;&laquo;</span> </a> </li>';
 	   
-	    echo '<li> <a href="reporteListaUsuarios.php?'.$cadena_get.'&pagina='.($pagina-1).'" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a> </li>'; 
+	    echo '<li> <a href="reporteIngresos.php?'.$cadena_get.'&pagina='.($pagina-1).'" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a> </li>'; 
 		} 
 	    //Si pagina está en mayor a 60:::
             if($pagina>5){
@@ -262,14 +269,14 @@
 		 if($pagina==$i){
 			 echo '<li><a><span style="color:#000"><b>'.$i.'</b></span></a></li>';
 			 } else{    
-      echo '<li><a href="reporteListaUsuarios.php?'.$cadena_get.'&pagina='.$i.'">'.$i.'</a></li>';
+      echo '<li><a href="reporteIngresos.php?'.$cadena_get.'&pagina='.$i.'">'.$i.'</a></li>';
 			 }
 	  } 
 	  
 	  
 	   if($pagina< $total_paginas){
-		   echo '<li> <a href="reporteListaUsuarios.php?'.$cadena_get.'&pagina='.($pagina+1).'" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>';
-		    echo '<li> <a href="reporteListaUsuarios.php?'.$cadena_get.'&pagina='.($total_paginas).'" aria-label="Next"> <span aria-hidden="true">&raquo;&raquo;</span> </a> </li>';
+		   echo '<li> <a href="reporteIngresos.php?'.$cadena_get.'&pagina='.($pagina+1).'" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a> </li>';
+		    echo '<li> <a href="reporteIngresos.php?'.$cadena_get.'&pagina='.($total_paginas).'" aria-label="Next"> <span aria-hidden="true">&raquo;&raquo;</span> </a> </li>';
 		    } 
 	
 ?>
