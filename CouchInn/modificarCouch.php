@@ -51,7 +51,8 @@ include("menu.php");
 	$direccion= '';
 	$descripcion='';	 
 	$fecha_inicio='';	
-	$fecha_fin='';	
+	$fecha_fin='';
+	$cantidadxxx=0;		
 	$elTipo=0;	 
 	$laProvincia=0;	
 	$laCiudad=0;
@@ -100,6 +101,7 @@ if(!isset($_POST['unaVez'])){
 	$direccion= addslashes(utf8_encode($row["direccion"]));
 	$descripcion=addslashes(utf8_encode($row["descripcion"]));	 
 	$fecha_inicio=addslashes(utf8_encode($row["fechainicio"]));	
+	$cantidadxxx=addslashes(utf8_encode($row["cantidad"]));
 	if($fecha_inicio<= date("20y-m-d"))
 	   $fecha_inicio=date("20y-m-d");
 	$fecha_fin=addslashes(utf8_encode($row["fechafin"]));	
@@ -119,7 +121,7 @@ if(!isset($_POST['unaVez'])){
 	$fecha_inicio= isset($_POST['fecha_inicio']) ? $_POST['fecha_inicio']:$fecha_inicio;
 	$fecha_fin= isset($_POST['fecha_fin']) ? $_POST['fecha_fin']:$fecha_fin;
 	$descripcion= isset($_POST['descripcion']) ? $_POST['descripcion']:$descripcion;
-	
+	$cantidadxxx= isset($_POST['cantidadxxx']) ? $_POST['cantidadxxx']:$cantidadxxx;
 	
 	$elTipo = isset($_POST['tipo']) ? $_POST['tipo']:$elTipo;
 	$laProvincia = isset($_POST['provincia']) ? $_POST['provincia']:$laProvincia;
@@ -142,7 +144,7 @@ if(!isset($_POST['unaVez'])){
 		  $ciudad_mal="";
 	      $imagen_mal="";
           $descripcion_mal="";
-			
+			$cantidadxxx_mal="";
 
 
 //Validar múltiples FOTOS no es JODA::::.
@@ -294,6 +296,14 @@ $todas_fotos="";
 			$direccion_mal="Tiene que tener al menos una dirección";
 			$valido_todo=false;
 			}	
+	    if($cantidadxxx==''){
+			$cantidadxxx_mal="Tiene que tener al menos una cantidad";
+			$valido_todo=false;
+			}else{
+			if($cantidadxxx==0){
+			  $cantidadxxx_mal="Tiene que tener al menos una cantidad";
+			  $valido_todo=false;
+				}}
 	   
 	      if(($fecha_inicio)==""){
 			$fechaI_mal="Necesita una fecha de inicio";
@@ -359,7 +369,7 @@ $todas_fotos="";
 	   
 	  // echo $titulo.'<br>'.$idvieja;
    
-	   $sql3 = ("UPDATE couchs set titulo='$titulo',direccion='$direccion',fechainicio='$fecha_inicio',fechafin='$fecha_fin',descripcion='$descripcion',idtipo='$elTipo',provincia='$laProvincia',ciudad='$laCiudad' where id=$idvieja");
+	   $sql3 = ("UPDATE couchs set titulo='$titulo',direccion='$direccion',fechainicio='$fecha_inicio',fechafin='$fecha_fin',descripcion='$descripcion',idtipo='$elTipo',provincia='$laProvincia',ciudad='$laCiudad',cantidad='$cantidadxxx' where id=$idvieja");
 	   
 	   
 	
@@ -440,6 +450,12 @@ $todas_fotos="";
       <span class="cancela_todas"><?php echo $titulo_mal; ?> </span>
       </br>
 
+
+      <input name="cantidadxxx" type="text" id="cantidadxxx" placeholder="Cantidad personas" onkeypress="return justNumbers(event);" onclick="limpiar(this)" maxlength="3" value="<?php echo $cantidadxxx;?>"/>   
+        
+        </br>
+        <span class="cancela_todas"><?php echo $cantidadxxx_mal; ?> </span>
+        </br> 
 
 
 

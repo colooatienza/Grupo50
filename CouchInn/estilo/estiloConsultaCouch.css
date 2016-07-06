@@ -19,6 +19,22 @@ top:0px;
 
 
 }
+.botonLlamativo{
+	width:100px;
+	height:40px;
+	border-radius:5px;
+	background-color:#55E;
+	font-size:16px;
+	color:#FFF;
+	
+	}
+.botonAzul{
+	
+	background-color:#55E;
+	
+	
+	}
+
 
 .recuadro_consulta_couch{
 	position: relative;

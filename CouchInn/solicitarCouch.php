@@ -4,11 +4,17 @@
   
   <meta charset="UTF-8">
   <title>CouchInn</title>
-
+<style>
+ .separados2{
+	 margin:10px;
+	 padding:10px;
+	 text-align-last:left;
+	 }
+</style>
   
 <script src="js/jquery-1.11.3.min.js"></script> 
 	<link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="Css/c.css">
+    <link rel="stylesheet" href="Css/c.css">
   	<link rel="icon" href="images/logo.jpg">
 
 <script type="text/javascript" >
@@ -32,6 +38,7 @@
 			alert ('ERROR! Debe ingresar la cantidad de personas!');
 			return false;
 		}
+		
 		valor = document.getElementById("descripcion").value;
 		if (valor.length == 0) {
 			alert ('ERROR! Debe ingresar una descripción!');
@@ -98,11 +105,11 @@ if($b==true){
     echo'</div>';
   }
   else{
-		$sql = "Select fechainicio, fechafin FROM couchs WHERE id='".$_GET['id']."'";
+		$sql = "Select fechainicio, fechafin,cantidad FROM couchs WHERE id='".$_GET['id']."'";
 
 
 
-		$sql = "Select fechainicio, fechafin FROM couchs WHERE id='".$_GET['id']."'";
+		$sql = "Select fechainicio, fechafin,cantidad FROM couchs WHERE id='".$_GET['id']."'";
         
 
 		$result=$conn->query($sql);
@@ -113,10 +120,11 @@ if($b==true){
 		$row=$result->fetch_array();
 		$inicio=$row[0];
 		$fin=$row[1];
+		$cantidadxxx=$row['cantidad'];
         $elId=0;
 		
-		if($inicio< date('20y-m-d'))
-		    $inicio=date('20y-m-d');
+		if($inicio< date('Y-m-d'))
+		    $inicio=date('Y-m-d');
 		
        	$solicitud_rec = $conn->query("Select * FROM solicitud where idcouch='".$_GET['id']."' and estado='rechazado' and idusuario='".$_SESSION['usuario']."' ");
         if($solicitud_rec->num_rows!=0){
@@ -126,45 +134,44 @@ if($b==true){
 	
 	?> 
 
-<h1 align="center">Solicitar Couch</h1>
+<h1 align="center"><hr>Solicitar Couch<hr></h1>
 <div class="divTipo" style="width:400px">
      <?php  if($elId!=0)
 	    echo '<br><b>Usted tiene este couch como Rechazado.<br>Puede solicitarlo otra vez</b>';  ?>
-	
+	 <table align="center" style="text-align:left;">
     <form onSubmit="return valida()" method="post" action="couchSolicitado.php" enctype="multipart/form-data">
-          
-        </br>	
-		<p>&nbsp;</p>
-		<p>
+
             <input type="hidden" name="modi" id="modi" value= <?php echo $elId; ?> >
     	  <input type="hidden" name="id" id="id" value= <?php echo $_GET['id'] ?> > 
-         
-    	Fecha de inicio
-		<input type="date" name="inicio" id="inicio" value= <?php echo $inicio ?> min= <?php echo $inicio ?> max= <?php echo $fin ?>/>  
-      	</br></br>
 
-    	Fecha de fin
-		<input type="date" name="fin" id="fin" value= <?php echo $fin ?>  min= <?php echo $inicio ?> max= <?php echo $fin ?> />  
-      	</br></br>
-		Cantidad de Personas
+        
+         <tr>
+           <td class="separados2">Fecha de inicio:</td><td class="separados2"><input type="date" name="inicio" id="inicio" value= <?php echo $inicio ?> min= <?php echo $inicio ?> max= <?php echo $fin ?> /></td></tr><tr>
+      	
+
+
+    	 <td class="separados2">Fecha de fin:</td>
+    	 <td class="separados2"><input type="date" name="fin" id="fin" value= <?php echo $fin ?>  min= <?php echo $inicio ?> max= <?php echo $fin ?> />  
+        </td></tr><tr>
 		
         
-        <input type="number" name="personas" id="personas" value="1" min="1"> 
-      	</br></br>
+        
+        <td class="separados2">Cantidad de Personas:</td><td class="separados2"><input type="number" name="personas" id="personas" value="1" min="1" max="<?php echo $cantidadxxx ?>"> &nbsp;&nbsp;(Max: <?php echo $cantidadxxx; ?> )
+      	</td></tr><tr>
            
        	
-
-        <textarea style="resize:none;" name="descripcion" id="descripcion" placeholder="Inserte una descripción..." cols="41" rows="6"  ></textarea>
+       <td colspan="2" align="center"><br>
+        <textarea style="resize:none;" name="descripcion" id="descripcion" placeholder="Inserte una descripción..." cols="41" rows="6"  ></textarea></td>
       </br>
       </br>
-
+       </tr><tr><td colspan="2" align="center"><br>
 <input type= "submit" value= "Concretar solicitud" class= "botonAgregarPago">
-	  </p>
-	  </p> 
+
+      </td></tr></table>
 	</form>
 	<?php
 }
-?>
+?><br><br>
 </div>
 
 </body>

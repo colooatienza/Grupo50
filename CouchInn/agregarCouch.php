@@ -97,7 +97,7 @@ if($b==true){
 	$fecha_inicio= isset($_POST['fecha_inicio']) ? $_POST['fecha_inicio']:'';
 	$fecha_fin= isset($_POST['fecha_fin']) ? $_POST['fecha_fin']:'';
 	$descripcion= isset($_POST['descripcion']) ? $_POST['descripcion']:'';
-	
+	$cantidadxxx= isset($_POST['cantidadxxx']) ? $_POST['cantidadxxx']:'';
 	
 	$elTipo = isset($_POST['tipo']) ? $_POST['tipo']:0;
 	$laProvincia = isset($_POST['provincia']) ? $_POST['provincia']:0;
@@ -120,7 +120,7 @@ if($b==true){
 		  $ciudad_mal="";
 	      $imagen_mal="";
           $descripcion_mal="";
-			
+	      $cantidadxxx_mal="";
 
 
 //Validar múltiples FOTOS no es JODA::::.
@@ -286,6 +286,15 @@ $todas_fotos="";
 	       $fechaF_mal="La fecha Fin tiene que ser mayor que la de inicio";
 		   $valido_todo=false;
 		 }	
+		 
+		if(($cantidadxxx)==''){
+			$cantidadxxx_mal="Necesita una Cantidad";
+			$valido_todo=false;
+		}else{
+		if(($cantidadxxx)==0){
+			$cantidadxxx_mal="Necesita una Cantidad mayor a 0 (Cero)";
+			$valido_todo=false;
+		}}
 		
 		 if(($elTipo)==0){
 			$tipo_mal="Necesita un tipo de Couch";
@@ -331,7 +340,7 @@ $todas_fotos="";
 
 	$elUsuario=$_SESSION['usuario'];  
 	   
-	   $sql3 = ("INSERT INTO couchs(titulo,descripcion,fechainicio,fechafin,direccion,provincia,ciudad,idtipo,usuario,disponible) VALUES ('$titulo', '$descripcion','$fecha_inicio','$fecha_fin','$direccion','$laProvincia','$laCiudad','$elTipo','$elUsuario',1)");
+	   $sql3 = ("INSERT INTO couchs(titulo,descripcion,fechainicio,fechafin,direccion,provincia,ciudad,idtipo,usuario,disponible,cantidad) VALUES ('$titulo', '$descripcion','$fecha_inicio','$fecha_fin','$direccion','$laProvincia','$laCiudad','$elTipo','$elUsuario',1,'$cantidadxxx')");
 	
 	
 	$titulo= utf8_encode($titulo);
@@ -404,45 +413,47 @@ $i=0;
  <span class="titulo">Agregar Couch</span>
 <form method="post" onSubmit="return valida()" action="agregarCouch.php" name="registro"  ENCTYPE="multipart/form-data" > 
 
-    <input name="titulo" type="text" id="titulo" placeholder="Título" onblur="validar_campo(this);" onclick="limpiar(this)" maxlength="50" value="<?php echo $titulo;?>"/> 
-      </br>
-      <span class="cancela_todas"><?php echo $titulo_mal; ?> </span>
-      </br>
-
-
-
-
-    <input name="direccion" type="text" id="direccion" placeholder="Dirección" onblur="validar_campo(this);" onclick="limpiar(this)"  maxlength="150" value="<?php echo $direccion;?>"/> 
-      </br>
-      <span class="cancela_todas"><?php echo $direccion_mal; ?> </span>
-      </br>
-  
-  
-  
-          
-    <input type="date" name="fecha_inicio" id="fecha_inicio" value="<?php echo $fecha_inicio;?>" />  
-    Fecha de inicio
-      </br>
-      <span class="cancela_todas"><?php echo $fechaI_mal; ?> </span>
-      </br>
-    
-    
-    
+      <p>
+        <input name="titulo" type="text" id="titulo" placeholder="Título" onblur="validar_campo(this);" onclick="limpiar(this)" maxlength="50" value="<?php echo $titulo;?>"/> 
+        </br>
+        <span class="cancela_todas"><?php echo $titulo_mal; ?> </span>
+        </br>
         
-      <input type="date" name="fecha_fin" id="fecha_fin" value="<?php echo $fecha_fin;?>"/>  
-    Fecha de fin
-      </br>
-      <span class="cancela_todas"><?php echo $fechaF_mal; ?> </span>
-      </br>
-  
-  
-  
-  
-  
-  
-  
-    <select name="tipo"  id="tipo" class="select2" multiple="false"  style="width:350px">
-    <?php 
+        
+        
+        
+        <input name="direccion" type="text" id="direccion" placeholder="Dirección" onblur="validar_campo(this);" onclick="limpiar(this)"  maxlength="150" value="<?php echo $direccion;?>"/> 
+        </br>
+        <span class="cancela_todas"><?php echo $direccion_mal; ?> </span>
+        </br>
+        
+         <input name="cantidadxxx" type="text" id="cantidadxxx" placeholder="Cantidad personas" onkeypress="return justNumbers(event);" onclick="limpiar(this)" maxlength="3" value="<?php echo $cantidadxxx;?>"/>   
+        
+        </br>
+        <span class="cancela_todas"><?php echo $cantidadxxx_mal; ?> </span>
+        </br> 
+        
+        
+        <input type="date" name="fecha_inicio" id="fecha_inicio" value="<?php echo $fecha_inicio;?>" />  
+        Fecha de inicio
+        </br>
+        <span class="cancela_todas"><?php echo $fechaI_mal; ?> </span>
+        </br>
+        
+        
+        
+        
+        <input type="date" name="fecha_fin" id="fecha_fin" value="<?php echo $fecha_fin;?>"/>  
+        Fecha de fin
+        </br>
+        <span class="cancela_todas"><?php echo $fechaF_mal; ?> </span>
+        </br>
+      
+             
+        
+        
+        <select name="tipo"  id="tipo" class="select2" multiple="false"  style="width:350px">
+          <?php 
 	$sqltipos = "select * from tipos_couch where despublicado=0";
 	$tipos=$conn->query($sqltipos);
 
@@ -458,19 +469,19 @@ $i=0;
      if($elTipo!=0)
        echo "<option value=".$elTipo." selected>" .$nombreDeTipo."</ option>";  
       ?>
-      </select> 
-      </br>
-      <span class="cancela_todas"><?php echo $tipo_mal; ?> </span>
-      </br>
-    
-    
- 
-    
-    
-    
-    
-    <select name="provincia" id="provincia" class="selectProvincia" multiple="false" style="width:350px" onChange="enviar_provincia();">
-    <?php 
+        </select> 
+        </br>
+        <span class="cancela_todas"><?php echo $tipo_mal; ?> </span>
+        </br>
+        
+        
+        
+        
+        
+        
+        
+        <select name="provincia" id="provincia" class="selectProvincia" multiple="false" style="width:350px" onChange="enviar_provincia();">
+          <?php 
 	$sqltipos = "select * from provincia";
 	$tipos=$conn->query($sqltipos);
 
@@ -485,19 +496,19 @@ $i=0;
      if($laProvincia!=0)
        echo "<option value=".$laProvincia." selected>" .$nombreDeProvincia."</ option>";  
       ?>
-    </select> 
-      </br>
-      <span class="cancela_todas"><?php echo $provincia_mal; ?> </span>
-      </br>
-    
-    
-    
- 
- 
- 
-    
-    <select name="ciudad" id="ciudad" class="selectCiudad" multiple="false"  style="width:350px">
-    <?php 
+        </select> 
+        </br>
+        <span class="cancela_todas"><?php echo $provincia_mal; ?> </span>
+        </br>
+        
+        
+        
+        
+        
+        
+        
+        <select name="ciudad" id="ciudad" class="selectCiudad" multiple="false"  style="width:350px">
+          <?php 
 	$sqltipos = "select * from ciudad where provincia_id=".$laProvincia." order by ciudad_nombre";
 	$tipos=$conn->query($sqltipos);
 
@@ -512,21 +523,21 @@ $i=0;
      if($laCiudad!=0 && $laProvincia!=0)
        echo "<option value=".$laCiudad." selected>" .$nombreDeCiudad."</ option>";  
     ?>
-      </select>   
-      </br>
-      <span class="cancela_todas"><?php echo $ciudad_mal; ?> </span>
-      </br>
-   
-   
- 
- 
- 
- 
-      
-      <input type="hidden" id="imagenes_previas" name="imagenes_previas" value="<?php echo $imagenes_previas; ?>"> 
-          
-      <?php if($imagenes_previas=='no'){      ?>
-      <input type="file" name="fotos[]" id="fotos[]" onChange="enviar_imagenes()" multiple accept=image/*>
+        </select>   
+        </br>
+        <span class="cancela_todas"><?php echo $ciudad_mal; ?> </span>
+        </br>
+        
+        
+        
+        
+        
+        
+        
+        <input type="hidden" id="imagenes_previas" name="imagenes_previas" value="<?php echo $imagenes_previas; ?>"> 
+        
+        <?php if($imagenes_previas=='no'){      ?>
+        <input type="file" name="fotos[]" id="fotos[]" onChange="enviar_imagenes()" multiple accept=image/*>
         
         <?php    
 		  }else{ 		  
@@ -549,28 +560,29 @@ $i=0;
 		 } 
 		   echo '</span><br>'.$confirmado;
 		 ?>
-  
-  
-  
-     
-     <input type="hidden" id="total_img" name="total_img" value="<?php echo $total;?>">
-     <input type="hidden" id="enviar_todo" name="enviar_todo" value="<?php echo $confirmado;?>">
-     <!-- </select> -->
-       
-      </br>
-      <span class="cancela_todas"><?php echo $imagen_mal; ?> </span>
-      </br>
-       
-       
-    
-    
-       
-       <textarea name="descripcion" id="descripcion" cols="41" rows="6" placeholder="Inserte una descripcion.."  class="textArea_fijo" ><?php echo $descripcion; ?></textarea>
-      </br>
-      <span class="cancela_todas"><?php echo $descripcion_mal; ?> </span>
-      </br>
-      
-    <input type="button"  id="enviar" onClick="valida()"  value="Agregar" />
+        
+        
+        
+        
+        <input type="hidden" id="total_img" name="total_img" value="<?php echo $total;?>">
+        <input type="hidden" id="enviar_todo" name="enviar_todo" value="<?php echo $confirmado;?>">
+        <!-- </select> -->
+        
+        </br>
+        <span class="cancela_todas"><?php echo $imagen_mal; ?> </span>
+        </br>
+        
+        
+        
+        
+        
+        <textarea name="descripcion" id="descripcion" cols="41" rows="6" placeholder="Inserte una descripcion.."  class="textArea_fijo" ><?php echo $descripcion; ?></textarea>
+        </br>
+        <span class="cancela_todas"><?php echo $descripcion_mal; ?> </span>
+        </br>
+        
+        <input type="button"  id="enviar" onClick="valida()"  value="Agregar" />
+      </p>
       </br>
       </br>
     

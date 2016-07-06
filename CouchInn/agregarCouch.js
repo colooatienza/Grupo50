@@ -36,6 +36,7 @@ $(document).ready(function() {
 	
 	 //Valida por js   agregarCouch y modificar(el completo)
 	 function valida(){ 
+	
         var f = new Date();
 		var dia= f.getDate();       if(dia<10) dia= "0"+dia;
 		var mes= f.getMonth() + 1;  if(mes<10) mes= "0"+mes;
@@ -51,6 +52,19 @@ $(document).ready(function() {
 			alert ('ERROR! Debe ingresar una dirección válida!');
 			return false;
 		}
+		
+		if (document.getElementById("cantidadxxx").value==''){
+			alert ('ERROR! Debe tener una cantidad');
+			return false;
+		} 
+		
+		
+		if (document.getElementById("cantidadxxx").value==0){
+			alert ('ERROR! Debe tener al menos una cantidad mayor a 0 (cero)!');
+			return false;
+		}
+		
+		
 		if (!document.getElementById("fecha_inicio").value){
 			alert ('ERROR! Debe seleccionar una fecha de inicio!');
 			return false;
@@ -85,7 +99,7 @@ $(document).ready(function() {
 			alert ('ERROR! Debe tener al menos una foto!');
 			return false;
 		} 
-		 
+  
 		
 		valor = document.getElementById("descripcion").value;
 		if (valor.length < 3) {

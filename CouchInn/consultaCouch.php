@@ -133,7 +133,7 @@ function solicitar(id){
 
  </span>
     
-  <table >
+  <table style="width:100%;">
     <tr>
       <td colspan="5" align="center"><hr /></td>
     </tr>
@@ -145,8 +145,13 @@ function solicitar(id){
     </tr>
     <tr>
       <td height="48"><b><p style="margin-left:20px" align="right">Fecha Inicio:</b></td>
-      <td height="48">&nbsp;<input type="text" style="width:100px" readonly value= <?php  echo date('d/m/y', strtotime(utf8_encode($datos['fechainicio']))); ?> ></td></p>
-      <td align="center"><b>Categoría:</b> <?php  echo utf8_encode($datos['tipo']);  ?> </td><td></td> </p>
+      <td height="48">&nbsp;<input type="text" style="width:100px" readonly value= <?php  echo date('d/m/y', strtotime(utf8_encode($datos['fechainicio']))); ?> ></p></td>
+       
+      
+      <td colspan="2" align="center"><b>Categoría:</b> <?php  echo utf8_encode($datos['tipo']);  ?> </td><td>
+       <b>Capacidad máxima: </b><?php echo utf8_encode($datos['cantidad']); ?> 
+      
+      </td></p>
     </tr>
     <tr>
       <td height="48"><b><p style="margin-left:20px; " align="right">Fecha Fin:</b></td>
@@ -160,11 +165,11 @@ function solicitar(id){
     </tr>
     <tr>
       <td><b><p style="margin-left:20px; " align="right">Descripción:</b></td>
-      <td colspan="4">&nbsp;<textarea readonly name="descripcion" id="descripcion" cols="35" rows="6"  style="resize:none;"><?php  echo utf8_encode($datos['2']);  ?> </textarea></td> </p>
+      <td colspan="3">&nbsp;<textarea readonly name="descripcion" id="descripcion" cols="35" rows="6"  style="resize:none;"><?php  echo utf8_encode($datos['2']);  ?> </textarea></td> </p>
       <?php
         $nombredeusuario=$datos["nombredeusuario"];
         if(isset($_SESSION['logueado']) && $_SESSION['usuario']!=$nombredeusuario){
-          echo'<td> <input type="button" value="Solicitar" onClick="solicitar('.$datos["0"].')">  </td>';
+          echo'<td align="center"> <input type="button" class="botonLlamativo" value="Solicitar" onClick="solicitar('.$datos["0"].')">  </td>';
         }
 		$elUsuario=(isset($_SESSION['usuario']))?$_SESSION['usuario']:'';
 	  ?> 
